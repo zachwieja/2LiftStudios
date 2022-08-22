@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="15.24mm"
+   height="128.5mm"
+   viewBox="0 0 15.24 128.5"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="Split-Fonts.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     height="128.5mm"
+     inkscape:zoom="2"
+     inkscape:cx="-117"
+     inkscape:cy="231.75"
+     inkscape:window-width="1916"
+     inkscape:window-height="2041"
+     inkscape:window-x="1737"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#dddddd;stroke-width:0.184931"
+       id="rect4302"
+       width="15.244179"
+       height="128.50433"
+       x="-0.0016378443"
+       y="1.6577559e-08" />
+    <rect
+       style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
+       id="rect10313-6"
+       width="12"
+       height="95"
+       x="1.62"
+       y="22"
+       rx="1.4999998"
+       ry="1.5" />
+    <rect
+       style="fill:#fafafa;stroke-width:0.264583"
+       id="rect10313"
+       width="12"
+       height="14"
+       x="1.6204516"
+       y="6"
+       rx="1.4999998"
+       ry="1.4999995" />
+    <rect
+       style="fill:#fafafa;stroke-width:0.264583"
+       id="rect10313-4"
+       width="12"
+       height="12.597477"
+       x="1.6204516"
+       y="136.22836"
+       rx="1.4999998"
+       ry="1.4999995" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;letter-spacing:0.264583px;text-anchor:middle;stroke-width:0.264583"
+       x="7.5594735"
+       y="122.70991"
+       id="text8544-7-0-8-5"><tspan
+         sodipodi:role="line"
+         id="tspan8542-4-9-1-8"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:4.23333px;font-family:Calibri;-inkscape-font-specification:'Calibri Light';text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.6917653"
+         y="122.70991">SPLIT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.46944px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="5.4618402"
+       y="125.43584"
+       id="text8544-7-0-8-5-9"><tspan
+         sodipodi:role="line"
+         id="tspan8542-4-9-1-8-6"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:2.46944px;font-family:Calibri;-inkscape-font-specification:'Calibri Light';text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="5.4618402"
+         y="125.43584">2 LIFT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="7.4881597"
+       y="18.809362"
+       id="text8544-7-1"><tspan
+         sodipodi:role="line"
+         id="tspan8542-4-1"
+         style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.4881597"
+         y="18.809362">POLY</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="7.4449768"
+       y="26.309362"
+       id="text8544-7-1-9"><tspan
+         sodipodi:role="line"
+         id="tspan8542-4-1-8"
+         style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.4449768"
+         y="26.309362">OUT</tspan></text>
+  </g>
+</svg>

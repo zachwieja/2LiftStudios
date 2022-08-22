@@ -1,0 +1,37 @@
+{
+  "slug": "2LiftStudios",
+  "name": "2LiftStudios",
+  "version": "2.0.0",
+  "license": "GPL-3.0",
+  "brand": "2LiftStudios",
+  "author": "Stephan Zachwieja",
+  "authorEmail": "zachwieja@live.com",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "Split",
+      "name": "Split",
+      "description": "Polyphonic split",
+      "tags": [
+        "Poly",
+        "Polyphonic",
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Merge",
+      "name": "Merge",
+      "description": "Polyphonic merge",
+      "tags": [
+        "Poly",
+        "Polyphonic",
+        "Utility"
+      ]
+    }
+ ]
+}
