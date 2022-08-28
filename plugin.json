@@ -14,16 +14,6 @@
   "changelogUrl": "",
   "modules": [
     {
-      "slug": "Split",
-      "name": "Split",
-      "description": "Polyphonic split",
-      "tags": [
-        "Poly",
-        "Polyphonic",
-        "Utility"
-      ]
-    },
-    {
       "slug": "Merge",
       "name": "Merge",
       "description": "Polyphonic merge",
@@ -32,6 +22,27 @@
         "Polyphonic",
         "Utility"
       ]
+    },
+    {
+      "slug": "Quant",
+      "name": "Quant",
+      "description": "Quantizer",
+      "tags": [
+        "Poly",
+        "Polyphonic",
+        "Quantizer",
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Split",
+      "name": "Split",
+      "description": "Polyphonic split",
+      "tags": [
+        "Poly",
+        "Polyphonic",
+        "Utility"
+      ]
     }
- ]
+  ]
 }

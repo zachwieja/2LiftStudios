@@ -10,6 +10,7 @@ void init(Plugin* p) {
 
 	// Add modules here
 	p->addModel(modelMerge);
+	p->addModel(modelQuant);
 	p->addModel(modelSplit);
 
 	// Any other plugin initialization may go here.

@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# visualstudio, vscode
+.vs
+dist
