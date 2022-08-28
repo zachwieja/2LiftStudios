@@ -13,4 +13,5 @@ extern Plugin* pluginInstance;
 // extern Model* modelMyModule;
 
 extern Model * modelMerge;
+extern Model * modelQuant;
 extern Model * modelSplit;

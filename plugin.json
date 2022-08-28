@@ -1,7 +1,7 @@
 {
   "slug": "2LiftStudios",
   "name": "2LiftStudios",
-  "version": "2.0.0",
+  "version": "2.0.6",
   "license": "GPL-3.0",
   "brand": "2LiftStudios",
   "author": "Stephan Zachwieja",
@@ -9,7 +9,7 @@
   "authorUrl": "",
   "pluginUrl": "",
   "manualUrl": "",
-  "sourceUrl": "",
+  "sourceUrl": "https://github.com/zachwieja/2LiftStudios",
   "donateUrl": "",
   "changelogUrl": "",
   "modules": [
@@ -17,21 +17,19 @@
       "slug": "Split",
       "name": "Split",
       "description": "Polyphonic split",
-      "tags": [
-        "Poly",
-        "Polyphonic",
-        "Utility"
-      ]
+      "tags": [ "Poly", "Polyphonic", "Utility" ]
     },
     {
       "slug": "Merge",
       "name": "Merge",
       "description": "Polyphonic merge",
-      "tags": [
-        "Poly",
-        "Polyphonic",
-        "Utility"
-      ]
+      "tags": [ "Poly", "Polyphonic", "Utility" ]
+    },
+    {
+      "slug": "Quant",
+      "name": "Quant",
+      "description": "Polyphonic quantization",
+      "tags": [ "Poly", "Polyphonic", "Quantizer", "Utility" ]
     }
  ]
 }
