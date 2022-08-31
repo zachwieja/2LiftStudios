@@ -21,7 +21,7 @@ Quant::Quant() {
 
     config(ParamId::PARAMS_LEN, InputId::INPUTS_LEN, OutputId::OUTPUTS_LEN, LightId::LIGHTS_LEN);
 
-    configParam(PARAM_ROOT, 0.0f, scale->steps - 1, 0.0f, "Root");
+    configParam(PARAM_ROOT, - (scale->steps - 1), scale->steps - 1, 0, "Root");
     configSwitch(PARAM_SCALE, 0, this->numScales - 1, 0, "Scale", names);
     configParam(PARAM_OCTAVE, -5, 5, 0, "Octave");
 
@@ -47,39 +47,19 @@ Quant::~Quant() {
     }
 }
 
-json_t* Quant::dataToJson()
-{
-    json_t * root = json_object();
-    json_object_set_new(root, "relativeOctave", json_boolean(this->relativeOctave));
-    json_object_set_new(root, "relativeRoot", json_boolean(this->relativeRoot));
-    return root;
-}
-
-void Quant::dataFromJson(json_t* root)
-{
-    json_t* object;
-    
-    object = json_object_get(root, "relativeOctave");
-    this->relativeOctave = object ? json_boolean_value(object) : true;
-    object = json_object_get(root, "relativeRoot");
-    this->relativeRoot = object ? json_boolean_value(object) : true;
-}
-
 float Quant::getOctave()
 {
     // ten octave range (-5V to +5V) with the decimals cut  off
 
-    float voltage;
+    float voltage = this->params[PARAM_OCTAVE].getValue();
 
-    if (! this->inputs[INPUT_OCTAVE].isConnected())
-        voltage = this->params[PARAM_OCTAVE].getValue();
-    else {
-        voltage = this->inputs[INPUT_OCTAVE].getVoltage();
-        if (this->relativeOctave) voltage += this->params[PARAM_OCTAVE].getValue();
-        voltage = clamp((int)(voltage + 100.0f) - 100.0f, -5.0f, 5.0f);
+    if (this->inputs[INPUT_OCTAVE].isConnected()) {
+        voltage += this->params[PARAM_OCTAVE].getValue();
     }
 
-    return voltage;
+    // the voltages are known/low. we can safely shift/truncate
+
+    return clamp((int)(voltage + 100.0f) - 100.0f, -5.0f, 5.0f);
 }
 
 float Quant::getPitch(int channel)
@@ -94,20 +74,21 @@ float Quant::getPitch(int channel)
 
 float Quant::getRoot(Scale * scale)
 {
-    // the param value is an integer step. the input voltage is
-    // a value between [0V,1V]. Multiply to get the step number
+    // the param value is an integer step divide by  the  steps
+    // for the scale to get a [0V,1V] range for the input  knob
 
-    float root;
+    float root = this->params[PARAM_ROOT].getValue() / scale->steps;
 
-    if (! this->inputs[INPUT_ROOT].isConnected())
-        root = this->params[PARAM_ROOT].getValue() / scale->steps;
-    else {
-        root = this->inputs[INPUT_ROOT].getVoltage();
-        if (this->relativeRoot) root += this->params[PARAM_ROOT].getValue() / scale->steps;
-        root = (int) (root * scale->steps) / scale->steps;
+    // if the CV is connected,  then add that voltage  to  knob
+
+    if (this->inputs[INPUT_ROOT].isConnected()) {
+        root += this->inputs[INPUT_ROOT].getVoltage();
     }
 
-    return clamp(root, 0.0f, 1.0f);
+    // then round to closest step by multiplying  and  dividing
+
+    float range = (scale->steps - 1.0f) / scale->steps;
+    return clamp((int) (root * scale->steps) / scale->steps, -range, range);
 }
 
 Scale * Quant::getScale()
@@ -182,14 +163,6 @@ struct QuantWidget : ModuleWidget
 
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 95.250)), module, Quant::INPUT_PITCH));
         addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 108.414)), module, Quant::OUTPUT_PITCH));
-    }
-
-    void appendContextMenu(Menu* menu) override {
-        auto m = dynamic_cast<Quant *>(module);
-        assert(m);
-
-        menu->addChild(createBoolPtrMenuItem("Relative octave", "", &m->relativeOctave));
-        menu->addChild(createBoolPtrMenuItem("Relative root", "", &m->relativeRoot));
     }
 };
 

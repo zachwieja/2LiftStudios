@@ -1,3 +1,6 @@
+//  Copyright (c) 2022, 2 Lift Studios
+//  All rights reserved.
+
 #pragma once
 
 #include "plugin.hpp"
@@ -33,10 +36,10 @@ struct Quant : Module
             "Insen",
             "Iwato",
             "Lydian Augmented",
-            "Bebob Major",
+            "Bebop Major",
             "Locrian Major",
             "Pentatonic Major",
-            "melodic Minor",
+            "Melodic Minor",
             "Pentatonic Minor - Yo",
             "Neapoliltan Major",
             "Neapolitan Minor",
@@ -129,10 +132,6 @@ struct Quant : Module
             LIGHTS_LEN
         };
 
-    public:
-        bool relativeRoot = true;
-        bool relativeOctave = true;
-
     private:
         Scale **  scales;
         int       numScales = 0;
@@ -143,9 +142,6 @@ struct Quant : Module
         Quant();
         ~Quant();
         void process(const ProcessArgs &args) override;
-
-        json_t * dataToJson() override;
-        void dataFromJson(json_t * root) override;
 
         float getOctave();
         float getPitch(int channel);
