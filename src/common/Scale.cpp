@@ -1,3 +1,6 @@
+//  Copyright (c) 2022, 2 Lift Studios
+//  All rights reserved.
+
 #include "Scale.hpp"
 
 Scale::Scale(const char* intervals)
