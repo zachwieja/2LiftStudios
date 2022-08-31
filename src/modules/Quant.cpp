@@ -1,3 +1,6 @@
+//  Copyright (c) 2022, 2 Lift Studios
+//  All rights reserved.
+
 #include "plugin.hpp"
 #include "Quant.hpp"
 
@@ -111,6 +114,7 @@ Scale * Quant::getScale()
         float root = this->params[PARAM_ROOT].getValue() / this->steps;
         root = root * (this->steps = scale->steps);
 
+        paramQuantities[PARAM_ROOT]->minValue = -(scale->steps - 1);
         paramQuantities[PARAM_ROOT]->maxValue = scale->steps - 1;
         paramQuantities[PARAM_ROOT]->setDisplayValue(root);
     }
