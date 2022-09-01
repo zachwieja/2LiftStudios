@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="15.24mm"
+   height="128.5mm"
+   viewBox="0 0 15.24 128.5"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="SampleAndHold.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     height="128.5mm"
+     inkscape:zoom="4"
+     inkscape:cx="8.5"
+     inkscape:cy="214.5"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#dddddd;stroke-width:0.184931"
+       id="rect4302"
+       width="15.244179"
+       height="128.50433"
+       x="0.1422134"
+       y="1.6577559e-08" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.46944px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="4.5420003"
+       y="125.43584"
+       id="text8544-7-0-8-5-9"><tspan
+         sodipodi:role="line"
+         id="tspan8542-4-9-1-8-6"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:2.46944px;font-family:Calibri;-inkscape-font-specification:'Calibri Light';text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="4.5420003"
+         y="125.43584">2 LIFT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264583"
+       x="7.7372403"
+       y="122.70991"
+       id="text8544-7-0-8-5"><tspan
+         sodipodi:role="line"
+         id="tspan8542-4-9-1-8"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:4.23333px;font-family:Calibri;-inkscape-font-specification:'Calibri Light';text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.7372403"
+         y="122.70991">SANDH</tspan></text>
+    <g
+       id="g1079">
+      <rect
+         style="fill:#fafafa;stroke-width:0.264582"
+         id="rect10313-5"
+         width="12"
+         height="40"
+         x="1.622"
+         y="6"
+         rx="1.4999998"
+         ry="1.4999995" />
+      <path
+         d="m 5.1548168,14.149712 a 3.4891158,3.5941528 0 1 1 4.9343542,0"
+         fill="none"
+         stroke="#1f1f1f"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path66"
+         style="display:inline;stroke-width:0.264583" />
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
+         id="rect10313-6-1"
+         width="12"
+         height="20"
+         x="1.674691"
+         y="41"
+         rx="1.4999998"
+         ry="1.8750002" />
+      <rect
+         style="fill:#fafafa;stroke:#00a6a9;stroke-width:0"
+         id="rect28033-3"
+         width="11.999999"
+         height="9.999999"
+         x="1.6746914"
+         y="37.5" />
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
+         x="7.6168132"
+         y="59.809364"
+         id="text8544-7-1-9-8"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-8-5"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
+           x="7.6168132"
+           y="59.809364">OUT</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.6337132"
+         y="32.807983"
+         id="text8544-7-1-5-7-3"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-85-3-5"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="7.6337132"
+           y="32.807983">GATE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.5779028"
+         y="19.309362"
+         id="text8544-7-1-5-2-7-7-6"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-85-0-0-9-5"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="7.5779028"
+           y="19.309362">MODE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.6219997"
+         y="46.291447"
+         id="text8544-7-1-5-2-2-3"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-85-0-4-9"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="7.6219997"
+           y="46.291447">IN</tspan></text>
+    </g>
+    <g
+       id="g1079-7"
+       transform="translate(0.05269098,56)">
+      <rect
+         style="fill:#fafafa;stroke-width:0.264582"
+         id="rect10313-5-0"
+         width="12"
+         height="40"
+         x="1.622"
+         y="6"
+         rx="1.4999998"
+         ry="1.4999995" />
+      <path
+         d="m 5.1548168,14.149712 a 3.4891158,3.5941528 0 1 1 4.9343542,0"
+         fill="none"
+         stroke="#1f1f1f"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path66-2"
+         style="display:inline;stroke-width:0.264583" />
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
+         id="rect10313-6-1-7"
+         width="12"
+         height="20"
+         x="1.674691"
+         y="41"
+         rx="1.4999998"
+         ry="1.8750002" />
+      <rect
+         style="fill:#fafafa;stroke:#00a6a9;stroke-width:0"
+         id="rect28033-3-0"
+         width="11.999999"
+         height="9.999999"
+         x="1.6746914"
+         y="37.5" />
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
+         x="7.6168132"
+         y="59.809364"
+         id="text8544-7-1-9-8-3"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-8-5-2"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
+           x="7.6168132"
+           y="59.809364">OUT</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.6337132"
+         y="32.807983"
+         id="text8544-7-1-5-7-3-0"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-85-3-5-4"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="7.6337132"
+           y="32.807983">GATE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.5779028"
+         y="19.309362"
+         id="text8544-7-1-5-2-7-7-6-0"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-85-0-0-9-5-9"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="7.5779028"
+           y="19.309362">MODE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="7.6219997"
+         y="46.291447"
+         id="text8544-7-1-5-2-2-3-0"><tspan
+           sodipodi:role="line"
+           id="tspan8542-4-1-85-0-4-9-8"
+           style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="7.6219997"
+           y="46.291447">IN</tspan></text>
+    </g>
+  </g>
+</svg>

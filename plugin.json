@@ -9,7 +9,7 @@
   "authorUrl": "",
   "pluginUrl": "",
   "manualUrl": "",
-  "sourceUrl": "",
+  "sourceUrl": "http://github.com/zachwieja/2LiftStudios",
   "donateUrl": "",
   "changelogUrl": "",
   "modules": [
@@ -30,8 +30,18 @@
       "tags": [
         "Poly",
         "Polyphonic",
-        "Quantizer",
-        "Utility"
+        "Quantizer"
+      ]
+    },
+    {
+      "slug": "SampleAndHold",
+      "name": "Sample and Hold",
+      "description": "Dual Sample and Hold",
+      "tags": [
+        "Dual",
+        "Poly",
+        "Polyphonic",
+        "Sample and hold"
       ]
     },
     {
