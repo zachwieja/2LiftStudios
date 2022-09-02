@@ -75,10 +75,10 @@ MergeWidget::MergeWidget(Merge *module)
 
     // column centered at 7.622mm (half of 3HP)
     for (int c = 0; c < module->MAX_CHANNELS; c++) {
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.000 + c * 11.250)), module, c));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.875 + c * 11.732)), module, c));
     }
 
-    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 111.000)), module, Merge::POLY_OUTPUT));
+    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 108.500)), module, Merge::POLY_OUTPUT));
 }
 
 void MergeWidget::appendContextMenu(Menu * menu) 

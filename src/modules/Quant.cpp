@@ -157,16 +157,16 @@ struct QuantWidget : ModuleWidget
         // column centered at 7.622mm
 
         addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 11.500)), module, Quant::PARAM_SCALE));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 22.500)), module, Quant::INPUT_SCALE));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 23.500)), module, Quant::INPUT_SCALE));
 
-        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 39.625)), module, Quant::PARAM_ROOT));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 50.625)), module, Quant::INPUT_ROOT));
+        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 39.000)), module, Quant::PARAM_ROOT));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 51.000)), module, Quant::INPUT_ROOT));
 
-        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 67.750)), module, Quant::PARAM_OCTAVE));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 78.750)), module, Quant::INPUT_OCTAVE));
+        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 66.500)), module, Quant::PARAM_OCTAVE));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 78.500)), module, Quant::INPUT_OCTAVE));
 
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 95.250)), module, Quant::INPUT_PITCH));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 108.414)), module, Quant::OUTPUT_PITCH));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 94.000)), module, Quant::INPUT_PITCH));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 108.500)), module, Quant::OUTPUT_PITCH));
     }
 };
 

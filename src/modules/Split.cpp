@@ -45,11 +45,11 @@ struct SplitWidget : ModuleWidget
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
         // column centered at 7.622mm (half of 3HP)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.000)), module, Split::POLY_INPUT));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.875)), module, Split::POLY_INPUT));
 
         for (int c = 0; c < Split::MAX_CHANNELS; c++) {
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622,  32.250 + c * 11.250)), module, c));
-            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(11.622,  36.25 + c * 11.25)), module, c));
+            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 26.376 + c * 11.732)), module, c));
+            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(11.622, 31.000 + c * 11.732)), module, c));
         }
     }
 };

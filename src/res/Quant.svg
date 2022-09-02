@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      height="128.5mm"
-     inkscape:zoom="2"
-     inkscape:cx="-152"
-     inkscape:cy="156.5"
+     inkscape:zoom="4"
+     inkscape:cx="-110.75"
+     inkscape:cy="226.75"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
@@ -52,16 +52,16 @@
        width="12"
        height="26.625"
        x="1.6200006"
-       y="90.375"
+       y="88.5"
        rx="1.4999998"
        ry="1.4999995" />
     <rect
        style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
        id="rect10313-6"
        width="12"
-       height="19.868711"
+       height="20"
        x="1.62"
-       y="97.381279"
+       y="97"
        rx="1.4999998"
        ry="1.4999999" />
     <rect
@@ -70,34 +70,34 @@
        width="11.999999"
        height="9.999999"
        x="1.5874995"
-       y="93.813004" />
+       y="92.5" />
     <rect
        style="fill:#fafafa;stroke-width:0.264582"
        id="rect10313"
        width="12"
-       height="26.625"
+       height="26.5"
        x="1.62"
-       y="6"
+       y="5.9999995"
        rx="1.4999998"
-       ry="1.4999995" />
+       ry="1.4999994" />
     <rect
        style="fill:#fafafa;stroke-width:0.264582"
        id="rect10313-4"
        width="12"
-       height="26.625"
+       height="26.5"
        x="1.6200001"
-       y="34.125"
+       y="33.5"
        rx="1.4999998"
-       ry="1.4999995" />
+       ry="1.4999994" />
     <rect
        style="fill:#fafafa;stroke-width:0.264582"
        id="rect10313-4-1"
        width="12"
-       height="26.625"
+       height="26.499998"
        x="1.6200006"
-       y="62.25"
+       y="60.999996"
        rx="1.4999998"
-       ry="1.4999995" />
+       ry="1.4999994" />
     <g
        id="g1509"
        transform="rotate(180,7.6466845,16.591573)"
@@ -117,7 +117,7 @@
     </g>
     <g
        id="g1509-6"
-       transform="rotate(180,7.6464556,30.654073)"
+       transform="rotate(180,7.6464556,30.341573)"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1">
       <path
          style="display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -134,7 +134,7 @@
     </g>
     <g
        id="g1509-6-5"
-       transform="rotate(180,7.6464558,44.716573)"
+       transform="rotate(180,7.6464558,44.091575)"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1">
       <path
          style="display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -153,58 +153,58 @@
        xml:space="preserve"
        style="font-size:2.82214px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.6459689"
-       y="31.097483"
+       y="31.308477"
        id="text8544-7-1-0-4"
        transform="scale(0.9999717,1.0000283)"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-12-6"
          style="font-size:2.82214px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.6459689"
-         y="31.097483">SCALE</tspan></text>
+         y="31.308477">SCALE</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.5122757"
-       y="59.473362"
+       y="58.809364"
        id="text8544-7-1-0-4-3"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-12-6-2"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.5122757"
-         y="59.473362">ROOT</tspan></text>
+         y="58.809364">ROOT</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.6266527"
-       y="87.645363"
+       y="86.309364"
        id="text8544-7-1-0-4-3-4"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-12-6-2-3"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.6266527"
-         y="87.645363">OCTAVE</tspan></text>
+         y="86.309364">OCTAVE</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.6204515"
-       y="102.26845"
+       y="101.29145"
        id="text8544-7-1-0-4-3-4-7"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-12-6-2-3-6"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.6204515"
-         y="102.26845">IN</tspan></text>
+         y="101.29145">IN</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;display:inline;fill:#010101;fill-opacity:1;stroke-width:0.264583"
        x="7.5625739"
-       y="115.70545"
+       y="115.80936"
        id="text8544-7-1-0-4-3-4-7-7"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-12-6-2-3-6-6"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
          x="7.5625739"
-         y="115.70545">OUT</tspan></text>
+         y="115.80936">OUT</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;display:inline;fill:#010101;fill-opacity:1;stroke-width:0.264583"

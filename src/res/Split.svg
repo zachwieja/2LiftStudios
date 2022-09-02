@@ -50,20 +50,27 @@
        style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
        id="rect10313-6"
        width="12"
-       height="95"
+       height="98"
        x="1.62"
-       y="22"
+       y="19"
        rx="1.4999998"
        ry="1.5" />
     <rect
        style="fill:#fafafa;stroke-width:0.264583"
        id="rect10313"
        width="12"
-       height="14"
-       x="1.6204516"
+       height="13.5"
+       x="1.5805386"
        y="6"
        rx="1.4999998"
-       ry="1.4999995" />
+       ry="1.4999996" />
+    <rect
+       style="fill:#fafafa;fill-opacity:1;stroke:#00a6a9;stroke-width:0"
+       id="rect1321"
+       width="11.999999"
+       height="9.999999"
+       x="1.5805391"
+       y="10.500001" />
     <rect
        style="fill:#fafafa;stroke-width:0.264583"
        id="rect10313-4"
@@ -99,23 +106,23 @@
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.4881597"
-       y="18.809362"
+       y="19.309362"
        id="text8544-7-1"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.4881597"
-         y="18.809362">POLY</tspan></text>
+         y="19.309362">POLY</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
        x="7.4449768"
-       y="26.309362"
+       y="115.80936"
        id="text8544-7-1-9"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-8"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
          x="7.4449768"
-         y="26.309362">OUT</tspan></text>
+         y="115.80936">OUT</tspan></text>
   </g>
 </svg>
