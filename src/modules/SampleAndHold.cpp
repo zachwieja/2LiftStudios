@@ -1,3 +1,6 @@
+//  Copyright (c) 2022, 2 Lift Studios
+//  All rights reserved.
+
 #include "SampleAndHold.hpp"
 
 SampleAndHold::Mode SampleAndHold::getMode(Section * section)
@@ -65,11 +68,13 @@ struct SampleAndHoldWidget : ModuleWidget
         setModule(module);
         setPanel(createPanel(asset::plugin(pluginInstance, "res/SampleAndHold.svg")));
 
-        // skinny module.  two screws leaves room for a label
+        // skinny module.  two screws leaves room for the label
+
         addChild(createWidget<ScrewSilver>(Vec(0, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        // it is just two sections. easiest to hard code values
+        // this is a dual module with two independent  sections
+
         for (unsigned int s = 0; s < sizeof(module->sections) / sizeof(SampleAndHold::Section); s++) 
         {
             addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, s * 56.0 + 11.500)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_MODE));
