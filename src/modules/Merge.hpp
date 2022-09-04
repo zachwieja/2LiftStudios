@@ -15,6 +15,9 @@ struct Merge : Module
 
         enum InputId
         {
+            // this is a hack. we don't have individual symbols
+            // we know we have 8 inputs numbered  0  through  7
+
             INPUTS_LEN = 8
         };
 
@@ -30,11 +33,14 @@ struct Merge : Module
         };
 
     public:
+        // these are special sentinel values for the  polyphony
+
         static const int POLYPHONY_NUMBER_IN = -1;
         static const int POLYPHONY_HIGHEST_IN = 0;
         static const int MAX_CHANNELS = INPUTS_LEN;
 
-        bool compact = true;
+        // value is changed with contextMenu and stored in json
+
         int polyphony = MAX_CHANNELS;
 
     public:
