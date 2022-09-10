@@ -1,0 +1,34 @@
+{
+  "plugin": "2LiftStudios",
+  "model": "Quant",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 0.0,
+      "id": 1
+    },
+    {
+      "value": 0.0,
+      "id": 2
+    }
+  ],
+
+  "data": {
+    "scales": [
+      { "name": "Major",               "intervals": "2212221"      },
+      { "name": "Natural Minor",       "intervals": "2122122"      },
+      { "name": "Harmonic Minor",      "intervals": "2122131"      },
+      { "name": "Pentatonic Major",    "intervals": "22323"        },
+      { "name": "Pentatonic Minor",    "intervals": "32232"        },
+      { "name": "Diminished",          "intervals": "21212121"     },
+      { "name": "Dominate Diminished", "intervals": "1212121212"   },
+      { "name": "Half Diminished",     "intervals": "2121222"      },
+      { "name": "Wholetone",           "intervals": "222222"       },
+      { "name": "Chromatic",           "intervals": "111111111111" }
+    ]
+  }
+}

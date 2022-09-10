@@ -1,0 +1,31 @@
+{
+  "plugin": "2LiftStudios",
+  "model": "Quant",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 0.0,
+      "id": 1
+    },
+    {
+      "value": 0.0,
+      "id": 2
+    }
+  ],
+
+  "data": {
+    "scales": [
+      { "name": "Ionian",     "intervals": "2212221" },
+      { "name": "Dorian",     "intervals": "2122212" },
+      { "name": "Phrygian",   "intervals": "1222122" },
+      { "name": "Lydian",     "intervals": "2221221" },
+      { "name": "Myxolodian", "intervals": "2212212" },
+      { "name": "Aeolian",    "intervals": "2122122" },
+      { "name": "Locrian",    "intervals": "1221222" }
+    ]
+  }
+}

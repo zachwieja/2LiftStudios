@@ -1,0 +1,67 @@
+{
+  "plugin": "2LiftStudios",
+  "model": "Quant",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+ },
+    {
+      "value": 0.0,
+      "id": 1
+ },
+    {
+      "value": 0.0,
+      "id": 2
+    }
+  ],
+  "data": {
+    "scales": [
+      { "name": "Major",                 "intervals": "2212221"      },
+      { "name": "Dorian",                "intervals": "2122212"      },
+      { "name": "Phrygian",              "intervals": "1222122"      },
+      { "name": "Lydian",                "intervals": "2221221"      },
+      { "name": "Myxolodian",            "intervals": "2212212"      },
+      { "name": "Aeolian",               "intervals": "2122122"      },
+      { "name": "Locrian",               "intervals": "1221222"      },
+      { "name": "Acoustic",              "intervals": "2221212"      },
+      { "name": "Altered",               "intervals": "1212222"      },
+      { "name": "Augmented",             "intervals": "313131"       },
+      { "name": "Bebop dom.",            "intervals": "22122111"     },
+      { "name": "Blues",                 "intervals": "321132"       },
+      { "name": "Chromatic",             "intervals": "111111111111" },
+      { "name": "Enigmatic",             "intervals": "1322211"      },
+      { "name": "Euler-Fokker",          "intervals": "23232"        },
+      { "name": "Flamenco",              "intervals": "1312131"      },
+      { "name": "Gypsy",                 "intervals": "2131122"      },
+      { "name": "Half diminished",       "intervals": "2121222"      },
+      { "name": "Harmonic Major",        "intervals": "2212131"      },
+      { "name": "Harmonic Minor",        "intervals": "2122131"      },
+      { "name": "Hirajoshi",             "intervals": "42141"        },
+      { "name": "Hungarian",             "intervals": "2131131"      },
+      { "name": "Miyako-bushi",          "intervals": "14214"        },
+      { "name": "Insen",                 "intervals": "14242"        },
+      { "name": "Iwato",                 "intervals": "14142"        },
+      { "name": "Lydian Augmented",      "intervals": "2222121"      },
+      { "name": "Bebop Major",           "intervals": "22121211"     },
+      { "name": "Locrian Major",         "intervals": "2211222"      },
+      { "name": "Pentatonic Major",      "intervals": "22323"        },
+      { "name": "Melodic Minor",         "intervals": "2122221"      },
+      { "name": "Pentatonic Minor - Yo", "intervals": "32232"        },
+      { "name": "Neapolitan Major",      "intervals": "1222221"      },
+      { "name": "Neapolitan Minor",      "intervals": "1222131"      },
+      { "name": "Octatonic 1",           "intervals": "21212121"     },
+      { "name": "Octatonic 2",           "intervals": "12121212"     },
+      { "name": "Persian",               "intervals": "1311231"      },
+      { "name": "Phrygian dominant",     "intervals": "1312122"      },
+      { "name": "Prometheus",            "intervals": "222312"       },
+      { "name": "Harmonics",             "intervals": "311223"       },
+      { "name": "Tritone",               "intervals": "132132"       },
+      { "name": "Tritone 2S",            "intervals": "114114"       },
+      { "name": "Ukrainian Dorian",      "intervals": "2131212"      },
+      { "name": "Wholetone",             "intervals": "222222"       },
+      { "name": "Quartertone",           "intervals": "111111111111111111111111" }
+    ]
+  }
+}
