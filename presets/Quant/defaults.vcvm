@@ -25,7 +25,7 @@
       { "name": "Pentatonic Major",    "intervals": "22323"        },
       { "name": "Pentatonic Minor",    "intervals": "32232"        },
       { "name": "Diminished",          "intervals": "21212121"     },
-      { "name": "Dominate Diminished", "intervals": "1212121212"   },
+      { "name": "Dominate Diminished", "intervals": "12121212"     },
       { "name": "Half Diminished",     "intervals": "2121222"      },
       { "name": "Wholetone",           "intervals": "222222"       },
       { "name": "Chromatic",           "intervals": "111111111111" }

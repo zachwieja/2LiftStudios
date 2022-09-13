@@ -3,50 +3,201 @@
 
 #include "plugin.hpp"
 #include "Quant.hpp"
+#include "SnapTrimpot.hpp"
 
-Quant::Quant() {
-    assert(this->intervals.size() == this->names.size());
+Quant::Quant()
+{
+    // easiest is to just hard code default scales. we allocate
+    // the memory and iterate to initialize each scale in place
 
-    this->numScales = this->names.size();
-    this->scales = (Scale**) std::calloc(this->numScales, sizeof(Scale*));
+    this->numDefaults = 10;
+    this->defaults = (Scale*)calloc(this->numDefaults, sizeof(Scale));
 
-    for (int i = 0; i < numScales; i++)
-    {
-        this->scales[i] = new Scale(this->intervals[i]);
+    if (this->defaults == NULL) {
+        throw "Error allocating memory for default scales";
     }
 
-    Scale * scale = this->scales[0];
+    // the default scales are hard coded.  there is no  melodic
+    // minor. this is just quantization, there is no up or down
 
-    // save number of steps in the current scale.  then
-    // if scale changes we update the root param  range
+    this->defaults[0].initialize("Major", "2212221");
+    this->defaults[1].initialize("Natural Minor", "2122122");
+    this->defaults[2].initialize("Harmonic Minor", "2122131");
+    this->defaults[3].initialize("Pentatonic Major", "22323");
+    this->defaults[4].initialize("Pentatonic Minor", "32232");
+    this->defaults[5].initialize("Diminished", "21212121");
+    this->defaults[6].initialize("Dominate Diminished", "12121212");
+    this->defaults[7].initialize("Half Diminished", "2121222");
+    this->defaults[8].initialize("Wholetone", "222222");
+    this->defaults[9].initialize("Chromatic", "111111111111");
 
+    // the default scale setting (in configSwitch above)  is  0
+    // initialize module to use scale 0 from the  default  list
+
+    Scale * scale = &this->defaults[0];
     this->steps = scale->steps;
+    
+    // configure the params (knobs).  some of these values  are
+    // temporary.  swapScales will overwrite them (called below)
 
     config(ParamId::PARAMS_LEN, InputId::INPUTS_LEN, OutputId::OUTPUTS_LEN, LightId::LIGHTS_LEN);
+    configSwitch(PARAM_SCALE, 0, numDefaults - 1, 0, "Scale", { "None" });
+    configParam(PARAM_OCTAVE, -5, 5, 0, "Octave", "V");
+    configParam(PARAM_ROOT, -scale->steps, scale->steps, 0, "Root", " steps");
+    configParam(PARAM_TEST, 0, 99, 0, "Test");
 
-    configParam(PARAM_ROOT, - (scale->steps - 1), scale->steps - 1, 0, "Root");
-    configSwitch(PARAM_SCALE, 0, this->numScales - 1, 0, "Scale", names);
-    configParam(PARAM_OCTAVE, -5, 5, 0, "Octave");
+    // all the inputs and outputs are pretty  straight  forward
 
     configInput(INPUT_SCALE, "Scale");
+    configInput(INPUT_ROOT, "Root");
     configInput(INPUT_OCTAVE, "Octave");
     configInput(INPUT_PITCH, "Polyphonic");
     configOutput(OUTPUT_PITCH, "Polyphonic");
 
+    // and when we are bypassed,  patch the input to the output.
+    // just let values pass through without  any  quanitization
+
     configBypass(INPUT_PITCH, OUTPUT_PITCH);
+
+    // then install the scales which will in  turn  update  the
+    // labels for the scale knob for all of the default  scales
+
+    this->swapScales(this->defaults, this->numDefaults);
 }
 
-Quant::~Quant() {
-    if (this->scales != NULL) {
-        for (int i = 0; i < this->numScales; i++) {
-            if (this->scales[i]) {
-                free(this->scales[i]);
-                this->scales[i] = NULL;
-            }
+Quant::~Quant() 
+{
+    if (this->scales) freeScales(&this->scales, &this->numScales);
+    if (this->defaults) freeScales(&this->defaults, &this->numDefaults);
+}
+
+void Quant::onReset(const ResetEvent & e) 
+{
+    this->swapScales(this->defaults, this->numDefaults);
+    Module::onReset(e);
+}
+
+json_t * Quant::dataToJson()
+{
+    // you can't actually modify any of the preset values using
+    // module interface.  this is just for symmetry when saving
+
+    json_t * root = json_object();
+    json_t * arr  = json_array();
+
+    for (int i = 0; i < this->numScales; i++) 
+    {
+        json_t * element = json_object();
+        json_object_set_new(element, "name", json_string(this->scales[i].name));
+        json_object_set_new(element, "intervals", json_string(this->scales[i].intervals));
+        json_array_insert_new(arr, i, element);
+    }
+
+    // and then add the scales array to the json document  root
+
+    json_object_set_new(root, "scales", arr);
+
+    // now write out the current knob values.  VCV writes these
+    // too,  but messing the knob ranges screws up the settings
+
+    json_object_set_new(root, "scale", json_integer(this->params[PARAM_SCALE].getValue()));
+    json_object_set_new(root, "root", json_integer(this->params[PARAM_ROOT].getValue()));
+
+    return root;
+}
+
+void Quant::dataFromJson(json_t * root)
+{
+    // root contans an array of scales, find the array and then
+    // iterate over it adding scales to the  vector  as  we  go
+
+    json_t * arr = json_object_get(root, "scales");
+    if (! arr) return;
+
+    // spin array once,  to count number of scales in the  file
+    // if we don't find any scales then do nothing, just return
+
+    int numScales = 0;
+    while (json_array_get(arr, numScales)) numScales++;
+    if (numScales == 0) return;
+
+    // allocate the memory,  on failure, log a warning and exit
+
+    Scale * scales = (Scale *) calloc(numScales, sizeof(Scale));
+
+    if (! scales) {
+        WARN("Error allocating memory to read scales");
+        return;
+    }
+
+    // iterate a second time,  and initialize all of the scales
+    // using name and interval values within each array element
+
+    numScales = 0;
+    json_t * obj, * scale;
+
+    while ((scale = json_array_get(arr, numScales)))
+    {
+        // if these elements do not exist, then we use an empty
+        // string.  the scale constructor will throw  an  error
+
+        const char * name, * intervals;
+
+        obj = json_object_get(scale, "name");
+        name = obj ? json_string_value(obj) : "";
+
+        obj = json_object_get(scale, "intervals");
+        intervals = obj ? json_string_value(obj) : "";
+
+        try {
+            scales[numScales].initialize(name, intervals);
         }
 
-        free(this->scales);
-        this->scales = NULL;
+        // if we fail to initialize any one scale then abandon
+        // the whole process and undo work we have done so far
+
+        catch (const char * message) 
+        {
+            WARN("Error creating scale '%s': %s", name, message);
+            this->freeScales(&scales, &numScales);
+            return;
+        }
+
+        numScales++;
+    }
+
+    // getting here mean no errors.  swap the  newly  allocated
+    // scales which also fixes up range on scale and root knobs
+
+    this->swapScales(scales, numScales);
+
+    // now set the knob values to saved settings.  vcv silently
+    // catches errors. users edit the file,  give them feedback
+
+    try {
+        this->paramQuantities[PARAM_SCALE]->setDisplayValue(json_integer_value(json_object_get(root, "scale")));
+        this->paramQuantities[PARAM_ROOT]->setDisplayValue(json_integer_value(json_object_get(root, "root")));
+    }
+    catch (const char * message) {
+        WARN("Error restoring knob settings, %s", message);
+        return;
+    }
+}
+
+void Quant::freeScales(Scale ** scales, int * numScales)
+{
+    // call destructors to give back  scales  allocated  memory
+
+    if (scales && * scales) {
+        for (int i = 0; i < * numScales; i++) {
+            (* scales)[i].~Scale();
+        }
+
+        // then free up the scales array and set things to NULL
+
+        free(* scales);
+        * scales = NULL;
+        * numScales = 0;
     }
 }
 
@@ -91,57 +242,113 @@ float Quant::getRoot(Scale * scale)
     // then round to closest step by multiplying  and  dividing
 
     float range = (scale->steps - 1.0f) / scale->steps;
-    return clamp((int) (root * scale->steps) / scale->steps, -range, range);
+    return clamp((int)(root * scale->steps) / scale->steps, -range, range);
 }
 
 Scale * Quant::getScale()
 {
-    // we allocate 0.1V per scale (possible 100 scales).  order
-    // of scales is maintained across versions for back  compat
+    // we allocate 0.1V per scale (possible 100 scales at  10V)
 
     int index = this->inputs[INPUT_SCALE].isConnected()
         ? clamp(this->inputs[INPUT_SCALE].getVoltage(), 0.0f, this->numScales * 0.1f) / 0.1f
         : this->params[PARAM_SCALE].getValue();
 
+    // slight adjustment here because we double the last scale
+
     if (index > this->numScales - 1) index = this->numScales - 1;
-    Scale * scale = this->scales[index];
+    Scale * scale = &this->scales[index];
 
     // if the number of steps in scale changes, then update the
     // root param range, and the current value within the range
 
-    if (scale->steps != this->steps) 
-    {
-        float root = this->params[PARAM_ROOT].getValue() / this->steps;
-        root = root * (this->steps = scale->steps);
-
-        paramQuantities[PARAM_ROOT]->minValue = -(scale->steps - 1);
-        paramQuantities[PARAM_ROOT]->maxValue = scale->steps - 1;
-        paramQuantities[PARAM_ROOT]->setDisplayValue(root);
+    if (scale->steps != this->steps) {
+        updateRootKnob(scale);
     }
 
     return scale;
 }
 
-void Quant::process(const ProcessArgs &args)
+void Quant::process(const ProcessArgs& args)
 {
-    Scale * scale     = this->getScale();
-    float   offset    = this->getRoot(scale) + this->getOctave();
-    int     channels  = std::min(std::max(1, this->inputs[INPUT_PITCH].getChannels()), MAX_CHANNELS);
+    Scale * scale = this->getScale();
+    float   offset = this->getRoot(scale) + this->getOctave();
+    int     channels = std::min(std::max(1, this->inputs[INPUT_PITCH].getChannels()), MAX_CHANNELS);
 
     // for each channel quantize to the current scale then  add
     // the offset for root and octave,  and set output  voltage
 
     for (int c = 0; c < channels; c++) {
-        float input = this->getPitch(c);
-        float pitch = scale->getClosest(input) + offset;
-        this->outputs[OUTPUT_PITCH].setVoltage(pitch, c);
+        this->outputs[OUTPUT_PITCH].setVoltage(
+            scale->getClosest(this->getPitch(c)) + offset, c
+        );
     }
 
     this->outputs[OUTPUT_PITCH].setChannels(channels);
 }
 
-#include "Quant.hpp"
-#include "SnapTrimpot.hpp"
+void Quant::swapScales(Scale * scales, int numScales)
+{
+    // we keep the default scales around for  module  lifetime.
+    // all other scales need to be destructed and  then  freed
+
+    if (this->scales != this->defaults) {
+        this->freeScales(&this->scales, &this->numScales);
+    }
+
+    // point the module at the new scales that were  passed  in
+
+    this->scales = scales;
+    this->numScales = numScales;
+
+    // the number of scales and scale names have likely changed
+    // tell the knob to update itself with all the  new  scales
+
+    this->updateScaleKnob();
+}
+
+void Quant::updateRootKnob(Scale * scale)
+{
+    // get current root value to calculate the current  voltage
+    // offset, and then recalculate to the new number of  steps
+
+    float root = this->params[PARAM_ROOT].getValue() / this->steps;
+    root = root * (this->steps = scale->steps);
+
+    // give knob new range of values for root and the new value
+
+    this->paramQuantities[PARAM_ROOT]->minValue = -(scale->steps - 1);
+    this->paramQuantities[PARAM_ROOT]->maxValue = scale->steps - 1;
+    this->paramQuantities[PARAM_ROOT]->setDisplayValue(root);
+
+    // the range of the root knob is based on the steps of  the 
+    // current scale, remember it so we set relative root later
+
+    this->steps = scale->steps;
+}
+
+void Quant::updateScaleKnob()
+{
+    // then we clear out the labels for the knob,  and build  a
+    // new vector of labels,  using the current set  of  scales
+
+    const char * name = NULL;
+    SwitchQuantity * paramSwitch = (SwitchQuantity *) this->paramQuantities[PARAM_SCALE];
+    paramSwitch->labels.clear();
+
+    for (int i = 0; i < this->numScales; i++) {
+        name = string::f("%d %s", i, this->scales[i].name).c_str();
+        paramSwitch->labels.push_back(name);
+    }
+
+    // adjust range of motion for the knob based on # of scales
+
+    int scaleValue = this->params[PARAM_SCALE].getValue();
+    if (scaleValue > numScales) scaleValue = numScales;
+
+    this->paramQuantities[PARAM_SCALE]->minValue = 0;
+    this->paramQuantities[PARAM_SCALE]->maxValue = this->numScales - 1;
+    this->paramQuantities[PARAM_SCALE]->setDisplayValue(scaleValue);
+}
 
 struct QuantWidget : ModuleWidget
 {
@@ -154,8 +361,7 @@ struct QuantWidget : ModuleWidget
         addChild(createWidget<ScrewSilver>(Vec(0, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        // column centered at 7.622mm
-
+        // column centered at 7.622mm (half of 3HP)
         addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 11.500)), module, Quant::PARAM_SCALE));
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 23.500)), module, Quant::INPUT_SCALE));
 
@@ -170,4 +376,4 @@ struct QuantWidget : ModuleWidget
     }
 };
 
-Model* modelQuant = createModel<Quant, QuantWidget>("Quant");
+Model * modelQuant = createModel<Quant, QuantWidget>("Quant");
