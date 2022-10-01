@@ -14,7 +14,6 @@ struct Quant : Module
             PARAM_SCALE,
             PARAM_ROOT,
             PARAM_OCTAVE,
-            PARAM_TEST,
             PARAMS_LEN
         };
 

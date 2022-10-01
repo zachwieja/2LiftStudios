@@ -44,7 +44,6 @@ Quant::Quant()
     configSwitch(PARAM_SCALE, 0, numDefaults - 1, 0, "Scale", { "None" });
     configParam(PARAM_OCTAVE, -5, 5, 0, "Octave", "V");
     configParam(PARAM_ROOT, -scale->steps, scale->steps, 0, "Root", " steps");
-    configParam(PARAM_TEST, 0, 99, 0, "Test");
 
     // all the inputs and outputs are pretty  straight  forward
 
