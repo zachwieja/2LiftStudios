@@ -1,6 +1,3 @@
-//  Copyright (c) 2022, 2 Lift Studios
-//  All rights reserved.
-
 #include "SampleAndHold.hpp"
 
 SampleAndHold::Mode SampleAndHold::getMode(Section * section)
@@ -16,21 +13,21 @@ void SampleAndHold::process(const ProcessArgs &args)
     {
         Section * section = &this->sections[s];
 
-        if (this->inputs[section->inputId].isConnected()) // 
+        if (this->inputs[section->inputId].isConnected())
         {
             // don't copy to output if nothing is connected
             bool output = this->outputs[section->outputId].isConnected();
             Mode mode = this->getMode(section);
 
             int channels = std::min(this->inputs[section->inputId].getChannels(), MAX_CHANNELS);
-            int gates = std::min(this->inputs[section->inputId].getChannels(), channels);
+            int gates = std::min(this->inputs[section->gateId].getChannels(), channels);
 
             for (int c = 0; c < channels; c++)
             {
                 // if there are fewer channels on the gate, than on
                 // the input, then use the last channel on the gate
 
-                int g = std::min(c, gates - 1);
+                int g = std::max(std::min(c, gates - 1), 0);
                 bool gate = this->inputs[section->gateId].getVoltage(g) > 0.0f ? 1 : 0;
 
                 // do we need to take a sample from  this  channel
@@ -68,18 +65,16 @@ struct SampleAndHoldWidget : ModuleWidget
         setModule(module);
         setPanel(createPanel(asset::plugin(pluginInstance, "res/SampleAndHold.svg")));
 
-        // skinny module.  two screws leaves room for the label
-
+        // skinny module.  two screws leaves room for a label
         addChild(createWidget<ScrewSilver>(Vec(0, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        // this is a dual module with two independent  sections
-
+        // it is just two sections. easiest to hard code values
         for (unsigned int s = 0; s < sizeof(module->sections) / sizeof(SampleAndHold::Section); s++) 
         {
             addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, s * 56.0 + 11.500)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_MODE));
-            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 25.000)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_GATE));
-            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 38.000)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_POLY));
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 25.500)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_GATE));
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 39.000)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_POLY));
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 52.500)), module, s * SampleAndHold::OUTPUTS_LEN + SampleAndHold::OUTPUT_POLY));
         }
     }
