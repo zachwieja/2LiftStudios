@@ -27,10 +27,10 @@
      inkscape:zoom="3.48"
      inkscape:cx="8.3333333"
      inkscape:cy="246.98276"
-     inkscape:window-width="1682"
-     inkscape:window-height="2047"
-     inkscape:window-x="4706"
-     inkscape:window-y="1"
+     inkscape:window-width="1916"
+     inkscape:window-height="2041"
+     inkscape:window-x="1911"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -118,13 +118,13 @@
       <text
          xml:space="preserve"
          style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="7.6337132"
+         x="5.795023"
          y="32.307983"
          id="text8544-7-1-5-7-3-0"><tspan
            sodipodi:role="line"
            id="tspan8542-4-1-85-3-5-4"
            style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-           x="7.6337132"
+           x="5.795023"
            y="32.307983">GATE</tspan></text>
       <text
          xml:space="preserve"
@@ -160,14 +160,6 @@
          y="6"
          rx="1.4999998"
          ry="1.4999995" />
-      <path
-         d="m 5.1548168,14.149712 a 3.4891158,3.5941528 0 1 1 4.9343542,0"
-         fill="none"
-         stroke="#1f1f1f"
-         stroke-linecap="round"
-         stroke-linejoin="round"
-         id="path66-2-1"
-         style="display:inline;stroke-width:0.264583" />
       <rect
          style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
          id="rect10313-6-1-7-4"
@@ -184,6 +176,14 @@
          height="9.999999"
          x="1.6746914"
          y="36.5" />
+      <path
+         d="m 5.1548168,14.149712 a 3.4891158,3.5941528 0 1 1 4.9343542,0"
+         fill="none"
+         stroke="#1f1f1f"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path66-2-1"
+         style="display:inline;stroke-width:0.264583" />
       <text
          xml:space="preserve"
          style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
@@ -198,13 +198,13 @@
       <text
          xml:space="preserve"
          style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="7.6337132"
+         x="5.8477139"
          y="32.307983"
          id="text8544-7-1-5-7-3-0-8"><tspan
            sodipodi:role="line"
            id="tspan8542-4-1-85-3-5-4-6"
            style="font-size:2.82222px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-           x="7.6337132"
+           x="5.8477139"
            y="32.307983">GATE</tspan></text>
       <text
          xml:space="preserve"

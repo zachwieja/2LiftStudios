@@ -30,6 +30,10 @@ void SampleAndHold::process(const ProcessArgs &args)
                 int g = std::max(std::min(c, gates - 1), 0);
                 bool gate = this->inputs[section->gateId].getVoltage(g) > 0.0f ? 1 : 0;
 
+                // if the gate button is pressed count that as high
+
+                gate |= this->params[section->triggerId].getValue() == 1;
+
                 // do we need to take a sample from  this  channel
 
                 if (mode == Mode::MODE_SH) {
@@ -37,7 +41,7 @@ void SampleAndHold::process(const ProcessArgs &args)
                         section->samples[c] = this->inputs[section->inputId].getVoltage(c);
                     }
                 }
-                else if ((mode == Mode::MODE_LOW) ^ gate) {
+                else if (mode == MODE_TRACK) || ((mode == Mode::MODE_LOW) ^ gate)) {
                     section->samples[c] = this->inputs[section->inputId].getVoltage(c);
                 }
 
@@ -74,6 +78,7 @@ struct SampleAndHoldWidget : ModuleWidget
         {
             addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, s * 56.0 + 11.500)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_MODE));
             addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 25.500)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_GATE));
+            addParam(createParamCentered<TinyButton>(mm2px(Vec(11.000, s * 56.0 + 31.250)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_TRIGGER));
             addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 39.000)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_POLY));
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 52.500)), module, s * SampleAndHold::OUTPUTS_LEN + SampleAndHold::OUTPUT_POLY));
         }

@@ -3,6 +3,7 @@
 
 #pragma once
 #include "plugin.hpp"
+#include "TinyButton.hpp"
 
 #define MAX_CHANNELS 16
 
@@ -14,6 +15,7 @@ struct SampleAndHold : Module
     public:
         enum ParamId {
             PARAM_MODE,
+            PARAM_TRIGGER,
             PARAMS_LEN
         };
 
@@ -35,8 +37,9 @@ struct SampleAndHold : Module
         };
 
         enum Mode {
-            MODE_FIRST = 0,
-            MODE_LOW   = MODE_FIRST, // track low
+            MODE_FIRST = -1,
+            MODE_TRACK = MODE_FIRST, // track (passthru)
+            MODE_LOW   = 0,          // track low
             MODE_HIGH  = 1,          // track high
             MODE_SH    = 2,          // sample and hold
             MODE_LAST  = MODE_SH
@@ -46,10 +49,11 @@ struct SampleAndHold : Module
         struct Section
         {
             public:
-                SampleAndHold::InputId gateId;
-                SampleAndHold::InputId inputId;
+                SampleAndHold::InputId  gateId;
+                SampleAndHold::InputId  inputId;
+                SampleAndHold::ParamId  modeId;
                 SampleAndHold::OutputId outputId;
-                SampleAndHold::ParamId modeId;
+                SampleAndHold::ParamId  triggerId;
 
             public:
                 int gates[MAX_CHANNELS];
@@ -68,10 +72,11 @@ struct SampleAndHold : Module
             {
                 Section * section = &this->sections[s];
 
-                section->modeId   = (ParamId) (s * PARAMS_LEN  + PARAM_MODE);
-                section->gateId   = (InputId) (s * INPUTS_LEN  + INPUT_GATE);
-                section->inputId  = (InputId) (s * INPUTS_LEN  + INPUT_POLY);
-                section->outputId = (OutputId) (s * OUTPUTS_LEN + OUTPUT_POLY);
+                section->gateId    = (InputId)  (s * INPUTS_LEN  + INPUT_GATE);
+                section->inputId   = (InputId)  (s * INPUTS_LEN  + INPUT_POLY);
+                section->outputId  = (OutputId) (s * OUTPUTS_LEN + OUTPUT_POLY);
+                section->modeId    = (ParamId)  (s * PARAMS_LEN + PARAM_MODE);
+                section->triggerId = (ParamId)  (s * PARAMS_LEN + PARAM_TRIGGER);
 
                 for (int c = 0; c < MAX_CHANNELS; c++)
                 {
@@ -83,10 +88,12 @@ struct SampleAndHold : Module
                 // third of the  range  when  we  "spin"  the  knob
 
                 configSwitch(section->modeId, Mode::MODE_FIRST, Mode::MODE_LAST + 1, Mode::MODE_SH, "Mode",
-                    { "Track Low", "Track High", "Sample & Hold", "Sample & Hold" }
+                    { "Track", "Track Low", "Track High", "Sample & Hold", "Sample & Hold" }
                 );
 
                 configInput(section->gateId, "Gate");
+                configButton(section->triggerId, "Trigger");
+
                 configInput(section->inputId, "Polyphonic");
                 configOutput(section->outputId, "Polyphonic");
             }
