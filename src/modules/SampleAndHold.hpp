@@ -3,7 +3,7 @@
 
 #pragma once
 #include "plugin.hpp"
-#include "TinyButton.hpp"
+#include "TinyTrigger.hpp"
 
 #define MAX_CHANNELS 16
 
@@ -92,7 +92,7 @@ struct SampleAndHold : Module
                 );
 
                 configInput(section->gateId, "Gate");
-                configButton(section->triggerId, "Trigger");
+                configButton(section->triggerId, "Manual");
 
                 configInput(section->inputId, "Polyphonic");
                 configOutput(section->outputId, "Polyphonic");

@@ -3,12 +3,41 @@
 
 #include "split.hpp"
 
+Split::Split()
+{
+    config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
+
+    // there is only one input for this module
+
+    configInput(POLY_INPUT, "Polyphonic");
+    configSwitch(PARAM_SORT, 0.0f, 2.0f, 0.0f, "Sort", { "None", "Ascending", "Descending" });
+
+    // polyphonic can be up to 16,  but we only handle 8
+
+    for (int c = 0; c < INPUTS_LEN; c++)
+    {
+        configOutput(c, string::f("Channel %d", c));
+    }
+}
+
 void Split::process(const ProcessArgs &args)
 {
     // we only handle so many channels ignore anything more
 
     int channels = inputs[POLY_INPUT].getChannels();
     if (channels > MAX_CHANNELS) channels = MAX_CHANNELS;
+
+    // we don't want different code for sorted vs unsorted. 
+    // put the voltages into an array and then sort  array
+
+    float values[channels];
+    
+    for (int c = 0; c < channels; c++) {
+        values[c] = inputs[POLY_INPUT].getVoltage(c);
+    }
+
+    Utilities::SortOrder sortOrder = (Utilities::SortOrder) this->params[PARAM_SORT].getValue();
+    if (sortOrder != Utilities::SortOrder::SORT_NONE) Utilities::sort(values, channels, sortOrder);
 
     // process all the incoming channels by turning on  the
     // light and passing the voltage through to the  output
@@ -17,7 +46,7 @@ void Split::process(const ProcessArgs &args)
 
     while (c < channels) {
         lights[c].value = true;
-        outputs[c].setVoltage(inputs[POLY_INPUT].getVoltage(c));
+        outputs[c].setVoltage(values[c]);
         c++;
     }
 
@@ -45,11 +74,13 @@ struct SplitWidget : ModuleWidget
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
         // column centered at 7.622mm (half of 3HP)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.875)), module, Split::POLY_INPUT));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500)), module, Split::POLY_INPUT));
+        addParam(createParamCentered<TinyToggle>(mm2px(Vec(11.000, 17.618)), module, Split::PARAM_SORT));
 
-        for (int c = 0; c < Split::MAX_CHANNELS; c++) {
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 26.376 + c * 11.732)), module, c));
-            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(11.622, 31.000 + c * 11.732)), module, c));
+        for (int c = 0; c < Split::MAX_CHANNELS; c++)
+        {
+            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 27.000 + c * 11.7857142)), module, c));
+            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(11.872, 31.000 + c * 11.7857142)), module, c));
         }
     }
 };

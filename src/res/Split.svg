@@ -50,11 +50,11 @@
        style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
        id="rect10313-6"
        width="12"
-       height="98"
+       height="99"
        x="1.62"
        y="19"
        rx="1.4999998"
-       ry="1.5" />
+       ry="1.5000001" />
     <rect
        style="fill:#fafafa;stroke-width:0.264583"
        id="rect10313"
@@ -67,10 +67,10 @@
     <rect
        style="fill:#fafafa;fill-opacity:1;stroke:#00a6a9;stroke-width:0"
        id="rect1321"
-       width="11.999999"
+       width="12"
        height="9.999999"
        x="1.5805391"
-       y="10.500001" />
+       y="11.250001" />
     <rect
        style="fill:#fafafa;stroke-width:0.264583"
        id="rect10313-4"
@@ -105,24 +105,24 @@
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
-       x="7.4881597"
-       y="19.309362"
+       x="5.9880877"
+       y="18.809362"
        id="text8544-7-1"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
-         x="7.4881597"
-         y="19.309362">POLY</tspan></text>
+         x="5.9880877"
+         y="18.809362">SORT</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
        x="7.4449768"
-       y="115.80936"
+       y="116.80936"
        id="text8544-7-1-9"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-8"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
          x="7.4449768"
-         y="115.80936">OUT</tspan></text>
+         y="116.80936">OUT</tspan></text>
   </g>
 </svg>

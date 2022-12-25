@@ -3,9 +3,23 @@
 
 #include "Merge.hpp"
 
+Merge::Merge()
+{
+    config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
+
+    for (int c = 0; c < INPUTS_LEN; c++)
+    {
+        configInput(c, string::f("Channel %d", c));
+    }
+
+    configOutput(OUTPUT_POLY, "Polyphonic");
+    configSwitch(PARAM_SORT, 0.0f, 2.0f, 0.0f, "Sort", {"None", "Ascending", "Descending"});
+}
+
 void Merge::process(const ProcessArgs &args)
 {
     int channels = 0;
+    float values[MAX_CHANNELS];
 
     // use configured polyphony to determine  how  channels
     // are assigned. fastest and easiest is separate  loops
@@ -16,20 +30,23 @@ void Merge::process(const ProcessArgs &args)
         // assumes disconnected inputs  return  zero  volts
 
 		while (channels < this->polyphony) {
-			outputs[POLY_OUTPUT].setVoltage(inputs[channels].getVoltage(), channels);
+            values[channels] = this->inputs[channels].getVoltage();
+//			outputs[OUTPUT_POLY].setVoltage(inputs[channels].getVoltage(), channels);
             channels++;
 		}
     }
 
-    // spanning channel  count  =  last  connected  channel
-    // set all disconnected channels to zero voltage
+    // using highest channel for polyphony,  count is equal
+    // to last connected channel (zero all other  channels)
     
     else if (this->polyphony == POLYPHONY_HIGHEST_IN) {
 		for (int c = 0; c < MAX_CHANNELS; c++) {
             if (! inputs[c].isConnected())
-                outputs[POLY_OUTPUT].setVoltage(0.0f, c);
+                values[c] = 0.0f;
+                //outputs[OUTPUT_POLY].setVoltage(0.0f, c);
             else {
-                outputs[POLY_OUTPUT].setVoltage(inputs[c].getVoltage(), c);
+                values[c] = inputs[c].getVoltage();
+                // outputs[OUTPUT_POLY].setVoltage(inputs[c].getVoltage(), c);
                 channels = c + 1;
             }
         }
@@ -40,15 +57,27 @@ void Merge::process(const ProcessArgs &args)
     else if (this->polyphony == POLYPHONY_NUMBER_IN) {
 		for (int c = 0; c < MAX_CHANNELS; c++) {
             if (inputs[c].isConnected()) {
-  				outputs[POLY_OUTPUT].setVoltage(inputs[c].getVoltage(), channels++);
+  				values[channels++] = this->inputs[c].getVoltage();
+                // outputs[OUTPUT_POLY].setVoltage(inputs[c].getVoltage(), channels++);
             }
         }
 	}
 
+    // see if they have sorting turned on,  and do the sort
+
+    Utilities::SortOrder sortOrder = (Utilities::SortOrder) this->params[PARAM_SORT].getValue();
+    if (sortOrder != Utilities::SortOrder::SORT_NONE) Utilities::sort(values, channels, sortOrder);
+
+    // now, copy the voltages from the array to the outputs
+
+    for (int c = 0; c < channels; c++) {
+        this->outputs[OUTPUT_POLY].setVoltage(values[c], c);
+    }
+
     // this is the direct writing of channels (allows zero).
     // mixing with .setChannels yields inconsistent results
 
-    outputs[POLY_OUTPUT].channels = channels;
+    this->outputs[OUTPUT_POLY].channels = channels;
 }
 
 json_t * Merge::dataToJson() 
@@ -75,10 +104,11 @@ MergeWidget::MergeWidget(Merge *module)
 
     // column centered at 7.622mm (half of 3HP)
     for (int c = 0; c < module->MAX_CHANNELS; c++) {
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.875 + c * 11.732)), module, c));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500 + c * 11.7857142)), module, c));
     }
 
-    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 108.500)), module, Merge::POLY_OUTPUT));
+    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 109.500)), module, Merge::OUTPUT_POLY));
+    addParam(createParamCentered<TinyToggle>(mm2px(Vec(11.000, 115.618)), module, Merge::PARAM_SORT));
 }
 
 void MergeWidget::appendContextMenu(Menu * menu) 

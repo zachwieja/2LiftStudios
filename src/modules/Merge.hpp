@@ -2,14 +2,18 @@
 //  All rights reserved.
 
 #pragma once
+
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
+#include "TinyToggle.hpp"
+#include "Utilities.hpp"
 
 struct Merge : Module
 {
     public:
         enum ParamId
         {
+            PARAM_SORT,
             PARAMS_LEN
         };
 
@@ -23,7 +27,7 @@ struct Merge : Module
 
         enum OutputId
         {
-            POLY_OUTPUT,
+            OUTPUT_POLY,
             OUTPUTS_LEN
         };
 
@@ -44,16 +48,7 @@ struct Merge : Module
         int polyphony = MAX_CHANNELS;
 
     public:
-        Merge()
-        {
-            config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
-
-            for (int c = 0; c < INPUTS_LEN; c++) {
-                configInput(c, string::f("Channel %d", c));
-            }
-
-            configOutput(POLY_OUTPUT, "Polyphonic");
-        }
+        Merge();
 
         void process(const ProcessArgs &args) override;
         json_t * dataToJson() override;
