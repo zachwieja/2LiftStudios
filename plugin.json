@@ -24,16 +24,6 @@
       ]
     },
     {
-      "slug": "Quant",
-      "name": "Quant",
-      "description": "Quantizer",
-      "tags": [
-        "Poly",
-        "Polyphonic",
-        "Quantizer"
-      ]
-    },
-    {
       "slug": "SampleAndHold",
       "name": "Sample and Hold",
       "description": "Dual Sample and Hold",
@@ -51,6 +41,15 @@
       "tags": [
         "Poly",
         "Polyphonic",
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Steps",
+      "name": "Steps",
+      "description": "Random step generator",
+      "tags": [
+        "Random",
         "Utility"
       ]
     }

@@ -93,7 +93,7 @@ void Merge::dataFromJson(json_t * root)
     this->polyphony = object ? json_integer_value(object) : MAX_CHANNELS;
 }
 
-MergeWidget::MergeWidget(Merge *module)
+MergeWidget::MergeWidget(Merge * module)
 {
     setModule(module);
     setPanel(createPanel(asset::plugin(pluginInstance, "res/Merge.svg")));

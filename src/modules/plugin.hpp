@@ -13,6 +13,6 @@ extern Plugin* pluginInstance;
 // extern Model* modelMyModule;
 
 extern Model * modelMerge;
-extern Model * modelQuant;
 extern Model * modelSampleAndHold;
 extern Model * modelSplit;
+extern Model * modelSteps;
