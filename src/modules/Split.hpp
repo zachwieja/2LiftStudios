@@ -4,7 +4,7 @@
 #pragma once
 
 #include "plugin.hpp"
-#include "TinyToggle.hpp"
+#include "TinyGrayGreenRedButton.hpp"
 #include "Utilities.hpp"
 
 struct Split : Module

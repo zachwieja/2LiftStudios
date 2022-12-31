@@ -4,9 +4,9 @@
 #pragma once
 #include "plugin.hpp"
 
-struct TinyToggle : app::SVGSwitch
+struct TinyGrayGreenRedButton : app::SVGSwitch
 {
-    TinyToggle()
+    TinyGrayGreenRedButton()
     {
         momentary = false;
         addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TinyButtonGray.svg")));

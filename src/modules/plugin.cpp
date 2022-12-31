@@ -9,7 +9,9 @@ void init(Plugin* p) {
 	pluginInstance = p;
 
 	// Add modules here
+	p->addModel(modelComps);
 	p->addModel(modelMerge);
+	p->addModel(modelPVolt);
 	p->addModel(modelSampleAndHold);
 	p->addModel(modelSplit);
 	p->addModel(modelSteps);

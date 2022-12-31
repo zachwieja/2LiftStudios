@@ -108,7 +108,7 @@ MergeWidget::MergeWidget(Merge * module)
     }
 
     addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 109.500)), module, Merge::OUTPUT_POLY));
-    addParam(createParamCentered<TinyToggle>(mm2px(Vec(11.000, 115.618)), module, Merge::PARAM_SORT));
+    addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(11.000, 115.618)), module, Merge::PARAM_SORT));
 }
 
 void MergeWidget::appendContextMenu(Menu * menu) 

@@ -14,12 +14,30 @@
   "changelogUrl": "",
   "modules": [
     {
+      "slug": "Comps",
+      "name": "Comps",
+      "description": "Compare input against multiple threshold",
+      "tags": [
+        "Logic",
+        "Utility"
+      ]
+    },
+    {
       "slug": "Merge",
       "name": "Merge",
       "description": "Polyphonic merge",
       "tags": [
         "Poly",
         "Polyphonic",
+        "Utility"
+      ]
+    },
+    {
+      "slug": "PVolt",
+      "name": "PVolt",
+      "description": "Weighted random voltage",
+      "tags": [
+        "Random",
         "Utility"
       ]
     },

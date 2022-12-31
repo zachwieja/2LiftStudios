@@ -63,8 +63,8 @@ struct Steps : Module
         float low     = lows[range];
         float high    = highs[range];
 
-    public : Steps();
-
+    public : 
+        Steps();
         void process(const ProcessArgs &args) override;
 
         int   getLength();

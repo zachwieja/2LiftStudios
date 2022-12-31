@@ -75,7 +75,7 @@ struct SplitWidget : ModuleWidget
 
         // column centered at 7.622mm (half of 3HP)
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500)), module, Split::POLY_INPUT));
-        addParam(createParamCentered<TinyToggle>(mm2px(Vec(11.000, 17.618)), module, Split::PARAM_SORT));
+        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(11.000, 17.618)), module, Split::PARAM_SORT));
 
         for (int c = 0; c < Split::MAX_CHANNELS; c++)
         {
@@ -85,5 +85,34 @@ struct SplitWidget : ModuleWidget
     }
 };
 
-Model * modelSplit = createModel<Split, SplitWidget>("Split");
+#if false
+void SplitWidget::appendContextMenu(Menu *menu)
+{
+    Split * module = dynamic_cast<Split *>(this->module);
+    menu->addChild(new MenuSeparator);
 
+    // this is mostly a hack, but ... dynamic and automatic
+    // are special cases of polyphony with values -1 and  0
+
+    std::vector<std::string> labels;
+    labels.push_back("# Connected");
+    labels.push_back("Highest #");
+
+    for (int c = 1; c <= Merge::MAX_CHANNELS; c++)
+    {
+        labels.push_back(string::f("%d", c));
+    }
+
+    // the indexes are zero based. so adjust with the +/- 1.
+    // > 0 is exact polyphony,  <= 0 has a special  meaning
+
+    menu->addChild(createIndexSubmenuItem(
+        "Polyphony", labels,
+        [=]()
+        { return module->polyphony + 1; },
+        [=](int polyphony)
+        { module->polyphony = polyphony - 1; }));
+};
+#endif
+
+Model *modelSplit = createModel<Split, SplitWidget>("Split");

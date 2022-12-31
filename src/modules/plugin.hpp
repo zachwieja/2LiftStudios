@@ -12,7 +12,9 @@ extern Plugin* pluginInstance;
 // Declare each Model, defined in each module source file
 // extern Model* modelMyModule;
 
+extern Model * modelComps;
 extern Model * modelMerge;
+extern Model * modelPVolt;
 extern Model * modelSampleAndHold;
 extern Model * modelSplit;
 extern Model * modelSteps;

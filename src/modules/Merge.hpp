@@ -5,7 +5,7 @@
 
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
-#include "TinyToggle.hpp"
+#include "TinyGrayGreenRedButton.hpp"
 #include "Utilities.hpp"
 
 struct Merge : Module

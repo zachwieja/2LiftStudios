@@ -5,6 +5,7 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 
 - [Sample and Hold](#sampleandhold)
 - [Polyphony Utilities](#polyphony)
+- [Probability Utilities](#random)
 
 ## Builds/Releases
 
@@ -40,7 +41,22 @@ Takes a single polyphonic input and spreads the first 8 channels across the firs
 #### Sort ####
 Sorting, if enabled, is done as a function of the polyphony. All included polyphonic channels, as described above, are sorted before sending them to the output. The default order is _None_ and no sorting occurs.  The other two sort orders are _Ascending_ and _Descending_.  Channels are sorted and assigned channels starting from zero. Pressing the sort button multiple times toggles the sort order.
 
-### <a name="split"></a> Steps
+<a name="logic">
+
+### <a name="comps"></a> Comps
+_COMPS_ is comprised eight voltage parameter knobs and eight corresponding _GATE_ ports.  A _GATE_ port is high when the _IN_ voltage is strictly greater than (not equal) to the corresponding _THRESH_ (threshold) voltage parameter.  Gates are inverted if the invert button for the corresponding gate is depressed.   Note that inversion is intentionally imperfect.  Negating a > comparision typically results in a <= comparison.  In this case, inversion is simply a < comparison.  Gates for thresholds that are equal to the input value are never high. A low gate is always 0.0V. High gates default to 10.0V but can be configured via a popup menu to be 1.0V or 5.0V.
+
+The _LOGIC_ gate goes high when the logic condition is met. The condition is configured by (repeatedly) depressing the button next to the _LOGIC_ gate.  The three logic conditions are _None_, _Any_ and _All.
+
+* _None_ - the _LOGIC_ gate is high when the number of connected gates is greater than 0 and none of those gates are high.
+
+* _Any_ - the _LOGIC_ gate is high when at least one of the connected gates is high.
+
+* _All_ - the _LOGIC_ gate is high when all of the connected gates are high
+
+<a name="random">
+
+### <a name="steps"></a> Steps
 Produces a set of stepped voltages starting from a root voltage and then changing the voltage,  based on the _MODE_, each time the module receives a _CLOCK_ (or a _RESET_).  There are five modes: _Increment_, _Decrement_, _Exclusive_, _Inclusive_ and _Random_.
 
 * _Increment_, the output voltage starts at the _ROOT_ and moves by the _STEP_ voltage at each _CLOCK.  After _LENGTH_ iterations, the value wraps and the process repeats starting at the the _ROOT_.
