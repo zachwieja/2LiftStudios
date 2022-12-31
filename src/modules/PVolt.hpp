@@ -5,6 +5,7 @@
 
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
+#include "TinyTrigger.hpp"
 
 struct PVolt : Module
 {
@@ -13,7 +14,8 @@ struct PVolt : Module
 
         enum ParamId {
             PARAM_WEIGHT,
-            PARAM_OFFSET,
+            PARAM_OFFSET = PARAM_WEIGHT + NUM_ROWS,
+            PARAM_MANUAL = PARAM_OFFSET + NUM_ROWS,
             PARAMS_LEN
         };
 
@@ -48,5 +50,4 @@ struct PVolt : Module
 struct PVoltWidget : ModuleWidget {
     public:
 	    PVoltWidget(PVolt * module);
-        void appendContextMenu(Menu * menu) override;
 };
