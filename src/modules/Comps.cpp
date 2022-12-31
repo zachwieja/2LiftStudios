@@ -48,7 +48,11 @@ void Comps::process(const ProcessArgs &args)
             float threshold = this->params[PARAM_THRESH + row].getValue();
             bool gate = this->getInverted(row) ? input < threshold : input > threshold;
 
-            output->setVoltage(gate ? 10.0f : 0.0f);
+            // if gate is high set output to  high  voltage
+
+            output->setVoltage(gate ? this->high : 0.0f);
+
+            // keep track of counts to Compsute logic  below
 
             numConnected += 1;
             numGates += gate ? 1 : 0;
@@ -71,17 +75,17 @@ void Comps::process(const ProcessArgs &args)
     }
 }
 
-json_t * Comps::dataToJson() 
+json_t * Comps::dataToJson()
 {
-    json_t * root = json_object();
-//    json_object_set_new(root, "polyphony", json_integer(this->polyphony));
+    json_t *root = json_object();
+    json_object_set_new(root, "range", json_integer(this->range));
     return root;
 }
 
-void Comps::dataFromJson(json_t * root)
+void Comps::dataFromJson(json_t *root)
 {
-//    json_t * object = json_object_get(root, "polyphony");
-//    this->polyphony = object ? json_integer_value(object) : MAX_CHANNELS;
+    json_t *object = json_object_get(root, "range");
+    this->range = clamp(object ? json_integer_value(object) : 0, 0, sizeof(this->highs) / sizeof(float) - 1);
 }
 
 CompsWidget::CompsWidget(Comps * module)
@@ -108,7 +112,34 @@ CompsWidget::CompsWidget(Comps * module)
 
 void CompsWidget::appendContextMenu(Menu * menu) 
 {
-    //Comps * module = dynamic_cast<Comps *>(this->module);
+    Comps * module = dynamic_cast<Comps *>(this->module);
+    menu->addChild(new MenuSeparator);
+
+    // this is mostly a hack, but ... dynamic and automatic
+    // are special cases of polyphony with values -1 and  0
+
+    std::vector<std::string> labels;
+
+    // the number of highs must be equal to the lows,  then
+    // Compsute count and create labels for each menu  child
+
+    int count = sizeof(module->highs) / sizeof(float);
+
+    for (int i = 0; i < count; i++) {
+        labels.push_back(string::f("[0V, %dV]", (int) module->highs[i]));
+    }
+
+    // when they choose an item set the current  high / low
+
+    menu->addChild(createIndexSubmenuItem(
+        "Gate Range", labels,
+        [=]()
+        { return module->range; },
+
+        [=](int range) {
+            module->high = module->highs[range];
+            module->range = range;
+        }));
 };
 
 Model * modelComps = createModel<Comps, CompsWidget>("Comps");

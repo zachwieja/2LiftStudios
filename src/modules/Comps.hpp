@@ -52,6 +52,11 @@ struct Comps : Module
         };
 
     public:
+        int range = 2;
+        float high = highs[range];
+        float highs[3] = {1.0f, 5.0f, 10.0f};
+
+    public:
         Comps();
         void process(const ProcessArgs &args) override;
 
