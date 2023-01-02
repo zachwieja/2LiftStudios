@@ -5,18 +5,18 @@
   "license": "GPL-3.0",
   "brand": "2LiftStudios",
   "author": "Stephan Zachwieja",
-  "authorEmail": "zachwieja@live.com",
-  "authorUrl": "",
-  "pluginUrl": "",
-  "manualUrl": "",
-  "sourceUrl": "http://github.com/zachwieja/2LiftStudios",
-  "donateUrl": "",
+  "authorEmail": "twoliftstudios@outlook.com",
+  "authorUrl": "https://github.com/zachwieja",
+  "pluginUrl": "https://github.com/zachwieja/2LiftStudios/README.md",
+  "manualUrl": "https://github.com/zachwieja/2LiftStudios/README.md",
+  "sourceUrl": "https://github.com/zachwieja/2LiftStudios",
+  "donateUrl": "https://paypal.me/2liftstudios",
   "changelogUrl": "",
   "modules": [
     {
       "slug": "Comps",
       "name": "Comps",
-      "description": "Compare input against multiple threshold",
+      "description": "Compare input against multiple thresholds",
       "tags": [
         "Logic",
         "Utility"
@@ -25,7 +25,7 @@
     {
       "slug": "Merge",
       "name": "Merge",
-      "description": "Polyphonic merge",
+      "description": "Polyphonic merge w/ sort",
       "tags": [
         "Poly",
         "Polyphonic",
@@ -35,7 +35,7 @@
     {
       "slug": "PVolt",
       "name": "PVolt",
-      "description": "Weighted random voltage",
+      "description": "Weighted random voltage selector",
       "tags": [
         "Random",
         "Utility"
@@ -44,7 +44,7 @@
     {
       "slug": "SampleAndHold",
       "name": "Sample and Hold",
-      "description": "Dual Sample and Hold",
+      "description": "Dual sample and hold w/ track high or low",
       "tags": [
         "Dual",
         "Poly",
@@ -55,7 +55,7 @@
     {
       "slug": "Split",
       "name": "Split",
-      "description": "Polyphonic split",
+      "description": "Polyphonic split /w sort",
       "tags": [
         "Poly",
         "Polyphonic",
