@@ -16,8 +16,8 @@ struct Comps : Module
         enum ParamId
         {
             PARAM_THRESH,
-            PARAM_INVERTED = PARAM_THRESH + NUM_ROWS,
-            PARAM_LOGIC = PARAM_INVERTED + NUM_ROWS,
+            PARAM_MODE = PARAM_THRESH + NUM_ROWS,
+            PARAM_LOGIC = PARAM_MODE + NUM_ROWS,
             PARAMS_LEN
         };
 
@@ -36,11 +36,12 @@ struct Comps : Module
             LIGHTS_LEN
         };
 
-        enum Inverted {
-            INVERTED_FIRST,
-            INVERTED_FALSE = INVERTED_FIRST,
-            INVERTED_TRUE,
-            INVERTED_LAST = INVERTED_TRUE
+        enum Mode
+        {
+            MODE_FIRST,
+            MODE_GTE = MODE_FIRST,
+            MODE_LTE,
+            MODE_LAST = MODE_LTE
         };
 
         enum Logic {
@@ -52,9 +53,10 @@ struct Comps : Module
         };
 
     public:
-        int range = 2;
-        float high = highs[range];
         float highs[3] = {1.0f, 5.0f, 10.0f};
+        int   range    = 2;
+        float high     = highs[range];
+       
 
     public:
         Comps();
@@ -64,7 +66,7 @@ struct Comps : Module
         void dataFromJson(json_t *root) override;
 
     private:
-        bool getInverted(int row);
+        Mode  getMode(int row);
         Logic getLogic();
 };
 

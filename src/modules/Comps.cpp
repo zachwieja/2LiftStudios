@@ -10,7 +10,7 @@ Comps::Comps()
     for (int row = 0; row < NUM_ROWS; row++) {
         configParam(PARAM_THRESH + row, -10.0f, 10.0f, 0.0f, string::f("Threshold %d", row + 1), "V");
         configOutput(OUTPUT_GATE + row, string::f("Gate %d", row + 1));
-        configSwitch(PARAM_INVERTED + row, INVERTED_FIRST, INVERTED_LAST, INVERTED_FALSE, string::f("Inverted %d", row + 1), { "False", "True" });
+        configSwitch(PARAM_MODE + row, MODE_FIRST, MODE_LAST, MODE_GTE, string::f("Mode %d", row + 1), { "Greater Than Equal", "Less Than Equal" });
     }
 
     configInput(INPUT_INPUT, "Input");
@@ -24,10 +24,10 @@ inline Comps::Logic Comps::getLogic()
     return static_cast<Logic>(clamp(value, LOGIC_FIRST, LOGIC_LAST));
 }
 
-inline bool Comps::getInverted(int row)
+inline Comps::Mode Comps::getMode(int row)
 {
-    int value = this->params[PARAM_INVERTED + row].getValue();
-    return static_cast<Inverted>(clamp(value, INVERTED_FIRST, INVERTED_LAST)) == INVERTED_TRUE;
+    int value = this->params[PARAM_MODE + row].getValue();
+    return static_cast<Mode>(clamp(value, MODE_FIRST, MODE_LAST));
 }
 
 void Comps::process(const ProcessArgs &args)
@@ -46,7 +46,7 @@ void Comps::process(const ProcessArgs &args)
         if (isConnected && output->isConnected()) {
             
             float threshold = this->params[PARAM_THRESH + row].getValue();
-            bool gate = this->getInverted(row) ? input < threshold : input > threshold;
+            bool gate = this->getMode(row) == MODE_LTE ? input <= threshold : input >= threshold;
 
             // if gate is high set output to  high  voltage
 
@@ -102,7 +102,7 @@ CompsWidget::CompsWidget(Comps * module)
     {
         addParam(createParamCentered<Trimpot>(mm2px(Vec(8.027, 11.500 + row * 11.7857142)), module, Comps::ParamId::PARAM_THRESH + row));
         addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(21.460, 11.500 + row * 11.7857142)), module, Comps::OutputId::OUTPUT_GATE + row));
-        addParam(createParamCentered<TinyGrayRedButton>(mm2px(Vec(26.460, 15.500 + row * 11.7857142)), module, Comps::ParamId::PARAM_INVERTED + row));
+        addParam(createParamCentered<TinyGrayRedButton>(mm2px(Vec(26.460, 15.500 + row * 11.7857142)), module, Comps::ParamId::PARAM_MODE + row));
     }
 
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(8.027, 109.500)), module, Comps::InputId::INPUT_INPUT));
@@ -137,7 +137,7 @@ void CompsWidget::appendContextMenu(Menu * menu)
         { return module->range; },
 
         [=](int range) {
-            module->high = module->highs[range];
+            module->high  = module->highs[range];
             module->range = range;
         }));
 };
