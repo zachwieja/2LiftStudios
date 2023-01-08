@@ -46,10 +46,10 @@ struct Comps : Module
 
         enum Logic {
             LOGIC_FIRST,
-            LOGIC_NONE = LOGIC_FIRST,
-            LOGIC_ANY,
+            LOGIC_ANY = LOGIC_FIRST,
             LOGIC_ALL,
-            LOGIC_LAST = LOGIC_ALL
+            LOGIC_NONE,
+            LOGIC_LAST = LOGIC_NONE
         };
 
     public:

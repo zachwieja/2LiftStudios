@@ -15,7 +15,7 @@ Comps::Comps()
 
     configInput(INPUT_INPUT, "Input");
     configOutput(OUTPUT_LOGIC, "Logic");
-    configSwitch(PARAM_LOGIC, LOGIC_FIRST, LOGIC_LAST, LOGIC_NONE, "Logic", { "None", "Any", "All" });
+    configSwitch(PARAM_LOGIC, LOGIC_FIRST, LOGIC_LAST, LOGIC_ANY, "Logic", { "Any", "All", "None" });
 }
 
 inline Comps::Logic Comps::getLogic()
@@ -69,8 +69,8 @@ void Comps::process(const ProcessArgs &args)
         this->outputs[OUTPUT_LOGIC].setVoltage(
             (logic == Logic::LOGIC_NONE && numConnected > 0 && numGates == 0) ||
             (logic == Logic::LOGIC_ANY  && numGates >  0) ||
-            (logic == Logic::LOGIC_ALL  && numGates == numConnected)
-            ? 10.0f : 0.0f
+            (logic == Logic::LOGIC_ALL  && numConnected > 0 && numGates == numConnected)
+            ? this->high : 0.0f
         );
     }
 }
