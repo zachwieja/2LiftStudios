@@ -32,8 +32,8 @@ all: svg
 
 INKSCAPE = '/c/program files/inkscape/bin/inkscape.exe'
 
-svg: $(subst .,-Dark.,$(subst src/res/,res/,$(wildcard src/res/*.svg)))
-.SECONDARY: $(subst src/res/,res/,$(wildcard src/res/*.svg))
+svg: $(subst src/res/,res/,$(wildcard src/res/*.svg)) $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
+.SECONDARY: $(subst src/res/,res/,$(wildcard src/res/*.svg))  $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
 
 # this copies our SVG files to the ./res  directory and
 # then flattens everything (especially text) into paths
@@ -46,7 +46,8 @@ res/%.svg: src/res/%.svg
 # this takes the flattened SVG files and replaces the
 # known light theme colors with the dark theme colors
 
-res/%-Dark.svg: res/%.svg scripts/Dark.sed
+res/dark/%.svg: res/%.svg scripts/Dark.sed
+	mkdir -p $(dir $@)
 	sed -f scripts/Dark.sed $< > $@
 
 
