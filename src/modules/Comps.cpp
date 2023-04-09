@@ -1,4 +1,4 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #include "Comps.hpp"
@@ -77,13 +77,14 @@ void Comps::process(const ProcessArgs &args)
 
 json_t * Comps::dataToJson()
 {
-    json_t *root = json_object();
+    json_t * root = ThemeModule::dataToJson();
     json_object_set_new(root, "range", json_integer(this->range));
     return root;
 }
 
 void Comps::dataFromJson(json_t *root)
 {
+    ThemeModule::dataFromJson(root);
     json_t *object = json_object_get(root, "range");
     this->range = clamp(object ? json_integer_value(object) : 0, 0, sizeof(this->highs) / sizeof(float) - 1);
 }
