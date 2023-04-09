@@ -1,4 +1,4 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #pragma once
@@ -18,4 +18,5 @@ extern Model * modelPVolt;
 extern Model * modelSampleAndHold;
 extern Model * modelSplit;
 extern Model * modelSteps;
+extern Model * modelVCASR;
 
