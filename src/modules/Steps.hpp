@@ -1,10 +1,9 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #pragma once
 
 #include "plugin.hpp"
-#include "CheckmarkMenuItem.hpp"
 #include "SnapTrimpot.hpp"
 #include "Themes.hpp"
 
