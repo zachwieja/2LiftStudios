@@ -44,7 +44,7 @@ Sorting, if enabled, is done as a function of the polyphony. All included polyph
 <a name="logic">
 
 ### <a name="comps"></a> Comps
-_COMPS_ is comprised eight voltage parameter knobs and eight corresponding _GATE_ ports.  A _GATE_ port is high when the _IN_ voltage is strictly greater than (not equal) to the corresponding _THRESH_ (threshold) voltage parameter.  Gates are inverted if the invert button for the corresponding gate is depressed.   Note that inversion is intentionally imperfect.  Negating a > comparision typically results in a <= comparison.  In this case, inversion is simply a < comparison.  Gates for thresholds that are equal to the input value are never high. A low gate is always 0.0V. High gates default to 10.0V but can be configured via a popup menu to be 1.0V or 5.0V.
+_COMPS_ is comprised of eight voltage parameter knobs and eight corresponding _GATE_ ports.  A _GATE_ port is high when the _IN_ voltage is strictly greater than (not equal) to the corresponding _THRESH_ (threshold) voltage parameter / knob.  Gates are inverted if the invert button for the corresponding gate is depressed.   Note that inversion is intentionally imperfect.  Negating a > comparision typically results in a <= comparison.  In this case, inversion is simply a < comparison.  Gates for thresholds that are equal to the input value are never high. A low gate is always 0.0V. High gates default to 10.0V but can be configured via a popup menu to be 1.0V or 5.0V.
 
 The _LOGIC_ gate goes high when the logic condition is met. The condition is configured by (repeatedly) depressing the button next to the _LOGIC_ gate.  The three logic conditions are _None_, _Any_ and _All.
 
@@ -70,7 +70,7 @@ Produces a set of stepped voltages starting from a root voltage and then changin
 * _Random_, the output voltage is computed using a random integer value between 0 and LENGTH - 1 which is multiplied by the _STEP_ voltage and added to the _ROOT_ voltage.computed from a uniform random _LENGTH_ value which is then multiplied by the _STEP_ and added to the _ROOT_.   A new position within the _LENGTH
 
 #### Clock ####
-The leading edge of a clock is signal is defined as any non-positive voltage going positive.  Any positive value, no matter how small, will trigger the _CLOCK_ and step the _OUTPUT_ voltage toward its next value.
+The leading edge of a clock signal is defined as any non-positive voltage going positive.  Any positive value, no matter how small, will trigger the _CLOCK_ and step the _OUTPUT_ voltage toward its next value.
 
 #### Reset ####
 For all modes this resets the sequence and moves the output voltage back to the starting voltage - For _Increment_, _Exclusive_ and _Inclusive_ this is the _ROOT_ voltage.   For _Decrement_ this is the _ROOT_ voltage + _STEP_ voltage * _LENGTH_.
@@ -96,7 +96,7 @@ Sorting, if enabled, is done across all incoming channels.  If the polyphony on 
 Takes a single polyphonic input, quantizes each channel to the closest note within an evenly tempered scale, and copies the quantized values to the output.  This module does not support non-symmetric scales (different values on they way down). There are three separate sets of controls for the the scale, root and octave parameters.
 
 #### Scale
-The scale can be set to any of 44 preconfigued scales. The names of the scales will appear in the hover text when _spinning_ the knob. If the CV input is connected, it completely overrides the knob.  That is, it is not additive.  Valid CV values start at 0.0V and each 0.1V will change to the next scale.  This allows for up 100 scales and allows for backward compatibility when adding scales.  Values below or above the range of scales result in selection of the first or last scale respectively.  The supported scales are documented here <a href="https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes">here</a>
+The scale can be set to any of 44 preconfigued scales. The names of the scales will appear in the hover text when _spinning_ the knob. If the CV input is connected, it completely overrides the knob.  That is, it is not additive.  Valid CV values start at 0.0V and each 0.1V will change to the next scale.  This allows for up to 100 scales and allows for backward compatibility when adding scales.  Values below or above the range of scales result in selection of the first or last scale respectively.  The supported scales are documented here <a href="https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes">here</a>
 
 #### Root
 The root knob raises or lowers the voltage of the root note by 0 to N-1 steps. For instance, in a typical 12 step scale, each step represents 1/12 volts, yielding an overall range of [-11/12, +11/12] volts.  A quartertone scale yields a range of [-23/24, +23/24] volts. Connecting the CV input is additive. The combined values are clamped at [-(N-1)/N, (N-1)/N] volts, where N is the number of steps in the scale (12 for most scales).  The CV value is treated as monophonic.  The value of the first channel is used across all channels of the IN input.
@@ -116,6 +116,6 @@ If the root knob (and or combined root CV) is non-zero, and the scale is changed
 
 #### Maths
 
-All notes are quantized to the closest numerical/mathematical note in the scale. For instance, the C major scale is modeled as 7 notes over an evenly tempered 12 step scale with intervals of 2, 2, 1, 2, 2, 2 and 1 steps. The values for those 7 notes are equivalent to 0, 2/12, 4/12, 5/12, 7/12, 9/12 and 11/12 volts.  The root and octave offsets are added to the input value and then the decimal portion of the voltage is snapped to one of those voltages.  Any decimal portion in the range [0V, 1/12V) snaps to 0V. Anything in the range [1/12V, 3/12V) snaps to 2/12V. Anything in the range [3/12V, 9/24V) snaps to 4/12V and so forth.  Anything in the range [23/24V, 25/24V) snaps to 1V.
+All notes are quantized to the closest numerical/mathematical note in the scale. For instance, the C major scale is modeled as 7 notes over an evenly tempered 12 step scale with intervals of 2, 2, 1, 2, 2, 2 and 1 steps. The values for those 7 notes are equivalent to 0, 2/12, 4/12, 5/12, 7/12, 9/12 and 11/12 volts.  The root and octave offsets are added to the input value and then the decimal portion of the voltage is snapped to one of those voltages.  Any decimal portion in the range [0V, 1/12V) snaps to 0V. Anything in the range [1/12V, 3/12V) snaps to 2/12V. Anything in the range [3/12V, 9/24V) snaps to 4/12V and so forth.  Anything in the range [23/24V, 26/24V) snaps to 1V.
 
 
