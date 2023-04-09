@@ -6,8 +6,9 @@
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
 #include "SnapTrimpot.hpp"
+#include "Themes.hpp"
 
-struct Steps : Module
+struct Steps : ThemeModule
 {
     public:
         enum ParamId
@@ -76,7 +77,7 @@ struct Steps : Module
         void dataFromJson(json_t * root) override;
 };
 
-struct StepsWidget : ModuleWidget {
+struct StepsWidget : ThemeWidget<Steps> {
     public:
 	    StepsWidget(Steps * module);
         void appendContextMenu(Menu * menu) override;

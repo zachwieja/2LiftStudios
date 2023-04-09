@@ -1,4 +1,4 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #include "Merge.hpp"
@@ -80,60 +80,65 @@ void Merge::process(const ProcessArgs &args)
     this->outputs[OUTPUT_POLY].channels = channels;
 }
 
-json_t * Merge::dataToJson() 
+json_t * Merge::dataToJson()
 {
-    json_t * root = json_object();
+    json_t * root = ThemeModule::dataToJson();
     json_object_set_new(root, "polyphony", json_integer(this->polyphony));
     return root;
 }
 
 void Merge::dataFromJson(json_t * root)
 {
+    ThemeModule::dataFromJson(root);
     json_t * object = json_object_get(root, "polyphony");
     this->polyphony = object ? json_integer_value(object) : MAX_CHANNELS;
 }
 
-MergeWidget::MergeWidget(Merge * module)
+struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
 {
-    setModule(module);
-    setPanel(createPanel(asset::plugin(pluginInstance, "res/Merge.svg")));
+    MergeWidget(Merge * module) : ThemeWidget<Merge>(module, "Merge")
+    {
+        setModule(module);
 
-    // skinny module.  two screws leaves room for the label
-    addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        // skinny module.  two screws leaves room for the label
+        addChild(createWidget<ScrewSilver>(Vec(0, 0)));
+        addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    // column centered at 7.622mm (half of 3HP)
-    for (int c = 0; c < module->MAX_CHANNELS; c++) {
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500 + c * 11.7857142)), module, c));
+        // column centered at 7.622mm (half of 3HP)
+        for (int c = 0; c < module->MAX_CHANNELS; c++) {
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500 + c * 11.7857142)), module, c));
+        }
+
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 109.500)), module, Merge::OUTPUT_POLY));
+        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(11.000, 115.618)), module, Merge::PARAM_SORT));
     }
 
-    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 109.500)), module, Merge::OUTPUT_POLY));
-    addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(11.000, 115.618)), module, Merge::PARAM_SORT));
-}
+    void appendContextMenu(Menu * menu) override
+    {
+        Merge * module = dynamic_cast<Merge *>(this->module);
+        menu->addChild(new MenuSeparator);
 
-void MergeWidget::appendContextMenu(Menu * menu) 
-{
-    Merge * module = dynamic_cast<Merge *>(this->module);
-    menu->addChild(new MenuSeparator);
+        // this is mostly a hack, but ... dynamic and automatic
+        // are special cases of polyphony with values -1 and  0
 
-    // this is mostly a hack, but ... dynamic and automatic
-    // are special cases of polyphony with values -1 and  0
+        std::vector<std::string> labels;
+        labels.push_back("# Connected");
+        labels.push_back("Highest #");
 
-    std::vector<std::string> labels;
-    labels.push_back("# Connected");
-    labels.push_back("Highest #");
+        for (int c = 1; c <= Merge::MAX_CHANNELS; c++) {
+            labels.push_back(string::f("%d", c));
+        }
 
-    for (int c = 1; c <= Merge::MAX_CHANNELS; c++) {
-        labels.push_back(string::f("%d", c));
-    }
+        // the indexes are zero based. so adjust with the +/- 1.
+        // > 0 is exact polyphony,  <= 0 has a special  meaning
 
-    // the indexes are zero based. so adjust with the +/- 1.
-    // > 0 is exact polyphony,  <= 0 has a special  meaning
+        menu->addChild(createIndexSubmenuItem("Polyphony", labels,
+            [=]() { return module->polyphony + 1;},
+            [=](int polyphony) { module->polyphony = polyphony - 1;}
+        ));
 
-    menu->addChild(createIndexSubmenuItem("Polyphony", labels,
-        [=]() { return module->polyphony + 1;},
-        [=](int polyphony) {module->polyphony = polyphony - 1;}
-    ));
+        ThemeWidget::appendContextMenu(menu);
+    };
 };
 
 Model * modelMerge = createModel<Merge, MergeWidget>("Merge");

@@ -1,13 +1,14 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #pragma once
 
 #include "plugin.hpp"
+#include "Themes.hpp"
 #include "TinyGrayGreenRedButton.hpp"
 #include "Utilities.hpp"
 
-struct Split : Module
+struct Split : ThemeModule
 {
     public:
         enum ParamId

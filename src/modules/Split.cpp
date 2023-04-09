@@ -1,4 +1,4 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #include "split.hpp"
@@ -62,12 +62,11 @@ void Split::process(const ProcessArgs &args)
     this->channels = channels;
 }
 
-struct SplitWidget : ModuleWidget
+struct SplitWidget : ThemeWidget<Split, ModuleWidget>
 {
-    SplitWidget(Split * module)
+    SplitWidget(Split * module) : ThemeWidget<Split>(module, "Split") 
     {
         setModule(module);
-        setPanel(createPanel(asset::plugin(pluginInstance, "res/Split.svg")));
 
         // skinny module.  two screws leaves room for label
         addChild(createWidget<ScrewSilver>(Vec(0, 0)));

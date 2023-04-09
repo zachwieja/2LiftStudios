@@ -140,21 +140,21 @@ void Steps::process(const ProcessArgs &args)
 
 json_t * Steps::dataToJson() 
 {
-    json_t * root = json_object();
+    json_t * root = ThemeModule::dataToJson();
     json_object_set_new(root, "range", json_integer(this->range));
     return root;
 }
 
 void Steps::dataFromJson(json_t * root)
 {
-    json_t * object = json_object_get(root, "range");
+    ThemeModule::dataFromJson(root);
+    json_t *object = json_object_get(root, "range");
     this->range = clamp(object ? json_integer_value(object) : 0, 0, sizeof(this->lows)/sizeof(float) - 1);
 }
 
-StepsWidget::StepsWidget(Steps * module)
+StepsWidget::StepsWidget(Steps * module) : ThemeWidget<Steps>(module, "Steps")
 {
     setModule(module);
-    setPanel(createPanel(asset::plugin(pluginInstance, "res/Steps.svg")));
 
     // skinny module.  two screws leaves room for a label
     addChild(createWidget<ScrewSilver>(Vec(0, 0)));
@@ -206,6 +206,8 @@ void StepsWidget::appendContextMenu(Menu * menu)
             module->high  = module->highs[range];
             module->range = range;
         }));
+
+    ThemeWidget::appendContextMenu(menu);
 };
 
 Model * modelSteps = createModel<Steps, StepsWidget>("Steps");

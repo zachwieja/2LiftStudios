@@ -88,10 +88,9 @@ void Comps::dataFromJson(json_t *root)
     this->range = clamp(object ? json_integer_value(object) : 0, 0, sizeof(this->highs) / sizeof(float) - 1);
 }
 
-CompsWidget::CompsWidget(Comps * module)
+CompsWidget::CompsWidget(Comps * module) : ThemeWidget<Comps>(module, "Comps")
 {
     setModule(module);
-    setPanel(createPanel(asset::plugin(pluginInstance, "res/Comps.svg")));
 
     // 2 screws on top.  1 on bottom leaves room for  label
     addChild(createWidget<ScrewSilver>(Vec(0, 0)));
@@ -115,13 +114,10 @@ void CompsWidget::appendContextMenu(Menu * menu)
     Comps * module = dynamic_cast<Comps *>(this->module);
     menu->addChild(new MenuSeparator);
 
-    // this is mostly a hack, but ... dynamic and automatic
-    // are special cases of polyphony with values -1 and  0
-
     std::vector<std::string> labels;
 
     // the number of highs must be equal to the lows,  then
-    // Compsute count and create labels for each menu  child
+    // compute count and create labels for each menu  child
 
     int count = sizeof(module->highs) / sizeof(float);
 
@@ -139,7 +135,10 @@ void CompsWidget::appendContextMenu(Menu * menu)
         [=](int range) {
             module->high  = module->highs[range];
             module->range = range;
-        }));
+        }
+    ));
+
+    ThemeWidget::appendContextMenu(menu);
 };
 
 Model * modelComps = createModel<Comps, CompsWidget>("Comps");

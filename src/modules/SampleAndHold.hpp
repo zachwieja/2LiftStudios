@@ -3,11 +3,12 @@
 
 #pragma once
 #include "plugin.hpp"
+#include "Themes.hpp"
 #include "TinyTrigger.hpp"
 
 #define MAX_CHANNELS 16
 
-struct SampleAndHold : Module
+struct SampleAndHold : ThemeModule
 {
     // there are multiple sample and holds in the  module
     // each section has section specific state saved here
@@ -63,7 +64,7 @@ struct SampleAndHold : Module
         Section sections[2];
 
     public:
-        SampleAndHold() 
+        SampleAndHold()
         {
             int numSections = sizeof(this->sections) / sizeof(Section);
             config(ParamId::PARAMS_LEN * numSections, InputId::INPUTS_LEN * numSections, OutputId::OUTPUTS_LEN * numSections, LightId::LIGHTS_LEN * numSections);

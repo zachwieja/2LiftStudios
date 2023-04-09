@@ -65,12 +65,11 @@ void SampleAndHold::process(const ProcessArgs &args)
     }
 }
 
-struct SampleAndHoldWidget : ModuleWidget
+struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
 {
-    SampleAndHoldWidget(SampleAndHold * module)
+    SampleAndHoldWidget(SampleAndHold * module) : ThemeWidget<SampleAndHold>(module, "SampleAndHold")
     {
         setModule(module);
-        setPanel(createPanel(asset::plugin(pluginInstance, "res/SampleAndHold.svg")));
 
         // skinny module.  two screws leaves room for a label
         addChild(createWidget<ScrewSilver>(Vec(0, 0)));

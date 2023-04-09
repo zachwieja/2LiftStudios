@@ -46,9 +46,9 @@ res/%.svg: src/res/%.svg
 # this takes the flattened SVG files and replaces the
 # known light theme colors with the dark theme colors
 
-res/dark/%.svg: res/%.svg scripts/Dark.sed
+res/dark/%.svg: res/%.svg scripts/dark.sed
 	mkdir -p $(dir $@)
-	sed -f scripts/Dark.sed $< > $@
+	sed -f scripts/dark.sed $< > $@
 
 
 

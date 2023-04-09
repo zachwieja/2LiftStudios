@@ -5,9 +5,10 @@
 
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
+#include "Themes.hpp"
 #include "TinyTrigger.hpp"
 
-struct PVolt : Module
+struct PVolt : ThemeModule
 {
     public:
         static const int NUM_ROWS = 8;
@@ -43,11 +44,52 @@ struct PVolt : Module
         PVolt();
 
         void process(const ProcessArgs &args) override;
-        json_t * dataToJson() override;
-        void dataFromJson(json_t * root) override;
+        double getWeight(int row);
+        double getOffset(int row);
+
 };
 
-struct PVoltWidget : ModuleWidget {
+static const NVGcolor displayColOn = nvgRGB(0xaf, 0xd2, 0x2c);
+
+struct PVoltWidget : ThemeWidget<PVolt>
+{
+        struct LcdDisplayWidget : TransparentWidget
+        {
+            PVolt * module;
+            std::shared_ptr<Font> font;
+            std::string fontPath;
+            char displayStr[16];
+
+            LcdDisplayWidget()
+            {
+                fontPath = std::string(asset::plugin(pluginInstance, "res/fonts/Segment14.ttf"));
+            }
+
+            void drawLayer(const DrawArgs &args, int layer) override
+            {
+                if (layer == 1) {
+                    if (!(font = APP->window->loadFont(fontPath))) {
+                        return;
+                    }
+
+                    nvgFontSize(args.vg, 18);
+                    nvgFontFaceId(args.vg, font->handle);
+                    // nvgTextLetterSpacing(args.vg, 2.5);
+
+                    Vec textPos = mm2px(Vec(1.0, 1.0));
+                    nvgFillColor(args.vg, nvgTransRGBA(displayColOn, 23));
+                    nvgText(args.vg, textPos.x, textPos.y, "~~~", NULL);
+
+                    nvgFillColor(args.vg, displayColOn);
+                    snprintf(displayStr, 4, "120");
+
+                    displayStr[3] = 0; // more safety
+                    nvgText(args.vg, textPos.x, textPos.y, displayStr, NULL);
+                }
+            }
+        };
+
     public:
-	    PVoltWidget(PVolt * module);
+        PVoltWidget(PVolt * module);
+
 };

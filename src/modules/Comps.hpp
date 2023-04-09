@@ -5,10 +5,11 @@
 
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
+#include "Themes.hpp"
 #include "TinyGrayRedButton.hpp"
 #include "TinyGrayGreenRedButton.hpp"
 
-struct Comps : Module
+struct Comps : ThemeModule
 {
     public:
         static const int NUM_ROWS = 8;
@@ -70,7 +71,7 @@ struct Comps : Module
         Logic getLogic();
 };
 
-struct CompsWidget : ModuleWidget {
+struct CompsWidget : ThemeWidget<Comps, ModuleWidget> {
     public:
 	    CompsWidget(Comps * module);
         void appendContextMenu(Menu * menu) override;

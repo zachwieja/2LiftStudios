@@ -1,14 +1,16 @@
-//  Copyright (c) 2022, 2 Lift Studios
+//  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
 #pragma once
 
 #include "plugin.hpp"
 #include "CheckmarkMenuItem.hpp"
+#include "Themes.hpp" 
 #include "TinyGrayGreenRedButton.hpp"
 #include "Utilities.hpp"
 
-struct Merge : Module
+
+struct Merge : ThemeModule
 {
     public:
         enum ParamId
@@ -53,10 +55,4 @@ struct Merge : Module
         void process(const ProcessArgs &args) override;
         json_t * dataToJson() override;
         void dataFromJson(json_t * root) override;
-};
-
-struct MergeWidget : ModuleWidget {
-    public:
-	    MergeWidget(Merge * module);
-        void appendContextMenu(Menu *menu) override;
 };

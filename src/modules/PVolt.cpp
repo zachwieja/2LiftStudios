@@ -18,6 +18,14 @@ PVolt::PVolt()
     configButton(PARAM_MANUAL, "Manual");
 }
 
+inline double PVolt::getWeight(int row) {
+    return this->params[PARAM_WEIGHT + row].getValue();    
+}
+
+inline double PVolt::getOffset(int row) {
+    return this->params[PARAM_OFFSET + row].getValue();
+}
+
 void PVolt::process(const ProcessArgs &args)
 {
     int row = this->row;
@@ -35,7 +43,7 @@ void PVolt::process(const ProcessArgs &args)
         float weight = 0.0f;
 
         for (row = 0; row < NUM_ROWS; row++) {
-            weight += this->weights[row] = this->params[PARAM_WEIGHT + row].getValue();
+            weight += this->weights[row] = this->getWeight(row);
         }
 
         // if no weight then there is nothing to choose
@@ -75,27 +83,13 @@ void PVolt::process(const ProcessArgs &args)
     // for the current row,  if any,  otherwise set to 0.0f
 
     this->outputs[OUTPUT_OUTPUT].setVoltage(
-        this->row == -1 ? 0.0f : this->params[PARAM_OFFSET + this->row].getValue()
+        this->row == -1 ? 0.0f : this->getOffset(row)
     );
 }
 
-json_t * PVolt::dataToJson() 
-{
-    json_t * root = json_object();
-//    json_object_set_new(root, "polyphony", json_integer(this->polyphony));
-    return root;
-}
-
-void PVolt::dataFromJson(json_t * root)
-{
-//    json_t * object = json_object_get(root, "polyphony");
-//    this->polyphony = object ? json_integer_value(object) : MAX_CHANNELS;
-}
-
-PVoltWidget::PVoltWidget(PVolt * module)
+PVoltWidget::PVoltWidget(PVolt * module) : ThemeWidget<PVolt>(module, "PVolt")
 {
     setModule(module);
-    setPanel(createPanel(asset::plugin(pluginInstance, "res/PVolt.svg")));
 
     // 2 screws on top.  1 on bottom leaves room for  label
     addChild(createWidget<ScrewSilver>(Vec(0, 0)));
@@ -112,6 +106,11 @@ PVoltWidget::PVoltWidget(PVolt * module)
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(8.027, 109.500)), module, PVolt::INPUT_CLOCK));
     addParam(createParamCentered<TinyTrigger>(mm2px(Vec(12.284, 115.168)), module, PVolt::PARAM_MANUAL));
     addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.460, 109.500)), module, PVolt::OUTPUT_OUTPUT));
+
+    // LcdDisplayWidget * display = createWidget<LcdDisplayWidget>(mm2px(Vec(1, 1)));
+    // display->box.size = mm2px(Vec(13.244, 8.197));
+    // display->module = module;
+    // addChild(display);
 }
 
 Model * modelPVolt = createModel<PVolt, PVoltWidget>("PVolt");
