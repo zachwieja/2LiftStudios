@@ -82,7 +82,6 @@ struct ThemeWidget : BASE
         {
 #if false
             if (this->module && this->module->getTheme() != this->theme) {
-                INFO("ThemeWidget::step CHANGING THEME");
                 std::string themePath = Themes::getTheme(this->theme)->getPath(this->name);
                 BASE::setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, themePath)));
                 this->module->setTheme(this->theme);
