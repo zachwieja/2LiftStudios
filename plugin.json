@@ -12,74 +12,75 @@
   "sourceUrl": "https://github.com/zachwieja/2LiftStudios",
   "donateUrl": "https://paypal.me/2liftstudios",
   "changelogUrl": "",
-  "modules": [
-    {
-      "slug": "Comps",
-      "name": "Comps",
-      "description": "Compare input against multiple thresholds",
-      "tags": [
-        "Logic",
-        "Utility"
-      ]
-    },
-    {
-      "slug": "Merge",
-      "name": "Merge",
-      "description": "Polyphonic merge w/ sort",
-      "tags": [
-        "Poly",
-        "Polyphonic",
-        "Utility"
-      ]
-    },
-    {
-      "slug": "PVolt",
-      "name": "PVolt",
-      "description": "Weighted random voltage selector",
-      "tags": [
-        "Random",
-        "Utility"
-      ]
-    },
-    {
-      "slug": "SampleAndHold",
-      "name": "Sample and Hold",
-      "description": "Dual sample and hold w/ track high or low",
-      "tags": [
-        "Dual",
-        "Poly",
-        "Polyphonic",
-        "Sample and hold"
-      ]
-    },
-    {
-      "slug": "Split",
-      "name": "Split",
-      "description": "Polyphonic split /w sort",
-      "tags": [
-        "Poly",
-        "Polyphonic",
-        "Utility"
-      ]
-    },
-    {
-      "slug": "Steps",
-      "name": "Steps",
-      "description": "Random step generator",
-      "tags": [
-        "Random",
-        "Utility"
-      ]
-    },
-    {
-      "slug": "VCASR",
-      "name": "VCASR",
-      "description": "Combined VCA and ASR Envelope",
-      "tags": [
-        "Envelope generator",
-        "Polyphonic",
-        "Voltage-controlled amplifier"
-      ]
-    }
-  ]
+    "modules": [
+        {
+            "slug": "Comps",
+            "name": "Comps",
+            "description": "Compare input against multiple thresholds",
+            "tags": [
+                "Logic",
+                "Utility"
+            ]
+        },
+        {
+            "slug": "Merge",
+            "name": "Merge",
+            "description": "Polyphonic merge w/ sort",
+            "tags": [
+                "Poly",
+                "Polyphonic",
+                "Utility"
+            ]
+        },
+        {
+            "slug": "ProbS",
+            "name": "ProbS",
+            "description": "Weighted probabilistic sequencer",
+            "tags": [
+                "Random",
+                "Sequencer",
+                "Utility"
+            ]
+        },
+        {
+            "slug": "SampleAndHold",
+            "name": "Sample and Hold",
+            "description": "Dual sample and hold w/ track high or low",
+            "tags": [
+                "Dual",
+                "Poly",
+                "Polyphonic",
+                "Sample and hold"
+            ]
+        },
+        {
+            "slug": "Split",
+            "name": "Split",
+            "description": "Polyphonic split /w sort",
+            "tags": [
+                "Poly",
+                "Polyphonic",
+                "Utility"
+            ]
+        },
+        {
+            "slug": "Steps",
+            "name": "Steps",
+            "description": "Random step generator",
+            "tags": [
+                "Random",
+                "Utility"
+            ]
+        },
+        {
+            "slug": "VCASR",
+            "name": "VCASR",
+            "description": "Combined VCA and ASR Envelope",
+            "tags": [
+                "Envelope generator",
+                "Polyphonic",
+                "Voltage-controlled amplifier"
+            ]
+        }
+    ]
 }
