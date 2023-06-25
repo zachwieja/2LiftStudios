@@ -19,6 +19,6 @@ class Gate : public GateBase
         Gate(Input *input, int channel);
         virtual ~Gate();
 
-        void process() override;
-        void reset() override;
+        virtual void process() override;
+        virtual void reset() override;
 };

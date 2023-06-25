@@ -15,9 +15,9 @@ class GateBase {
         virtual void process();
         virtual void reset();
 
-        bool isEdge();
-        bool isHigh();
-        bool isLow();
-        bool isLeading();
-        bool isTrailing();
+        virtual bool isEdge();
+        virtual bool isHigh();
+        virtual bool isLow();
+        virtual bool isLeading();
+        virtual bool isTrailing();
 };
