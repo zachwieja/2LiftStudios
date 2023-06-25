@@ -81,11 +81,11 @@ struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
         // it is just two sections. easiest to hard code values
         for (unsigned int s = 0; s < sizeof(module->sections) / sizeof(SampleAndHold::Section); s++) 
         {
-            addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, s * 56.0 + 11.500)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_MODE));
-            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 25.000)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_GATE));
-            addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, s * 56.0 + 31.250)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_TRIGGER));
-            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 38.500)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_POLY));
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 56.0 + 51.000)), module, s * SampleAndHold::OUTPUTS_LEN + SampleAndHold::OUTPUT_POLY));
+            addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, s * 57.0 + 11.500)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_MODE));
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 57.0 + 25.000)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_GATE));
+            addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, s * 57.0 + 31.250)), module, s * SampleAndHold::PARAMS_LEN + SampleAndHold::PARAM_TRIGGER));
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 57.0 + 38.500)), module, s * SampleAndHold::INPUTS_LEN + SampleAndHold::INPUT_POLY));
+            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, s * 57.0 + 52.500)), module, s * SampleAndHold::OUTPUTS_LEN + SampleAndHold::OUTPUT_POLY));
         }
     }
 };

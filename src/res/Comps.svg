@@ -26,12 +26,12 @@
      height="128.5mm"
      inkscape:zoom="4.9217646"
      inkscape:cx="-34.235689"
-     inkscape:cy="255.3962"
+     inkscape:cy="166.20055"
      inkscape:window-width="3499"
      inkscape:window-height="2036"
      inkscape:window-x="317"
-     inkscape:window-y="4"
-     inkscape:window-maximized="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
      id="defs2" />
@@ -57,7 +57,7 @@
        rx="1.4999996"
        ry="1.4999995" />
     <rect
-       style="fill:#b2b2b2;fill-opacity:1;stroke-width:0.264582"
+       style="fill:#bbbbbb;fill-opacity:1;stroke-width:0.264582"
        id="rect10313-0"
        width="12.811"
        height="112"
@@ -65,15 +65,6 @@
        y="6"
        rx="1.4999996"
        ry="1.4999995" />
-    <rect
-       style="fill:#fafafa;fill-opacity:1;stroke-width:0.264582"
-       id="rect10313-8"
-       width="12.811"
-       height="16.150312"
-       x="16.05336"
-       y="101.84969"
-       rx="1.4999996"
-       ry="1.4999994" />
     <rect
        style="fill:#fafafa;stroke-width:0.264583"
        id="rect10313-4"
@@ -118,13 +109,13 @@
          y="116.29145">IN</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
        x="20.401041"
        y="116.30936"
        id="text8544-7-1-4"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-86"
-         style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
          x="20.401041"
          y="116.30936">LOGIC</tspan></text>
     <path
@@ -191,13 +182,6 @@
        stroke-linejoin="round"
        id="path66-2-1-63"
        style="display:inline;stroke-width:0.264583" />
-    <rect
-       style="fill:#b2b2b2;fill-opacity:1;stroke:#00a6a9;stroke-width:0"
-       id="rect1321"
-       width="12.881"
-       height="9.999999"
-       x="16.053362"
-       y="94" />
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
@@ -211,13 +195,13 @@
          y="102.30964">GATE</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
+       style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.994257"
        y="102.30798"
        id="text8544-7-1-9-0-7"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-8-7-6"
-         style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
+         style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.994257"
          y="102.30798">THRESH</tspan></text>
   </g>

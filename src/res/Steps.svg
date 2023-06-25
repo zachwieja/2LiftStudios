@@ -61,7 +61,7 @@
        width="11.999999"
        height="9.999999"
        x="1.6220005"
-       y="94.5" />
+       y="94" />
     <rect
        style="fill:#fafafa;stroke-width:0.264582"
        id="rect10313"
@@ -106,24 +106,24 @@
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.6219997"
-       y="103.55845"
+       y="101.80798"
        id="text8544-7-1"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.6219997"
-         y="103.55845">LENGTH</tspan></text>
+         y="101.80798">LENGTH</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.6025038"
-       y="91.307983"
+       y="89.923363"
        id="text8544-7-1-3"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-5"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.6025038"
-         y="91.307983">STEP</tspan></text>
+         y="89.923363">STEP</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#010101;fill-opacity:1;stroke-width:0.264583"
@@ -137,7 +137,7 @@
          y="116.80936">OUT</tspan></text>
     <g
        id="g1509-6"
-       transform="rotate(180,7.6475034,28.850427)"
+       transform="rotate(180,7.6475034,28.386427)"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1">
       <path
          style="display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -154,7 +154,7 @@
     </g>
     <g
        id="g1509-6-1"
-       transform="rotate(180,7.6475034,41.100427)"
+       transform="rotate(180,7.6475034,40.171927)"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1">
       <path
          style="display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -173,35 +173,35 @@
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.6358695"
-       y="79.559364"
+       y="77.488365"
        id="text8544-7-1-3-4"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-5-7"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.6358695"
-         y="79.559364">ROOT</tspan></text>
+         y="77.488365">ROOT</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.5779028"
-       y="55.059364"
+       y="53.666363"
        id="text8544-7-1-3-4-1"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-5-7-7"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.5779028"
-         y="55.059364">MODE</tspan></text>
+         y="53.666363">MODE</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
        x="7.513824"
-       y="30.559362"
+       y="30.095364"
        id="text8544-7-1-3-4-1-9"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-5-7-7-3"
          style="font-size:2.82222px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
          x="7.513824"
-         y="30.559362">RESET</tspan></text>
+         y="30.095364">RESET</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"

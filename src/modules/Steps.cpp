@@ -160,18 +160,20 @@ StepsWidget::StepsWidget(Steps * module) : ThemeWidget<Steps>(module, "Steps")
     addChild(createWidget<ScrewSilver>(Vec(0, 0)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
 
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500)), module, Steps::InputId::INPUT_CLOCK));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 23.750)), module, Steps::InputId::INPUT_RESET));
+    float x = 7.622f, y = 11.5f, dy = 11.7857142857f;
 
-    addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, 36.000)), module, Steps::ParamId::PARAM_MODE));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 48.250)), module, Steps::InputId::INPUT_MODE));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Steps::InputId::INPUT_CLOCK));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_RESET));
 
-    addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, 60.500)), module, Steps::ParamId::PARAM_ROOT));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 72.750)), module, Steps::InputId::INPUT_ROOT));
-    addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, 85.000)), module, Steps::ParamId::PARAM_STEP));
-    addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(7.622, 97.250)), module, Steps::ParamId::PARAM_LENGTH));
+    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_MODE));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_MODE));
 
-    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 109.500)), module, Steps::OutputId::OUTPUT_OUTPUT));
+    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_ROOT));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_ROOT));
+    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_STEP));
+    addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_LENGTH));
+
+    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, 109.500)), module, Steps::OutputId::OUTPUT_OUTPUT));
 }
 
 void StepsWidget::appendContextMenu(Menu * menu) 
