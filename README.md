@@ -3,9 +3,12 @@
 
 Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack-style virtual modular synthesizer:
 
-- [Sample and Hold](#sampleandhold)
-- [Polyphony Utilities](#polyphony)
-- [Probability Utilities](#random)
+- [Comps](#comps) - comparative gate sequencer
+- [Merge](#merge) - polyphonic merge with  sort
+- [ProbS](#probs) - probabalistic sequencer
+- [SandH](#sampleandhold) - Sample and hold with tracking
+- [Split](#split) - polyphonic split with sort
+- [Steps](#steps) - step sequencer
 
 ## Builds/Releases
 
@@ -21,32 +24,18 @@ You'll need to be set up to build [VCV Rack](https://github.com/VCVRack/Rack) it
   make
   ```
 
-If you modify any of the resource files in ./src/res,  then you will need to update the makefile to point to the InkScape executable.  This enables the build to convert text (and other objects) to paths.  Note: after cloning the repository,  it will try to build the resources (even though they are up to date and checked into the repository).  If you don't have inkscape installed (and a path defined),  then the build will fail.  An easy workaround is to simply touch all the .svg files in the ./res directory before building.
+If you modify any of the resource files beneath ./src/res,  then you will need to update the makefile to point to the InkScape executable.  This enables the build to convert text (and other objects) to paths. It also generates the dark versions of each .svg file. 
 
-## Modules
+Note: after cloning the repository,  it will try to build the resources (even though they are up to date and checked into the repository).  If you don't have inkscape installed (and a path defined), then the build will fail.  
 
-<a name="polyphony">
+An easy workaround is to simply touch all the .svg files in the ./res and ./res/dark directories before building.
 
-### <a name="merge"></a> Merge
-Takes up to 8 monophonic inputs and produces a single polyphonic output. A context menu allows setting the polyphony of the output. Setting the polyphony to a specific number will take the signals from the first N inputs (top to bottom) regardless of connectivity. Unconnected inputs yield 0.0V outputs. There are two automatic/dynamic polyphony modes. Setting the polyphony to "Highest #" sets the polyphony to the highest (bottommost) _connected_ input.  Setting the polyphony to "# Connected" sets the polyphony to the number of _connected_ inputs and outputs a polyphonic signal with no gaps (no 0.0V signals for unconnected inputs).
+# Modules
 
-#### Sort ####
-Sorting, if enabled, is done as a function of the polyphony. All included polyphonic channels, as described above, are sorted before sending them to the output. The default order is _None_ and no sorting occurs.  The other two sort orders are _Ascending_ and _Descending_.  Channels are sorted and assigned channels starting from zero. Pressing the sort button multiple times toggles the sort order.
-
-Sorting is useful for finding the highest or lowest V/OCT and as input to arpeggiators.  Sorting polyphonic audio rate signals is possible - though perhaps less useful.
-
-### <a name="split"></a> Split
-Takes a single polyphonic input and spreads the first 8 channels across the first N outputs. Outputs with a signal have a small green light next to them. 
-
-#### Sort ####
-Sorting, if enabled, is done as a function of the polyphony. All included polyphonic channels, as described above, are sorted before sending them to the output. The default order is _None_ and no sorting occurs.  The other two sort orders are _Ascending_ and _Descending_.  Channels are sorted and assigned channels starting from zero. Pressing the sort button multiple times toggles the sort order.
-
-<a name="logic">
-
-### <a name="comps"></a> Comps
+## <a name="comps"></a> Comps
 _COMPS_ is comprised of eight voltage parameter knobs and eight corresponding _GATE_ ports.  A _GATE_ port is high when the _IN_ voltage is strictly greater than (not equal) to the corresponding _THRESH_ (threshold) voltage parameter / knob.  Gates are inverted if the invert button for the corresponding gate is depressed.   Note that inversion is intentionally imperfect.  Negating a > comparision typically results in a <= comparison.  In this case, inversion is simply a < comparison.  Gates for thresholds that are equal to the input value are never high. A low gate is always 0.0V. High gates default to 10.0V but can be configured via a popup menu to be 1.0V or 5.0V.
 
-The _LOGIC_ gate goes high when the logic condition is met. The condition is configured by (repeatedly) depressing the button next to the _LOGIC_ gate.  The three logic conditions are _None_, _Any_ and _All.
+The _LOGIC_ gate goes high when the logic condition is met. The condition is configured by (repeatedly) pressing the button next to the _LOGIC_ gate.  The three logic conditions are _None_, _Any_ and _All.
 
 * _None_ - the _LOGIC_ gate is high when the number of connected gates is greater than 0 and none of those gates are high.
 
@@ -54,68 +43,118 @@ The _LOGIC_ gate goes high when the logic condition is met. The condition is con
 
 * _All_ - the _LOGIC_ gate is high when all of the connected gates are high
 
-<a name="random">
+## <a name="merge"></a> Merge
+Takes up to 8 monophonic inputs and produces a single polyphonic output. A context menu allows setting the polyphony of the output. Setting the polyphony to a specific number will take the signals from the first N inputs (top to bottom) regardless of connectivity. Unconnected inputs yield 0.0V outputs. There are two automatic/dynamic polyphony modes. Setting the polyphony to "Highest #" sets the polyphony to the highest (bottommost) _connected_ input.  Setting the polyphony to "# Connected" sets the polyphony to the number of _connected_ inputs and outputs a polyphonic signal with no gaps (no 0.0V signals for unconnected inputs).
 
-### <a name="steps"></a> Steps
+### Sort
+Sorting, if enabled, is done as a function of the polyphony. All included polyphonic channels, as described above, are sorted before sending them to the output. The default order is _None_ and no sorting occurs.  The other two sort orders are _Ascending_ and _Descending_.  Channels are sorted and assigned channels starting from zero. Pressing the sort button multiple times toggles the sort order.
+
+Sorting is useful for finding the highest or lowest V/OCT and as input to arpeggiators.  Sorting polyphonic audio rate signals is possible - though perhaps less useful.
+
+## <a name="probs"></a> ProbS
+ProbS produces a random sequence of notes based on a weighted distribution.  ProbS allows setting of up to 7 _WEIGHT_ values that define a probability distribution. For instance, setting four _WEIGHT_ values to 1, 2, 3, and 4 results in a total weight of 10 and a probability of 1/10th, 2/10ths, 3/10ths and 4/10ths respectively.  At each _CLOCK_, a random number is generated, and a corresponding _OFFSET_ value is chosen based on the probabilty distribution.  ProbS has two modes which can be set using the _MODE_ parameter.
+
+### Mode ###
+In _Stochastic_ mode, the generated _OFFSET_ values will _approach_ the specified weighted distribution. This is much like flipping a coin. The outcome of previous coin flips do not affect subsequent coin flips. You can receive the same result over and over again, but in the long run you expect the outcome to approach the distrubution - 50/50 for coin flips. 
+
+In _Frequency_ mode, previous outcomes do affect subsequent outcomes. This is similar to drawing cards from a draw pile. When a card is drawn, it is placed in a discard pile. Once all cards are drawn and discarded, the draw pile is refreshed.  In the sample above, if we randomly generate a 3,  the probability of generating another 3 changes from 3 in 10, to 2 in 9.  In this mode, the length of a sequence is equal to the sum of the weights.
+
+### Clock
+_OFFSET_ values are generated Whenever the combined _CLOCK_ input and _MANUAL_ clock button generate a leading edge - when the previous state was off/low for both, and at least one of them is now high. 
+
+### Offset
+_OFFSET_ values can be set in the range [-10V .. 10V].  They are typically set to voltages representing pitch, but can be set to any voltage and used to probabalistically drive scenes and other module parameters.  For any given _CLOCK_, the light next to the chosen _OFFSET_ value is illuminated.
+
+Changing the _OFFSET_ value while it is currently selected (light is illuminated) will have immediate affect (before the next _CLOCK_)
+
+### Weight
+_WEIGHT_ values are integers in the range [0, 100]. if a given _WEIGHT_ value is set to zero, then the corresponding _OFFSET_ value will never be chosen.  The probability of any single _OFFSET_ value being chosen is equal to the _WEIGHT_ of the corresponding _OFFSET_ divided by the sum of the weights.
+
+The _RESET_ input has no effect in _Stochastic_ mode.  In _Frequency_ mode,  it restores all the WEIGHTS values to the currently set distribution (i.e. it refreshes the "draw pile").
+
+### Interactions
+When in _Stochastic_ mode, changing the _WEIGHT_ of any _OFFSET_ has immediate affect - changes the probability on the next _CLOCK_. When in _Frequency_ mode, adding _WEIGHT_ is always added to the set of already generated values.  Added _WEIGHT_ affects the probability once all the values have been generated - or on the next _RESET_.  When subtracting weight in _Frequency_ mode, the module will first attempt to remove the weight from already generated values (so as not to affect the current cycle).  If an insufficient number of values have been generated in the current cycle, then values are removed from the remaining ungenerated values.
+
+## <a name="sandh"></a> SandH
+_SandH_ is comprised of two polyphonic sample and hold sub-modules.  The sub-modules are completely independent and can each operate in one of four different modes.
+
+* _Track_ - in this mode, the _GATE_ is ignored, and _SandH_ is simply a pass through.  Channel values on the _INPUT_ are continuously copied to the corresponding _OUTPUT_ channels.  If no _INPUT_ is connected, then a noise value is generated for each _GATE_ channel.
+
+* _TrackHigh_ - for any given channel,  if the _GATE_ is high,  the corresponding _OUTPUT_ channel tracks (samples and copies) the _INPUT_.  When the _GATE_ goes low, the channel stops tracking and outputs the last sample (just before the gate went low) until the _GATE_ goes high again - at which point it starts tracking again.  If no _INPUT_ is connected,  then a noise value is generated for each _GATE_ channel.
+
+* _TrackLow_ - for any given channel,  if the _GATE_ is low,  the corresponding _OUTPUT_ channel tracks (samples and copies) the _INPUT_.  When the _GATE_ goes high, the channel stops tracking and outputs the last sample (just before the gate went high) until the _GATE_ goes low again - at which point it starts tracking again.  If no _INPUT_ is connected,  then a noise value is generated for each _GATE_ channel.
+
+* _SampleAndHold_ - for any given channel, when the _GATE_ goes high (leading edge), the _INPUT_ value for the corresponding channel is sampled, and copied to the matching _OUTPUT_ channel, until the next _GATE_ for that channel.  If no _INPUT_ is connected,  then a noise value is generated for each _GATE_ channel.
+
+### Gate
+A _GATE_ is high when either the channel input is high or the _MANUAL_ gate button is held down.  The _GATE_ is low when the channel input is low and the _MANUAL_ button is not held down.
+
+A leading edge (needed for _SampleAndHold_) occurs when either the _GATE_ is high or the _MANUAL_ button is held down,  but neither were high/held down before.  For instance, assume a _GATE_ is low,  and the _MANUAL_ button is not held down.  If the _MANUAL_ button is now pressed and held down, then that generates a leading edge.  While the button is held down,  if the one or more channels for the _GATE_ go from low to high, then no leading edge is detected (since the _MANUAL_ button is still being held down).
+
+### Interactions
+If there are more _INPUT_ channels than _GATE_ channels, then the last gate is used for the _INPUT_ channels without a corresponding _GATE_.   If there are more _GATE_ channels than _INPUT_ channels, then a white noise value is generated for the _GATE_ channels that have no corresponding _INPUT_ channel.  This effectively means,  if no input is connected,  then a white noise value is generated for the input.
+
+The _MANUAL_ gate button affects all channels.
+
+### <a name="split"></a> Split
+Takes a single polyphonic input and spreads the first 8 channels across the first N outputs. Outputs with a signal have a small green light next to them. 
+
+### Sort
+Sorting, if enabled, is done as a function of the polyphony. All included polyphonic channels, as described above, are sorted before sending them to the output. The default order is _None_ and no sorting occurs.  The other two sort orders are _Ascending_ and _Descending_.  Channels are sorted and assigned channels starting from zero. Pressing the sort button multiple times toggles the sort order.
+
+## <a name="steps"></a> Steps
 Produces a set of stepped voltages starting from a root voltage and then changing the voltage,  based on the _MODE_, each time the module receives a _CLOCK_ (or a _RESET_).  There are five modes: _Increment_, _Decrement_, _Exclusive_, _Inclusive_ and _Random_.
 
 * _Increment_, the output voltage starts at the _ROOT_ and moves by the _STEP_ voltage at each _CLOCK.  After _LENGTH_ iterations, the value wraps and the process repeats starting at the the _ROOT_.
 
 * _Decrement_, the output voltage starts at the _ROOT_ voltage + (_STEP_ voltage * _LENGTH_) and moves by the _STEP_ voltage at each _CLOCK_ - back toward the _ROOT_. After _LENGTH_ iterations, the value wraps back to the original starting value and the process repeats.
 
-* _Exclusive_, the output voltage starts at the _ROOT_ voltage and moves by the _STEP_ voltage at each _CLOCK.  After _LENGTH_ iterations, the steps reverse and the _OUTPUT_ voltage starts moving back toward the _ROOT_ - at which point it reverses again and the process repeats.  In _Exclusive_ mode the _OUTPUT_ voltage sits at the highest value for exactly one clock.   For instance, with a _ROOT_ of 0V, a _STEP_ of 1V and a _LENGTH_ of 4, the output voltages will be 0, 1, 2, 3, 2, 1, 0, 1, 2, ...
+* _Exclusive_, the output voltage starts at the _ROOT_ voltage and moves by the _STEP_ voltage at each _CLOCK.  After _LENGTH_ iterations, the steps reverse and the _OUTPUT_ voltage starts moving back toward the _ROOT_ - at which point it reverses again and the process repeats.  In _Exclusive_ mode the _OUTPUT_ voltage at the beginning and end of the sequence are not repated.  For instance, with a _ROOT_ of 0V, a _STEP_ of 1V and a _LENGTH_ of 4, the output voltages will be 0, 1, 2, 3, 2, 1, 0, 1, 2, ...
 
 * _Inclusive_, the output voltage starts at the _ROOT_ voltage and moves by the _STEP_ voltage at each _CLOCK.  After _LENGTH_ iterations, the steps reverse and the _OUTPUT_ voltage starts moving back toward the _ROOT_ - at which point it reverses again and the process repeats.  In _Inclusive_ mode the _OUTPUT_ voltages at beginning and end of the sequence are repeated once. For instance, with a _ROOT_ of 0V, a _STEP_ of 1V and a _LENGTH_ of 4, the output voltages will be 0, 1, 2, 3, 3, 2, 1, 0, 0, 1, 2, ...
 
-* _Random_, the output voltage is computed using a random integer value between 0 and LENGTH - 1 which is multiplied by the _STEP_ voltage and added to the _ROOT_ voltage.computed from a uniform random _LENGTH_ value which is then multiplied by the _STEP_ and added to the _ROOT_.   A new position within the _LENGTH
+* _Random_, the output voltage is computed using a random integer value between 0 and LENGTH - 1 which is multiplied by the _STEP_ voltage and added to the _ROOT_ voltage.computed from a uniform random _LENGTH_ value which is then multiplied by the _STEP_ and added to the _ROOT_.
 
-#### Clock ####
+### Clock
 The leading edge of a clock signal is defined as any non-positive voltage going positive.  Any positive value, no matter how small, will trigger the _CLOCK_ and step the _OUTPUT_ voltage toward its next value.
 
-#### Reset ####
+### Length
+The _LENGTH_ can be anything between 2 and 100 inclusive.  A _LENGTH_ of 1 would play the same note over and over again which would be better served by a different / simpler module.
+
+### Reset
 For all modes this resets the sequence and moves the output voltage back to the starting voltage - For _Increment_, _Exclusive_ and _Inclusive_ this is the _ROOT_ voltage.   For _Decrement_ this is the _ROOT_ voltage + _STEP_ voltage * _LENGTH_.
 
-#### Step ####
-This is the voltage change at each step.  The value can be positive or negative. Both initially move away from the _ROOT_ voltage for _Increment_, _Exclusive_, and _Exclusive_ modes (before snapping or moving back toward the _ROOT_ voltage).  _Decrement_ starts the furthest from the _ROOT_ voltage and then moves toward the _ROOT_.  _Random_ mode returns values that are multiples of the _STEP_ voltage offset from the _ROOT_ voltage.
+### Step
+This is the voltage change at each step.  The value can be positive or negative. Both initially move away from the _ROOT_ voltage for _Increment_, _Inclusive_, and _Exclusive_ modes (before snapping or moving back toward the _ROOT_ voltage).  _Decrement_ starts the furthest from the _ROOT_ voltage and then moves toward the _ROOT_.  _Random_ mode returns values that are multiples of the _STEP_ voltage offset from the _ROOT_ voltage.
 
-#### Length ####
-The length can be anything between 2 and 100 inclusive.  A length of 1 would play the same note over and over again which would be better served by a different / simpler module.
-
-#### Interactions ####
-When the _LENGTH_ value is reduced between successive _CLOCK_ signals and the current step is beyond the new _LENGTH_, 
-
-There are five different modes:  _Increment_, _Decrement_, _Exclusive_, _Inclusive_ and _Random_.  _Increment_, _Exclusive_ and _Inclusive_ all start at the root voltage.  And then step away from the root at each clock. For _Increment_, once iterating over _LENGTH_ steps, the value wraps back to the root and then goes up again.  For _Exclusive, and _Inclusive, once iterating over _LENGTH_ steps, the value changes direction and heads down to the root,  and will change direction again once it reaches the root.   In _Exclusive_ mode the root value and value furthest from the root are present for one clock.
-
-#### Sort ####
+### Sort ####
 Sorting, if enabled, is done across all incoming channels.  If the polyphony on the cable is N and the actual number of signals is < N, then the zeroes coming in on those unused channels will be included in the sort.  The default sorting order is None and channels are routed to the outputs as you would expect.   The other two orders are _Ascending_ an _Descending_.  
 
-<a name="quantizers">
+### Interactions
+When the _LENGTH_ value is reduced between successive _CLOCK_ signals and the current step is beyond the new _LENGTH_, the next step is adjusted - depending on the mode.  For _Increment_ mode the current step is set to 0 (the first step).   For _Decrement_, _Inclusive_, and _Exclusive_, the value is set to _LENGTH_ - 1.
 
-### <a name="quant"></a> Quant
+## <a name="quant"></a> Quant
+DO NOT USE THIS - It is bugger (memory corruption and will crash VCV Rack)
 
 Takes a single polyphonic input, quantizes each channel to the closest note within an evenly tempered scale, and copies the quantized values to the output.  This module does not support non-symmetric scales (different values on they way down). There are three separate sets of controls for the the scale, root and octave parameters.
 
-#### Scale
+### Scale
 The scale can be set to any of 44 preconfigued scales. The names of the scales will appear in the hover text when _spinning_ the knob. If the CV input is connected, it completely overrides the knob.  That is, it is not additive.  Valid CV values start at 0.0V and each 0.1V will change to the next scale.  This allows for up to 100 scales and allows for backward compatibility when adding scales.  Values below or above the range of scales result in selection of the first or last scale respectively.  The supported scales are documented here <a href="https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes">here</a>
 
-#### Root
+### Root
 The root knob raises or lowers the voltage of the root note by 0 to N-1 steps. For instance, in a typical 12 step scale, each step represents 1/12 volts, yielding an overall range of [-11/12, +11/12] volts.  A quartertone scale yields a range of [-23/24, +23/24] volts. Connecting the CV input is additive. The combined values are clamped at [-(N-1)/N, (N-1)/N] volts, where N is the number of steps in the scale (12 for most scales).  The CV value is treated as monophonic.  The value of the first channel is used across all channels of the IN input.
 
-#### Octave
+### Octave
 The octave note adds from -5V to +5V in 1V increments to the output signal to raise or lower the pitch by an equivalent number of octaves. If the CV input is connected, the voltage is added to the value from the knob and then the floor of the resultant value is clamped to the range [-5V, +5V].  For instance, a knob value of +1V added to a CV input of 1.333V results in an overall +2V (or 2 octaves).  Subtracting 1.333V from 1V yields -0.333V which is then floored to -1V.  The CV value is treated as monophonic.  The value of the first channel is used across all channels of the IN input.
 
-#### In
+### In
 The input can be polyphonic.  Each channel is clamped to [-5V, +5V].  All channels are affected equally by the scale, root and octave parameters.
 
-#### Out
+### Out
 The output has the same number of channels as the input.  Each channel is clamped to [-5V, +5V].
 
-#### Parameter Interaction
-
+### Parameter Interaction
 If the root knob (and or combined root CV) is non-zero, and the scale is changed to one with a different number of steps (for instance between any 12 step scale to the 24 step quartertone scale), the the root value is adjusted to snap to the closest root within that scale.  For instance, root offsets for a 12 step scale are in the range [1/12V, 11/12V].  If the root is set to 6/12V, and the scale is changed to a 53 step evenly tempered scale,  then the root is recalibrated to the closest step in that scale - which is 26/53V.
 
-#### Maths
-
-All notes are quantized to the closest numerical/mathematical note in the scale. For instance, the C major scale is modeled as 7 notes over an evenly tempered 12 step scale with intervals of 2, 2, 1, 2, 2, 2 and 1 steps. The values for those 7 notes are equivalent to 0, 2/12, 4/12, 5/12, 7/12, 9/12 and 11/12 volts.  The root and octave offsets are added to the input value and then the decimal portion of the voltage is snapped to one of those voltages.  Any decimal portion in the range [0V, 1/12V) snaps to 0V. Anything in the range [1/12V, 3/12V) snaps to 2/12V. Anything in the range [3/12V, 9/24V) snaps to 4/12V and so forth.  Anything in the range [23/24V, 26/24V) snaps to 1V.
-
-
+### Maths
+All notes are quantized to the closest numerical/mathematical note in the scale. For instance, the C major scale is modeled as 7 notes over an evenly tempered 12 step scale with intervals of 2, 2, 1, 2, 2, 2 and 1 steps. The values for those 7 notes are equivalent to 0, 2/12, 4/12, 5/12, 7/12, 9/12 and 11/12 volts.  The root and octave offsets are added to the input value and then the decimal portion of the voltage is snapped to one of those voltages.  Any decimal portion in the range [-23/24V, 1/12V) snaps to 0V. Anything in the range [1/12V, 3/12V) snaps to 2/12V. Anything in the range [3/12V, 9/24V) snaps to 4/12V and so forth.  Anything in the range [23/24V, 26/24V) snaps to 1V.  Note the use of range notation. Open square brackets indicate inclusive values, and closing parenthesis indicate exclusive values.
