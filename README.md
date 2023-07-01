@@ -6,7 +6,7 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 - [Comps](#comps) - comparative gate sequencer
 - [Merge](#merge) - polyphonic merge with  sort
 - [ProbS](#probs) - probabalistic sequencer
-- [SandH](#sampleandhold) - Sample and hold with tracking
+- [SandH](#sandh) - Sample and hold with tracking
 - [Split](#split) - polyphonic split with sort
 - [Steps](#steps) - step sequencer
 
@@ -91,8 +91,13 @@ A _GATE_ is high when either the channel input is high or the _MANUAL_ gate butt
 
 A leading edge (needed for _SampleAndHold_) occurs when either the _GATE_ is high or the _MANUAL_ button is held down,  but neither were high/held down before.  For instance, assume a _GATE_ is low,  and the _MANUAL_ button is not held down.  If the _MANUAL_ button is now pressed and held down, then that generates a leading edge.  While the button is held down,  if the one or more channels for the _GATE_ go from low to high, then no leading edge is detected (since the _MANUAL_ button is still being held down).
 
+### Noise
+There are two different types of noise _Random_ and _Gaussian_. _Random_ noise is simply a random value in the specified voltage range.  There are no guarantees as to constant power, etc.  _Gaussian_ is implemented as white noise (with power guarantees). The default is set to _Random_, because it is consumes less CPU. Running 16 gates into both sub-modules with no input would generate 32 separate noise values (which consumes alot of CPU).
+
 ### Interactions
-If there are more _INPUT_ channels than _GATE_ channels, then the last gate is used for the _INPUT_ channels without a corresponding _GATE_.   If there are more _GATE_ channels than _INPUT_ channels, then a white noise value is generated for the _GATE_ channels that have no corresponding _INPUT_ channel.  This effectively means,  if no input is connected,  then a white noise value is generated for the input.
+If there are more _INPUT_ channels than _GATE_ channels, then the last gate is used for the _INPUT_ channels without a corresponding _GATE_.   If there are more _GATE_ channels than _INPUT_ channels, then a noise value is generated for the _GATE_ channels that have no corresponding _INPUT_ channel.  This effectively means,  if no input is connected,  then a noise value is generated for the input.
+
+If there is no _INPUT_ or _GATE_ connected, then a single noise value is emitted.  This value is still goverened by the tracking mode.   That is, with no _GATE_ connected,  the _GATE_ input is always low.  If the _MODE_ is set to _Track_, or _TrackLow_, then a single continuously changing noise value will be sent to the _OUTPUT_.   If the _MODE_ is set to _TrackHigh_,  then a continously changing value will be sent to the _OUTPUT_ when the _MANUAL_ gate button is depressed.  If the _MODE_ is set to _SampleAndHold_,  then the last sampled value (from the last gate (either from the _GATE_ input or the _MANUAL_ button)) is sent to the _OUTPUT_.
 
 The _MANUAL_ gate button affects all channels.
 
