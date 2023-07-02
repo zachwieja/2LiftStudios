@@ -139,7 +139,7 @@ Sorting, if enabled, is done across all incoming channels.  If the polyphony on 
 When the _LENGTH_ value is reduced between successive _CLOCK_ signals and the current step is beyond the new _LENGTH_, the next step is adjusted - depending on the mode.  For _Increment_ mode the current step is set to 0 (the first step).   For _Decrement_, _Inclusive_, and _Exclusive_, the value is set to _LENGTH_ - 1.
 
 ## <a name="quant"></a> Quant
-DO NOT USE THIS - It is bugger (memory corruption and will crash VCV Rack)
+DO NOT USE THIS - It is a work in progress and buggy (memory corruption and will crash VCV Rack)
 
 Takes a single polyphonic input, quantizes each channel to the closest note within an evenly tempered scale, and copies the quantized values to the output.  This module does not support non-symmetric scales (different values on they way down). There are three separate sets of controls for the the scale, root and octave parameters.
 

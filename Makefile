@@ -1,6 +1,6 @@
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
 
-RACK_DIR ?= ../..
+RACK_DIR ?= ../../sdk-2.1.2
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS += -Isrc/common
@@ -32,8 +32,12 @@ all: svg
 
 INKSCAPE = '/c/program files/inkscape/bin/inkscape.exe'
 
-svg: $(subst src/res/,res/,$(wildcard src/res/*.svg)) $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
-.SECONDARY: $(subst src/res/,res/,$(wildcard src/res/*.svg))  $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
+svg: light dark red blue
+
+light: $(subst src/res/,res/,$(wildcard src/res/*.svg))
+dark: $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
+red: $(subst src/res/,res/red/,$(wildcard src/res/*.svg))
+blue: $(subst src/res/,res/blue/,$(wildcard src/res/*.svg))
 
 # this copies our SVG files to the ./res  directory and
 # then flattens everything (especially text) into paths
@@ -50,5 +54,11 @@ res/dark/%.svg: res/%.svg scripts/dark.sed
 	mkdir -p $(dir $@)
 	sed -f scripts/dark.sed $< > $@
 
+res/red/%.svg: res/%.svg scripts/red.sed
+	mkdir -p $(dir $@)
+	sed -f scripts/red.sed $< > $@
 
+res/blue/%.svg: res/%.svg scripts/blue.sed
+	mkdir -p $(dir $@)
+	sed -f scripts/blue.sed $< > $@
 
