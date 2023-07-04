@@ -31,11 +31,13 @@ all: svg
 # inkscape is only necessary if SVG sources are changed
 INKSCAPE = '/c/program files/inkscape/bin/inkscape.exe'
 
-svg: common light dark
+# add additional themes here
 
+svg: common light dark # themename
 common: $(subst src/res/common,res/common,$(wildcard src/res/common/*.svg))
 light: $(subst src/res/,res/light/,$(wildcard src/res/*.svg))
 dark: $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
+# themename: $(subst src/res/,res/themename/,$(wildcard src/res/*.svg))
 
 # this copies SVG files to  ./build/res  directory  and
 # then flattens everything (especially text) into paths
@@ -59,3 +61,10 @@ res/light/%.svg: build/res/%.svg scripts/light.sed
 res/dark/%.svg: build/res/%.svg scripts/dark.sed
 	mkdir -p $(dir $@)
 	sed -f scripts/dark.sed $< > $@
+
+# duplicate these lines above for each additional theme
+# by substituting the theme name in the three locaitons
+
+#res/themename/%.svg: build/res/%.svg scripts/themename.sed
+#	mkdir -p $(dir $@)
+#	sed -f scripts/themename.sed $< > $@
