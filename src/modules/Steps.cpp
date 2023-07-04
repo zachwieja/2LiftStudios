@@ -158,22 +158,23 @@ StepsWidget::StepsWidget(Steps * module) : ThemeWidget<Steps>(module, "Steps")
 
     // skinny module.  two screws leaves room for a label
     addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-    addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
+    addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    float x = 7.622f, y = 11.5f, dy = 11.7857142857f;
+    float x = 7.622f, y = 11.5f, dy = (109.5f - y) / 7;
 
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Steps::InputId::INPUT_CLOCK));
     addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_RESET));
 
     addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_MODE));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_MODE));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += 9.5f)), module, Steps::InputId::INPUT_MODE));
 
-    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_ROOT));
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_ROOT));
-    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_STEP));
+    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += 11.5f)), module, Steps::ParamId::PARAM_ROOT));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += 9.5f)), module, Steps::InputId::INPUT_ROOT));
+
+
+    addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += 11.5f)), module, Steps::ParamId::PARAM_STEP));
     addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y += dy)), module, Steps::ParamId::PARAM_LENGTH));
-
-    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, 109.500)), module, Steps::OutputId::OUTPUT_OUTPUT));
+    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::OutputId::OUTPUT_OUTPUT));
 }
 
 void StepsWidget::appendContextMenu(Menu * menu) 

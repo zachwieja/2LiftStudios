@@ -10,8 +10,7 @@
 struct Steps : ThemeModule
 {
     public:
-        enum ParamId
-        {
+        enum ParamId {
             PARAM_LENGTH,
             PARAM_MODE,
             PARAM_ROOT,
@@ -19,8 +18,7 @@ struct Steps : ThemeModule
             PARAMS_LEN
         };
 
-        enum InputId
-        {
+        enum InputId {
             INPUT_CLOCK,
             INPUT_MODE,
             INPUT_RESET,
@@ -28,19 +26,16 @@ struct Steps : ThemeModule
             INPUTS_LEN
         };
 
-        enum OutputId
-        {
+        enum OutputId {
             OUTPUT_OUTPUT,
             OUTPUTS_LEN
         };
 
-        enum LightId
-        {
+        enum LightId {
             LIGHTS_LEN
         };
 
-        enum Mode
-        {
+        enum Mode {
             MODE_FIRST = 0,
             MODE_RANDOM = MODE_FIRST,
             MODE_INCREMENT,

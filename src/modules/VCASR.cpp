@@ -28,7 +28,6 @@ struct VCASR : ThemeModule
 
         enum OutputId {
             OUTPUT_OUTPUT,
-            OUTPUT_START,
             OUTPUT_END,
             OUTPUT_ENV,
             OUTPUTS_LEN
@@ -66,7 +65,6 @@ struct VCASR : ThemeModule
 
         Gate * gates[MAX_CHANNELS];
         Envelope envelopes[MAX_CHANNELS];
-        dsp::PulseGenerator startTriggers[MAX_CHANNELS];
         dsp::PulseGenerator endTriggers[MAX_CHANNELS];
 
     public:
@@ -82,7 +80,6 @@ struct VCASR : ThemeModule
             configParam(PARAM_RELEASE, 0.0f,  60.0f,  10.0f, "Release", "s");
 
             configOutput(OUTPUT_OUTPUT, "Output");
-            configOutput(OUTPUT_START, "Start of cycle");
             configOutput(OUTPUT_ENV, "Envelope");
             configOutput(OUTPUT_END, "End of cycle");
 
@@ -128,7 +125,6 @@ struct VCASR : ThemeModule
 
             for (int c = 0; c < numChannels; c++) {
 
-                this->startTriggers[c].process(args.sampleTime);
                 this->endTriggers[c].process(args.sampleTime);
 
                 // this first section advances  envelope  stage
@@ -148,9 +144,7 @@ struct VCASR : ThemeModule
                     if (gate->isLeading() || this->manualGate->isLeading()) {
                         envelope->stage = envelope->stage == STAGE_RELEASE ? STAGE_ATTACK : STAGE_RELEASE;
 
-                        if (envelope->stage == STAGE_ATTACK)
-                            this->startTriggers[c].trigger();
-                        else {
+                        if (envelope->stage != STAGE_ATTACK) {
                             this->endTriggers[c].trigger();
                         }
                     }
@@ -162,7 +156,6 @@ struct VCASR : ThemeModule
                 else if (envelope->stage == STAGE_RELEASE) {
                     if ((gate->isLeading() && this->manualGate->isLow()) || (gate->isLow() && this->manualGate->isLeading())) {
                         envelope->stage = STAGE_ATTACK;
-                        this->startTriggers[c].trigger();
                     }
                 }
 
@@ -199,14 +192,12 @@ struct VCASR : ThemeModule
                 // it is cheaper to set the outputs than it  is
                 // to check if there are any  connected  cables
 
-                this->outputs[OUTPUT_START].setVoltage(this->startTriggers[c].remaining > 0.0f ? 10.0f : 0.0f, c);
                 this->outputs[OUTPUT_END].setVoltage(this->endTriggers[c].remaining > 0.0f ? 10.0f : 0.0f, c);
                 this->outputs[OUTPUT_OUTPUT].setVoltage(this->inputs[INPUT_INPUT].getVoltage(c) * envelope->value * sustain, c);
                 this->outputs[OUTPUT_ENV].setVoltage(envelope->value * 10.0f, c);
             }
 
             this->outputs[OUTPUT_OUTPUT].channels = numChannels;
-            this->outputs[OUTPUT_START].channels  = numChannels;
             this->outputs[OUTPUT_END].channels    = numChannels;
             this->outputs[OUTPUT_ENV].channels    = numChannels;
         }
@@ -236,7 +227,7 @@ struct VCASRWidget : ThemeWidget<VCASR>
             // there are nine inputs/outputs/params. 8 even spaces
             // starting at 11.500 mm and then ending at 109.500 mm
 
-            double x = 7.622, y = 11.5, dy = (109.5 - y) / 8;
+            double x = 7.622, y = 11.5, dy = (109.5 - y) / 7;
 
             // column centered at 7.622mm (half of 3HP)
             addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, VCASR::INPUT_INPUT));
@@ -248,7 +239,6 @@ struct VCASRWidget : ThemeWidget<VCASR>
             addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, VCASR::PARAM_RELEASE));
 
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_OUTPUT));
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_START));
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_END));
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_ENV));
         }

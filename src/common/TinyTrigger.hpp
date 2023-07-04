@@ -9,7 +9,7 @@ struct TinyTrigger : app::SVGSwitch
     TinyTrigger()
     {
         momentary = true;
-        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TinyButtonGray.svg")));
-        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TinyButtonDarkGray.svg")));
+        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/common/TinyButtonGray.svg")));
+        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/common/TinyButtonDarkGray.svg")));
     }
 };

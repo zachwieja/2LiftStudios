@@ -198,14 +198,14 @@ struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
         float y = 11.50, dy = 13.5;
         addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, y)), module, SampleAndHold::PARAM_MODE1));
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_GATE1));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, y + 6.0)), module, SampleAndHold::PARAM_GATE1));
+        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, y + 6.25)), module, SampleAndHold::PARAM_GATE1));
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_POLY1));
         addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, y + dy + 0.5)), module, SampleAndHold::OUTPUT_POLY1));
 
         y = 68.5;
         addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, y)), module, SampleAndHold::PARAM_MODE2));
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_GATE2));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, y + 6.0)), module, SampleAndHold::PARAM_GATE2));
+        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, y + 6.25)), module, SampleAndHold::PARAM_GATE2));
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_POLY2));
         addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, y + dy + 0.5)), module, SampleAndHold::OUTPUT_POLY2));
     }

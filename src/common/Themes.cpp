@@ -7,10 +7,8 @@
 namespace Themes
 {
     static const Theme themes[] = {
-        Theme("Light", "res/"),
-        Theme("Dark", "res/dark/"),
-        Theme("Blood", "res/blood/"),
-        Theme("Blue", "res/blue/")
+        Theme("Light", "res/light/", true),
+        Theme("Dark", "res/dark/", false)
 
         // add new ones below (don't change the order)
 

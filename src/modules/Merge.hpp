@@ -13,41 +13,34 @@
 struct Merge : ThemeModule
 {
     public:
+        static const int NUM_ROWS = 7;
+
         enum ParamId
         {
             PARAM_SORT,
             PARAMS_LEN
         };
 
-        enum InputId
-        {
-            // this is a hack. we don't have individual symbols
-            // we know we have 8 inputs numbered  0  through  7
-
-            INPUTS_LEN = 8
+        enum InputId {
+            INPUTS_LEN = NUM_ROWS
         };
 
-        enum OutputId
-        {
+        enum OutputId {
             OUTPUT_POLY,
             OUTPUTS_LEN
         };
 
-        enum LightId
-        {
+        enum LightId {
             LIGHTS_LEN
         };
 
     public:
         // these are special sentinel values for the  polyphony
+        // value is changed with contextMenu and stored in json
 
         static const int POLYPHONY_NUMBER_IN = -1;
         static const int POLYPHONY_HIGHEST_IN = 0;
-        static const int MAX_CHANNELS = INPUTS_LEN;
-
-        // value is changed with contextMenu and stored in json
-
-        int polyphony = MAX_CHANNELS;
+        int polyphony = NUM_ROWS;
 
     public:
         Merge();

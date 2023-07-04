@@ -1,0 +1,10 @@
+s/fill:#bbbbbb/fill:#262628/g
+s/stroke:#bbbbbb/stroke:#262628/g
+s/fill:#fafafa/fill:#525252/g
+s/stroke:#fafafa/stroke:#282828/g
+s/stroke:#010101/stroke:#FF9000/g
+s/stroke-width:0.1/stroke-width:0.3/g
+s/fill:#e6e6e6/fill:#525252/g
+s/fill:#010101/fill:#C9C9C9/g
+s/fill:#020202/fill:#C9C9C9/g
+s/fill:#030303/fill:#C9C9C9/g

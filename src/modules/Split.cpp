@@ -25,7 +25,7 @@ void Split::process(const ProcessArgs &args)
     // we only handle so many channels ignore anything more
 
     int channels = inputs[POLY_INPUT].getChannels();
-    if (channels > MAX_CHANNELS) channels = MAX_CHANNELS;
+    if (channels > NUM_ROWS) channels = NUM_ROWS;
 
     // we don't want different code for sorted vs unsorted. 
     // put the voltages into an array and then sort  array
@@ -73,45 +73,16 @@ struct SplitWidget : ThemeWidget<Split, ModuleWidget>
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
         // column centered at 7.622mm (half of 3HP)
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500)), module, Split::POLY_INPUT));
-        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(11.000, 17.618)), module, Split::PARAM_SORT));
 
-        for (int c = 0; c < Split::MAX_CHANNELS; c++)
-        {
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 27.000 + c * 11.7857142)), module, c));
-            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(11.872, 31.000 + c * 11.7857142)), module, c));
+        float x = 7.622f, y = 11.5f, dy = (109.5 - 11.5) / module->NUM_ROWS;
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Split::POLY_INPUT));
+        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(x + 4.0f, y + 6.25f)), module, Split::PARAM_SORT));
+
+        for (int c = 0; c < Split::NUM_ROWS; c++) {
+            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, c));
+            addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x + 4.25f, y + 4.0f)), module, c));
         }
     }
 };
-
-#if false
-void SplitWidget::appendContextMenu(Menu *menu)
-{
-    Split * module = dynamic_cast<Split *>(this->module);
-    menu->addChild(new MenuSeparator);
-
-    // this is mostly a hack, but ... dynamic and automatic
-    // are special cases of polyphony with values -1 and  0
-
-    std::vector<std::string> labels;
-    labels.push_back("# Connected");
-    labels.push_back("Highest #");
-
-    for (int c = 1; c <= Merge::MAX_CHANNELS; c++)
-    {
-        labels.push_back(string::f("%d", c));
-    }
-
-    // the indexes are zero based. so adjust with the +/- 1.
-    // > 0 is exact polyphony,  <= 0 has a special  meaning
-
-    menu->addChild(createIndexSubmenuItem(
-        "Polyphony", labels,
-        [=]()
-        { return module->polyphony + 1; },
-        [=](int polyphony)
-        { module->polyphony = polyphony - 1; }));
-};
-#endif
 
 Model *modelSplit = createModel<Split, SplitWidget>("Split");

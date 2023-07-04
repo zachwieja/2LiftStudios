@@ -98,16 +98,17 @@ CompsWidget::CompsWidget(Comps * module) : ThemeWidget<Comps>(module, "Comps")
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    for (int row = 0; row < Comps::NUM_ROWS; row++)
-    {
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(8.027, 11.500 + row * 11.7857142)), module, Comps::ParamId::PARAM_THRESH + row));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(21.460, 11.500 + row * 11.7857142)), module, Comps::OutputId::OUTPUT_GATE + row));
-        addParam(createParamCentered<TinyGrayRedButton>(mm2px(Vec(26.460, 15.500 + row * 11.7857142)), module, Comps::ParamId::PARAM_MODE + row));
+    float x1 = 8.027f, x2 = 22.460, dy = (109.5f - 11.5f) / module->NUM_ROWS, y = 11.5f - dy;
+
+    for (int row = 0; row < module->NUM_ROWS; row++) {
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(x1, y += dy)), module, Comps::ParamId::PARAM_THRESH + row));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, y)), module, Comps::OutputId::OUTPUT_GATE + row));
+        addParam(createParamCentered<TinyGrayRedButton>(mm2px(Vec(x2 + 4.5f, y + 4.0f)), module, Comps::ParamId::PARAM_MODE + row));
     }
 
-    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(8.027, 109.500)), module, Comps::InputId::INPUT_INPUT));
-    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.460, 109.500)), module, Comps::OutputId::OUTPUT_LOGIC));
-    addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(26.282, 115.168)), module, Comps::ParamId::PARAM_LOGIC));
+    addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, y += dy)), module, Comps::InputId::INPUT_INPUT));
+    addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, y)), module, Comps::OutputId::OUTPUT_LOGIC));
+    addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(x2 + 4.0f, y + 6.25f)), module, Comps::ParamId::PARAM_LOGIC));
 }
 
 void CompsWidget::appendContextMenu(Menu * menu) 

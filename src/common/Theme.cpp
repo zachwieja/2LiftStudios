@@ -4,10 +4,10 @@
 #include "plugin.hpp"
 #include "Theme.hpp"
 
-
-Theme::Theme(std::string name, std::string directory) {
+Theme::Theme(std::string name, std::string directory, bool hasScrews) {
     this->name = name;
     this->directory = directory;
+    this->screws = hasScrews;
 }
 
 const std::string Theme::getName() const {
@@ -21,4 +21,8 @@ const std::string Theme::getDirectory() const
 
 const std::string Theme::getPath(std::string name) const {
     return this->directory + name + ".svg";
+}
+
+bool Theme::drawScrews() const {
+    return this->screws;
 }

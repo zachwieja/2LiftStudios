@@ -19,7 +19,7 @@ Merge::Merge()
 void Merge::process(const ProcessArgs &args)
 {
     int channels = 0;
-    float values[MAX_CHANNELS];
+    float values[NUM_ROWS];
 
     // use configured polyphony to determine  how  channels
     // are assigned. fastest and easiest is separate  loops
@@ -40,7 +40,7 @@ void Merge::process(const ProcessArgs &args)
     // to last connected channel (zero all other  channels)
     
     else if (this->polyphony == POLYPHONY_HIGHEST_IN) {
-		for (int c = 0; c < MAX_CHANNELS; c++) {
+		for (int c = 0; c < NUM_ROWS; c++) {
             if (! inputs[c].isConnected())
                 values[c] = 0.0f;
                 //outputs[OUTPUT_POLY].setVoltage(0.0f, c);
@@ -55,7 +55,7 @@ void Merge::process(const ProcessArgs &args)
     // compact channel count = number of connected channels
 
     else if (this->polyphony == POLYPHONY_NUMBER_IN) {
-		for (int c = 0; c < MAX_CHANNELS; c++) {
+		for (int c = 0; c < NUM_ROWS; c++) {
             if (inputs[c].isConnected()) {
   				values[channels++] = this->inputs[c].getVoltage();
                 // outputs[OUTPUT_POLY].setVoltage(inputs[c].getVoltage(), channels++);
@@ -91,7 +91,7 @@ void Merge::dataFromJson(json_t * root)
 {
     ThemeModule::dataFromJson(root);
     json_t * object = json_object_get(root, "polyphony");
-    this->polyphony = object ? json_integer_value(object) : MAX_CHANNELS;
+    this->polyphony = object ? json_integer_value(object) : NUM_ROWS;
 }
 
 struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
@@ -105,12 +105,15 @@ struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
         // column centered at 7.622mm (half of 3HP)
-        for (int c = 0; c < module->MAX_CHANNELS; c++) {
-            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, 11.500 + c * 11.7857142)), module, c));
+
+        float x = 7.622f, dy = (109.5f - 11.5f) / module->NUM_ROWS, y = 11.5f - dy;
+        
+        for (int c = 0; c < module->NUM_ROWS; c++) {
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, c));
         }
 
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, 109.500)), module, Merge::OUTPUT_POLY));
-        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(11.000, 115.618)), module, Merge::PARAM_SORT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Merge::OUTPUT_POLY));
+        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(x + 4.0f, y + 6.25f)), module, Merge::PARAM_SORT));
     }
 
     void appendContextMenu(Menu * menu) override
@@ -125,7 +128,7 @@ struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
         labels.push_back("# Connected");
         labels.push_back("Highest #");
 
-        for (int c = 1; c <= Merge::MAX_CHANNELS; c++) {
+        for (int c = 1; c <= Merge::NUM_ROWS; c++) {
             labels.push_back(string::f("%d", c));
         }
 

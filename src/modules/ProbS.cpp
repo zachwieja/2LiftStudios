@@ -8,11 +8,9 @@
 
 struct ProbS : ThemeModule {
     public:
-        static const int NUM_ROWS = 7;
-        static constexpr float EPSILON = 0.001f;
+        static const int NUM_ROWS = 6;
 
-        enum ParamId
-        {
+        enum ParamId {
             PARAM_CLOCK,
             PARAM_MODE,
             PARAM_OFFSET,
@@ -53,8 +51,8 @@ struct ProbS : ThemeModule {
         static constexpr float OFFSET_MAXIMUM =  10.0f;
         static constexpr float OFFSET_DEFAULT =   0.0f;
 
-        Mode mode = MODE_DEFAULT;
-        int row   = -1;
+        Mode mode  = MODE_DEFAULT;
+        int row    = -1;
         bool clock =  0;
         bool reset =  0;
 
@@ -188,7 +186,7 @@ struct ProbS : ThemeModule {
         }
 
         inline bool isTriggered(int input, int param, bool * state) {
-            bool temp = this->inputs[input].getVoltage() > EPSILON || this->params[param].getValue() == 1;
+            bool temp = this->inputs[input].getVoltage() > 0.0f || this->params[param].getValue() == 1;
         
             if (temp && ! * state) {
                 * state = temp;
@@ -211,23 +209,22 @@ struct ProbSWidget : ThemeWidget<ProbS>
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        double x1 = 8.027f, x2 = 22.460, y = 11.500f, dy = 11.78571428;
+        double x1 = 8.027f, x2 = 22.460, y = 11.5f, dy = (109.5f - y) / (module->NUM_ROWS + 1);
 
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, y)), module, ProbS::INPUT_CLOCK));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x1 + 4.4f, y + 5.75f)), module, ProbS::PARAM_CLOCK));
+        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x1 + 4.4f, y + 6.25f)), module, ProbS::PARAM_CLOCK));
         this->addParam(createParamCentered<Trimpot>(mm2px(Vec(x2, y)), module, ProbS::PARAM_MODE));
 
-        for (int row = 0; row < ProbS::NUM_ROWS; row++)
-        {
-                addParam(createParamCentered<Trimpot>(mm2px(Vec(x1, y += dy)), module, ProbS::PARAM_WEIGHT + row));
+        for (int row = 0; row < ProbS::NUM_ROWS; row++) {
+                y += dy;
+                addParam(createParamCentered<Trimpot>(mm2px(Vec(x1, y)), module, ProbS::PARAM_WEIGHT + row));
                 addParam(createParamCentered<Trimpot>(mm2px(Vec(x2, y)), module, ProbS::PARAM_OFFSET + row));
-                addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x2 + 4.000f, y + 4.000f)), module, row));
+                addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x2 + 4.25f, y + 4.0f)), module, row));
         }
         
-        y = 109.5f;
-
+        y += dy;
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, y)), module, ProbS::INPUT_RESET));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x1 + 4.4f, y + 5.75f)), module, ProbS::PARAM_RESET));
+        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x1 + 4.0f, y + 6.25f)), module, ProbS::PARAM_RESET));
         addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, y)), module, ProbS::OUTPUT_OUTPUT));
     }
 };

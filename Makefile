@@ -18,7 +18,7 @@ SOURCES += $(wildcard src/common/*.cpp)
 # Add files to the ZIP package when running `make dist`
 # The compiled plugin and "plugin.json" are automatically added.
 
-DISTRIBUTABLES += res
+DISTRIBUTABLES += res/common res/dark res/light
 DISTRIBUTABLES += $(wildcard LICENSE*)
 DISTRIBUTABLES += $(wildcard presets)
 
@@ -29,36 +29,33 @@ include $(RACK_DIR)/plugin.mk
 all: svg
 
 # inkscape is only necessary if SVG sources are changed
-
 INKSCAPE = '/c/program files/inkscape/bin/inkscape.exe'
 
-svg: light dark red blue
+svg: common light dark
 
-light: $(subst src/res/,res/,$(wildcard src/res/*.svg))
+common: $(subst src/res/common,res/common,$(wildcard src/res/common/*.svg))
+light: $(subst src/res/,res/light/,$(wildcard src/res/*.svg))
 dark: $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
-red: $(subst src/res/,res/red/,$(wildcard src/res/*.svg))
-blue: $(subst src/res/,res/blue/,$(wildcard src/res/*.svg))
 
-# this copies our SVG files to the ./res  directory and
+# this copies SVG files to  ./build/res  directory  and
 # then flattens everything (especially text) into paths
 
-res/%.svg: src/res/%.svg
+build/res/%.svg: src/res/%.svg
 	mkdir -p $(dir $@)
 	cp $< $(dir $@)
 	$(INKSCAPE) -g --batch-process --actions='EditSelectAll;SelectionUnGroup;EditSelectAll;EditUnlinkClone;EditSelectAll;ObjectToPath;FileSave' $@
 
-# this takes the flattened SVG files and replaces the
-# known light theme colors with the dark theme colors
+# these rules take the flattened SVG files and replaces
+# the colors with each of  the  theme  specific  colors
 
-res/dark/%.svg: res/%.svg scripts/dark.sed
+res/common/%.svg: src/res/common/%.svg
+	mkdir -p $(dir $@)
+	cp $< $(dir $@)
+
+res/light/%.svg: build/res/%.svg scripts/light.sed
+	mkdir -p $(dir $@)
+	sed -f scripts/light.sed $< > $@
+
+res/dark/%.svg: build/res/%.svg scripts/dark.sed
 	mkdir -p $(dir $@)
 	sed -f scripts/dark.sed $< > $@
-
-res/red/%.svg: res/%.svg scripts/red.sed
-	mkdir -p $(dir $@)
-	sed -f scripts/red.sed $< > $@
-
-res/blue/%.svg: res/%.svg scripts/blue.sed
-	mkdir -p $(dir $@)
-	sed -f scripts/blue.sed $< > $@
-

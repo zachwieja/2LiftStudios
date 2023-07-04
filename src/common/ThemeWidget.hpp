@@ -29,6 +29,10 @@ struct ThemeWidget : BASE
                 themePath = Themes::getTheme(this->theme = module->getTheme())->getPath(this->name);
                 BASE::setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, themePath)));
             }
+
+            // this half and half code was  stolen  from  benjamin  dill.
+            // benajamin is the author of the stoermelder plugin modules.
+
             else {
                 HalfPanel * darkPanel = new HalfPanel();
                 darkPanel->widget = this;
@@ -78,20 +82,7 @@ struct ThemeWidget : BASE
             BASE::appendContextMenu(menu);
         }
 
-        void step() override
-        {
-#if false
-            if (this->module && this->module->getTheme() != this->theme) {
-                std::string themePath = Themes::getTheme(this->theme)->getPath(this->name);
-                BASE::setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, themePath)));
-                this->module->setTheme(this->theme);
-            }
-#endif
-            BASE::step();
-        }
-
-        struct HalfPanel : SvgPanel 
-        {
+        struct HalfPanel : SvgPanel  {
             const ThemeWidget<MODULE, BASE> * widget;
 
             void draw(const DrawArgs& args) override {

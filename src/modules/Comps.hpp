@@ -12,10 +12,9 @@
 struct Comps : ThemeModule
 {
     public:
-        static const int NUM_ROWS = 8;
+        static const int NUM_ROWS = 7;
 
-        enum ParamId
-        {
+        enum ParamId {
             PARAM_THRESH,
             PARAM_MODE = PARAM_THRESH + NUM_ROWS,
             PARAM_LOGIC = PARAM_MODE + NUM_ROWS,
@@ -37,8 +36,7 @@ struct Comps : ThemeModule
             LIGHTS_LEN
         };
 
-        enum Mode
-        {
+        enum Mode {
             MODE_FIRST,
             MODE_GTE = MODE_FIRST,
             MODE_LTE,
@@ -57,7 +55,6 @@ struct Comps : ThemeModule
         float highs[3] = {1.0f, 5.0f, 10.0f};
         int   range    = 2;
         float high     = highs[range];
-       
 
     public:
         Comps();

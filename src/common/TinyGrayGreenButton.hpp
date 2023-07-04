@@ -9,7 +9,7 @@ struct TinyGrayGreenButton : app::SVGSwitch
     TinyGrayGreenButton()
     {
         momentary = false;
-        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TinyButtonGray.svg")));
-        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TinyButtonGreen.svg")));
+        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/common/TinyButtonGray.svg")));
+        addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/common/TinyButtonGreen.svg")));
     }
 };
