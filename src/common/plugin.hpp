@@ -15,7 +15,7 @@ extern Plugin* pluginInstance;
 extern Model * modelComps;
 extern Model * modelMerge;
 extern Model * modelProbS;
-extern Model * modelSampleAndHold;
+extern Model * modelSandH;
 extern Model * modelSplit;
 extern Model * modelSteps;
 extern Model * modelVCASR;

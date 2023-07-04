@@ -1,66 +1,94 @@
 //  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
-#include "split.hpp"
+#include "plugin.hpp"
+#include "Themes.hpp"
+#include "TinyGrayGreenRedButton.hpp"
+#include "Utilities.hpp"
 
-Split::Split()
+struct Split : ThemeModule
 {
-    config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
+    public:
+        static const int NUM_ROWS = 7;
 
-    // there is only one input for this module
+        enum ParamId {
+            PARAM_SORT,
+            PARAMS_LEN
+        };
 
-    configInput(POLY_INPUT, "Polyphonic");
-    configSwitch(PARAM_SORT, 0.0f, 2.0f, 0.0f, "Sort", { "None", "Ascending", "Descending" });
+        enum InputId {
+            POLY_INPUT,
+            INPUTS_LEN
+        };
 
-    // polyphonic can be up to 16,  but we only handle 8
+        enum OutputId {
+            OUTPUTS_LEN = NUM_ROWS
+        };
 
-    for (int c = 0; c < INPUTS_LEN; c++)
-    {
-        configOutput(c, string::f("Channel %d", c));
-    }
-}
+        enum LightId {
+            LIGHTS_LEN = NUM_ROWS
+        };
 
-void Split::process(const ProcessArgs &args)
-{
-    // we only handle so many channels ignore anything more
+    private:        
+        int channels = 0;
 
-    int channels = inputs[POLY_INPUT].getChannels();
-    if (channels > NUM_ROWS) channels = NUM_ROWS;
+    public:
+        Split()
+        {
+            config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
+            
+            configInput(POLY_INPUT, "Polyphonic");
+            configSwitch(PARAM_SORT, 0.0f, 2.0f, 0.0f, "Sort", { "None", "Ascending", "Descending" });
 
-    // we don't want different code for sorted vs unsorted. 
-    // put the voltages into an array and then sort  array
+            // polyphonic can be up to 16,  but we only handle 8
 
-    float values[channels];
-    
-    for (int c = 0; c < channels; c++) {
-        values[c] = inputs[POLY_INPUT].getVoltage(c);
-    }
+            for (int c = 0; c < INPUTS_LEN; c++) {
+                configOutput(c, string::f("Channel %d", c));
+            }
+        }
 
-    Utilities::SortOrder sortOrder = (Utilities::SortOrder) this->params[PARAM_SORT].getValue();
-    if (sortOrder != Utilities::SortOrder::SORT_NONE) Utilities::sort(values, channels, sortOrder);
+        void process(const ProcessArgs &args) override
+        {
+            // we only handle so many channels ignore anything more
 
-    // process all the incoming channels by turning on  the
-    // light and passing the voltage through to the  output
+            int channels = inputs[POLY_INPUT].getChannels();
+            if (channels > NUM_ROWS) channels = NUM_ROWS;
 
-    int c = 0;
+            // we don't want different code for sorted vs unsorted. 
+            // put the voltages into an array and then sort  array
 
-    while (c < channels) {
-        lights[c].value = true;
-        outputs[c].setVoltage(values[c]);
-        c++;
-    }
+            float values[channels];
+            
+            for (int c = 0; c < channels; c++) {
+                values[c] = inputs[POLY_INPUT].getVoltage(c);
+            }
 
-    // turn off the light and clear the voltage for all the
-    // outputs that just toggled their state from on to off
+            Utilities::SortOrder sortOrder = (Utilities::SortOrder) this->params[PARAM_SORT].getValue();
+            if (sortOrder != Utilities::SortOrder::SORT_NONE) Utilities::sort(values, channels, sortOrder);
 
-    while (c < this->channels) {
-        lights[c].value = false;
-        outputs[c].setVoltage(0.0f);
-        c++;
-    }
+            // process all the incoming channels by turning on  the
+            // light and passing the voltage through to the  output
 
-    this->channels = channels;
-}
+            int c = 0;
+
+            while (c < channels) {
+                lights[c].value = true;
+                outputs[c].setVoltage(values[c]);
+                c++;
+            }
+
+            // turn off the light and clear the voltage for all the
+            // outputs that just toggled their state from on to off
+
+            while (c < this->channels) {
+                lights[c].value = false;
+                outputs[c].setVoltage(0.0f);
+                c++;
+            }
+
+            this->channels = channels;
+        }
+};
 
 struct SplitWidget : ThemeWidget<Split, ModuleWidget>
 {

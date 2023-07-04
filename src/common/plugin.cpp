@@ -13,7 +13,7 @@ void init(Plugin* p) {
     p->addModel(modelComps);
     p->addModel(modelMerge);
     p->addModel(modelProbS);
-    p->addModel(modelSampleAndHold);
+    p->addModel(modelSandH);
     p->addModel(modelSplit);
     p->addModel(modelSteps);
     p->addModel(modelVCASR);

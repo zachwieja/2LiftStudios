@@ -1,14 +1,13 @@
 //  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
-//#include "SampleAndHold.hpp"
 #include <random>
 
 #include "plugin.hpp"
 #include "Themes.hpp"
 #include "TinyTrigger.hpp"
 
-struct SampleAndHold : ThemeModule {
+struct SandH : ThemeModule {
 
     public:
         enum ParamId {
@@ -68,7 +67,7 @@ struct SampleAndHold : ThemeModule {
         float samples[2 * MAX_CHANNELS];
 
     public:
-        SampleAndHold() : uniform(-1.0, 1.0)
+        SandH() : uniform(-1.0, 1.0)
         {
             config(ParamId::PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 
@@ -183,9 +182,9 @@ struct SampleAndHold : ThemeModule {
         }
 };
 
-struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
+struct SandHWidget : ThemeWidget<SandH>
 {
-    SampleAndHoldWidget(SampleAndHold * module) : ThemeWidget<SampleAndHold>(module, "SampleAndHold")
+    SandHWidget(SandH * module) : ThemeWidget<SandH>(module, "SandH")
     {
         setModule(module);
 
@@ -195,19 +194,19 @@ struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
 
         // it is just two sections. easiest to hard code values
 
-        float y = 11.50, dy = 13.5;
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, y)), module, SampleAndHold::PARAM_MODE1));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_GATE1));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, y + 6.25)), module, SampleAndHold::PARAM_GATE1));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_POLY1));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, y + dy + 0.5)), module, SampleAndHold::OUTPUT_POLY1));
+        float x = 7.622, y = 11.50, dy = 13.5;
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y)), module, SandH::PARAM_MODE1));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_GATE1));
+        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x + 4.0f, y + 6.25)), module, SandH::PARAM_GATE1));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_POLY1));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y + dy + 0.5)), module, SandH::OUTPUT_POLY1));
 
         y = 68.5;
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(7.622, y)), module, SampleAndHold::PARAM_MODE2));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_GATE2));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(11.000, y + 6.25)), module, SampleAndHold::PARAM_GATE2));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.622, y += dy)), module, SampleAndHold::INPUT_POLY2));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(7.622, y + dy + 0.5)), module, SampleAndHold::OUTPUT_POLY2));
+        addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y)), module, SandH::PARAM_MODE2));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_GATE2));
+        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x + 4.0f, y + 6.25)), module, SandH::PARAM_GATE2));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_POLY2));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y + dy + 0.5)), module, SandH::OUTPUT_POLY2));
     }
 
     inline float toRange(int index) {
@@ -228,7 +227,7 @@ struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
 
     void appendContextMenu(Menu *menu) override
     {
-        SampleAndHold * module = dynamic_cast<SampleAndHold *>(this->module);
+        SandH * module = dynamic_cast<SandH *>(this->module);
         menu->addChild(new MenuSeparator);
 
         std::vector<std::string> labels;
@@ -240,7 +239,7 @@ struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
         menu->addChild(createIndexSubmenuItem(
             "Noise", labels,
             [=]() { return (int) module->noise; },
-            [=](int noise) { module->noise = (SampleAndHold::Noise) noise; }
+            [=](int noise) { module->noise = (SandH::Noise) noise; }
         ));
 
         labels.clear();
@@ -261,4 +260,4 @@ struct SampleAndHoldWidget : ThemeWidget<SampleAndHold>
     };
 };
 
-Model * modelSampleAndHold = createModel<SampleAndHold, SampleAndHoldWidget>("SampleAndHold");
+Model * modelSandH = createModel<SandH, SandHWidget>("SandH");

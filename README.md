@@ -9,6 +9,7 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 - [SandH](#sandh) - Sample and hold with tracking
 - [Split](#split) - polyphonic split with sort
 - [Steps](#steps) - step sequencer
+- [VCASR](#vcasr) - step sequencer
 
 ## Builds/Releases
 
@@ -28,14 +29,14 @@ Then copy the ./dist/2LiftStudios directory to your Rack plugins directory
 
 ### Inkscape
 
-You need to install Inkscape to build the .svg files found in the ```./src/res``` directories. All of the .svg files are pre-built and in the ```./res``` subdirectories. However, after cloning the repository, they may appear older than the source files and make might try to rebuild them. Then, <span style="color:#ff0000">if you do not have Inkspace installed, and/or do not have the $(INKSCAPE) variable defined, then the build will fail.</span> An easy workaround is to simply ```touch``` all the .svg files in the ```./res``` subdirectories.
+You need to install Inkscape to build the .svg files found in the ```./src/res``` directories. All of the .svg files are pre-built and in the ```./res``` subdirectories. However, after cloning the repository, they may appear older than the source files and make might try to rebuild them. Then, **if you do not have Inkspace installed, and/or do not have the $(INKSCAPE) variable defined, then the build will fail.** An easy workaround is to simply ```touch``` all the .svg files in the ```./res``` subdirectories.
 
 If you make updates to any of the ```.svg``` files, then there is no avoiding the installation of Inkscape.
 
 # Modules
 
 ## <a name="comps"></a> Comps
-_COMPS_ is comprised of eight voltage parameter knobs and eight corresponding _GATE_ ports. A _GATE_ port is high when the _IN_ voltage is strictly greater than (not equal) to the corresponding _THRESH_ (threshold) voltage parameter / knob. Gates are inverted if the invert button for the corresponding gate is depressed. Note that inversion is intentionally imperfect. Negating a > comparision typically results in a <= comparison. In this case, inversion is simply a < comparison. Gates for thresholds that are equal to the input value are never high. A low gate is always 0.0V. High gates default to 10.0V but can be configured via a popup menu to be 1.0V or 5.0V.
+_COMPS_ is comprised of seven voltage parameter knobs and seven corresponding _GATE_ ports. A _GATE_ port is high when the _IN_ voltage is strictly greater than (not equal) to the corresponding _THRESH_ (threshold) voltage parameter / knob. Gates are inverted if the invert button for the corresponding gate is depressed. Note that inversion is intentionally imperfect. Negating a > comparision typically results in a <= comparison. In this case, inversion is simply a < comparison. Gates for thresholds that are equal to the input value are never high. A low gate is always 0.0V. High gates default to 10.0V but can be configured via a popup menu to be 1.0V or 5.0V.
 
 The _LOGIC_ gate goes high when the logic condition is met. The condition is configured by (repeatedly) pressing the button next to the _LOGIC_ gate. The three logic conditions are _None_, _Any_ and _All.
 
@@ -54,7 +55,7 @@ Sorting, if enabled, is done as a function of the polyphony. All included polyph
 Sorting is useful for finding the highest or lowest V/OCT and as input to arpeggiators. Sorting polyphonic audio rate signals is possible - though perhaps less useful.
 
 ## <a name="probs"></a> ProbS
-ProbS produces a random sequence of notes based on a weighted distribution. ProbS allows setting of up to 7 _WEIGHT_ values that define a probability distribution. For instance, setting four _WEIGHT_ values to 1, 2, 3, and 4 results in a total weight of 10 and a probability of 1/10th, 2/10ths, 3/10ths and 4/10ths respectively. At each _CLOCK_, a random number is generated, and a corresponding _OFFSET_ value is chosen based on the probabilty distribution. ProbS has two modes which can be set using the _MODE_ parameter.
+ProbS produces a random sequence of notes based on a weighted distribution. ProbS allows setting of up to six _WEIGHT_ values that define a probability distribution. For instance, setting four _WEIGHT_ values to 1, 2, 3, and 4 results in a total weight of 10 and a probability of 1/10th, 2/10ths, 3/10ths and 4/10ths respectively. At each _CLOCK_, a random number is generated, and a corresponding _OFFSET_ value is chosen based on the probabilty distribution. ProbS has two modes which can be set using the _MODE_ parameter.
 
 ### Mode ###
 In _Stochastic_ mode, the generated _OFFSET_ values will _approach_ the specified weighted distribution. This is much like flipping a coin. The outcome of previous coin flips do not affect subsequent coin flips. You can receive the same result over and over again, but in the long run you expect the outcome to approach the distrubution - 50/50 for coin flips. 
@@ -62,7 +63,7 @@ In _Stochastic_ mode, the generated _OFFSET_ values will _approach_ the specifie
 In _Frequency_ mode, previous outcomes do affect subsequent outcomes. This is similar to drawing cards from a draw pile. When a card is drawn, it is placed in a discard pile. Once all cards are drawn and discarded, the draw pile is refreshed. In the sample above, if we randomly generate a 3, the probability of generating another 3 changes from 3 in 10, to 2 in 9. In this mode, the length of a sequence is equal to the sum of the weights.
 
 ### Clock
-_OFFSET_ values are generated Whenever the combined _CLOCK_ input and _MANUAL_ clock button generate a leading edge - when the previous state was off/low for both, and at least one of them is now high. 
+_OFFSET_ values are generated whenever the combined _CLOCK_ input and _MANUAL_ clock button generate a leading edge - when the previous state was off/low for both, and at least one of them is now high. 
 
 ### Offset
 _OFFSET_ values can be set in the range [-10V .. 10V]. They are typically set to voltages representing pitch, but can be set to any voltage and used to probabalistically drive scenes and other module parameters. For any given _CLOCK_, the light next to the chosen _OFFSET_ value is illuminated.
@@ -184,9 +185,9 @@ THe _OUT_, _EOC_ (end-of-cycle), and _ENV_ outputs are all polyphonic based on _
 ### Mode
 There are two modes which can be set using the context menu.
 
-* Gated - Each channel starts a new cycle on the leading edge of the _GATE_. It attacks for the configured number of seconds, and then sustains until the trailing edge of the corresponding _GATE_, and then releases for the configured number of seconds.
+* _Gated_ - Each channel starts a new cycle on the leading edge of the _GATE_. It attacks for the configured number of seconds, and then sustains until the trailing edge of the corresponding _GATE_, and then releases for the configured number of seconds.
 
-* Triggered - Each channel starts a new cycle on the leading edge of the _GATE_. It attacks for the configured number of seconds, and then sustains until the next leading edge of the corresponding _GATE_, and then releases for the configured number of seconds.
+* _Triggered_ - Each channel starts a new cycle on the leading edge of the _GATE_. It attacks for the configured number of seconds, and then sustains until the next leading edge of the corresponding _GATE_, and then releases for the configured number of seconds.
 
 # Themes
 All of the modules are themed. There are two official themes: _Light_ and _Dark. You can switch the theme of any module using the context menu for that module. You can also switch the default theme - which affects any newly instantiated modules.

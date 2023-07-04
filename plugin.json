@@ -43,11 +43,12 @@
             ]
         },
         {
-            "slug": "SampleAndHold",
-            "name": "Sample and Hold",
+            "slug": "SandH",
+            "name": "SandH",
             "description": "Dual sample and hold w/ track high or low",
             "tags": [
                 "Dual",
+                "Noise",
                 "Poly",
                 "Polyphonic",
                 "Sample and hold"
@@ -68,6 +69,7 @@
             "name": "Steps",
             "description": "Random step generator",
             "tags": [
+                "Arpeggiator",
                 "Random",
                 "Utility"
             ]
