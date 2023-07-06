@@ -2,10 +2,8 @@
 //  All rights reserved.
 
 #include "plugin.hpp"
-#include "CheckmarkMenuItem.hpp"
 #include "Themes.hpp"
-#include "TinyGrayRedButton.hpp"
-#include "TinyGrayGreenRedButton.hpp"
+#include "Buttons.hpp"
 
 struct Comps : ThemeModule
 {

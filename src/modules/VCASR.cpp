@@ -7,7 +7,7 @@
 #include "Gate.hpp"
 #include "ManualGate.hpp"
 #include "Themes.hpp"
-#include "TinyTrigger.hpp"
+#include "Buttons.hpp"
 
 struct VCASR : ThemeModule
 {

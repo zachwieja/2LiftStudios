@@ -2,7 +2,7 @@
 //  All rights reserved.
 
 #include "plugin.hpp"
-#include "SnapTrimpot.hpp"
+#include "Knobs.hpp"
 #include "Themes.hpp"
 
 struct Steps : ThemeModule

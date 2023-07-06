@@ -3,7 +3,7 @@
 
 #include "plugin.hpp"
 #include "Themes.hpp"
-#include "TinyGrayGreenRedButton.hpp"
+#include "Buttons.hpp"
 #include "Utilities.hpp"
 
 struct Split : ThemeModule

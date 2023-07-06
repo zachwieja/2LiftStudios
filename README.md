@@ -1,6 +1,15 @@
 # 2LiftStudios
 2LiftStudios VCVRack Modules
 
+## About
+First of all I want to say thank you to VCVRack and the VCV community. I love the platform and how everyone can experiment and share.   When I first discovered VCV, December of 2021, I mostly tried to figure out what it was,  what it did, and how to replicate what other people had done.  Eventually I was having ideas of my own and learning how to make (what I think are) musically interesting ambient patches.  I found that my patches while interesting at any point in time,  tended to sound the same across longer periods of time and I was looking for ways to randomly vary the patch without deliberately sequencing sections (e.g. part A, B, A, B, C, D, A, B).  I started thinking about how I could link logic modules together to turn things on and off, and things would get complex and I couldn't really wrap my head around all the logic and cabling.
+
+I decided to see if writing some modules that combined some of the function I was looking for would help.  And so I started down a different journey.  The first few modules I wrote were really just to see if I could build a working module at all. I started simple - with Split and Merge - which of course already exists.  But one of the things I always wanted was to pull the low or high note out of a series of notes.  So my Merge and Split have a sorting capability - just enough to call it different. My sample and hold has mutliple tracking modes (always, low and high). Not special but different enough that I haven't deleted it. I then started playing arpeggiators thinking I could do something really cool there.  Alberti bass anyone?  I still haven't gotten that working they way I want, but I made a couple stops along the way to my goal of randomly turning things on and off.  I created two modules to help me with that (e.g. _Comps_, _Steps_ - see below)
+
+The catalyst for finally going public was one of @OmriCohen's patreon videos (March 2023 at 49:18). Someone asked for a probabilistic sequence of notes taken from a set distribution, where each randomly chosen value affected the outcome of subsequent values - similar to pulling items from a basket, and not putting them back in the basket until the basket is empty. As it turns out I had mostly written that (only the other way around - I was putting every item back in the basket right away). So now I have a better version that has two modes - one with dependent probability and one without. And so I have now released it - because I know there is at least one customer (@CryptoTecky).
+
+If you find any of these interesting or useful, then please let me know. If you find bugs or performance issues then please let me know.  If you find the function difficult and have ideas on how to improve, then please ... let me know.  If you have other ideas, especially in the random probability space, and want to see a module with some new behavior, then consider sending me a note.   And with that said,  here is a list of the current modules in the plug-in.
+
 Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack-style virtual modular synthesizer:
 
 - [Comps](#comps) - comparative gate sequencer
@@ -9,7 +18,7 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 - [SandH](#sandh) - Sample and hold with tracking
 - [Split](#split) - polyphonic split with sort
 - [Steps](#steps) - step sequencer
-- [VCASR](#vcasr) - step sequencer
+- [VCASR](#vcasr) - combined VCA and envelope generator
 
 ## Builds/Releases
 
@@ -29,7 +38,7 @@ Then copy the ./dist/2LiftStudios directory to your Rack plugins directory
 
 ### Inkscape
 
-You need to install Inkscape to build the .svg files found in the ```./src/res``` directories. All of the .svg files are pre-built and in the ```./res``` subdirectories. However, after cloning the repository, they may appear older than the source files and make might try to rebuild them. Then, **if you do not have Inkspace installed, and/or do not have the $(INKSCAPE) variable defined, then the build will fail.** An easy workaround is to simply ```touch``` all the .svg files in the ```./res``` subdirectories.
+You need to install Inkscape to build the .svg files found in the ```./src/res``` directories. All of the .svg files are pre-built and in the ```./res``` subdirectories. However, after cloning the repository, they may appear older than the source files and make might try to rebuild them. Then, **if you do not have Inkscape installed, and/or do not have the $(INKSCAPE) variable defined, then the build will fail.** An easy workaround is to simply ```touch``` all the .svg files in the ```./res``` subdirectories.
 
 If you make updates to any of the ```.svg``` files, then there is no avoiding the installation of Inkscape.
 
@@ -60,7 +69,7 @@ ProbS produces a random sequence of notes based on a weighted distribution. Prob
 ### Mode ###
 In _Stochastic_ mode, the generated _OFFSET_ values will _approach_ the specified weighted distribution. This is much like flipping a coin. The outcome of previous coin flips do not affect subsequent coin flips. You can receive the same result over and over again, but in the long run you expect the outcome to approach the distrubution - 50/50 for coin flips. 
 
-In _Frequency_ mode, previous outcomes do affect subsequent outcomes. This is similar to drawing cards from a draw pile. When a card is drawn, it is placed in a discard pile. Once all cards are drawn and discarded, the draw pile is refreshed. In the sample above, if we randomly generate a 3, the probability of generating another 3 changes from 3 in 10, to 2 in 9. In this mode, the length of a sequence is equal to the sum of the weights.
+In _Frequency_ mode, previous outcomes do affect subsequent outcomes. This is similar to drawing items from a basket and setting them aside until the entire basket is empty - then putting everything back in the basket.
 
 ### Clock
 _OFFSET_ values are generated whenever the combined _CLOCK_ input and _MANUAL_ clock button generate a leading edge - when the previous state was off/low for both, and at least one of them is now high. 
@@ -73,7 +82,8 @@ Changing the _OFFSET_ value while it is currently selected (light is illuminated
 ### Weight
 _WEIGHT_ values are integers in the range [0, 100]. If a given _WEIGHT_ value is set to zero, then the corresponding _OFFSET_ value will never be chosen. The probability of any single _OFFSET_ value being chosen is equal to the _WEIGHT_ of the corresponding _OFFSET_ divided by the sum of the weights.
 
-The _RESET_ input has no effect in _Stochastic_ mode. In _Frequency_ mode, it restores all the WEIGHTS values to the currently set distribution (i.e. it refreshes the "draw pile").
+### Reset
+The _RESET_ input has no effect in _Stochastic_ mode. In _Frequency_ mode, it restores all the _WEIGHTS_ values to the currently set distribution (i.e. puts all the items "back in the basket").
 
 ### Interactions
 When in _Stochastic_ mode, changing the _WEIGHT_ of any _OFFSET_ has immediate affect - changes the probability on the next _CLOCK_. When in _Frequency_ mode, adding _WEIGHT_ is always added to the set of already generated values. Added _WEIGHT_ affects the probability once all the values have been generated - or on the next _RESET_. When subtracting weight in _Frequency_ mode, the module will first attempt to remove the weight from already generated values (so as not to affect the current cycle). If an insufficient number of values have been generated in the current cycle, then values are removed from the remaining ungenerated values.
@@ -174,7 +184,7 @@ The VCASR module is a combined polyphonic VCA and Attack, Sustain, Release envel
 The _IN_ input is polyphonic. The number of channels on the _IN_ will be copied to the _OUT_, _EOC_ and _ENV_ outputs.
 
 ### Gate
-The _GATE_ input is polyphonic.  If the number of _GATE_ channels is less than the number of _IN_ channels, then the last gate is used for the higher _IN_ channels.  A new ASR cycle starts each time a _GATE_ goes high (leading edge).  The _MANUAL_ gate button affects all channels.
+The _GATE_ input is polyphonic.  If the number of _GATE_ channels is less than the number of _IN_ channels, then the last gate is used for the higher _IN_ channels.  In _Gated_ mode, a new ASR cycle starts each time a _GATE_ goes high (leading edge). In _Triggered_ mode a new ASR cycle starts every other time the _GATE_ goes high.  The _MANUAL_ gate button affects all channels.
 
 ### Attack, Sustain, Release
 The _ATTACK_, and _RELEASE_ parameters are expressed in seconds. The maximum is 60 seconds. The default is 10 seconds.  The _SUSTAIN_ parameter is expressed as a percentage of the input signal.  This module currently only supports a linear attack and release.
@@ -204,5 +214,3 @@ If you are source code savvy and are willing to build the modules from scratch, 
 * Output Border, ```s/stroke:#bbbbbb/stroke:#rrggbb/g```
 
 You can add themes to the file ```./src/common/Themes.cpp```, simply cut and paste an existing theme, and then change the theme name. Then go to the ```./Makefile``` and add the rules for the theme - instructions are in the Makefile.
-
-

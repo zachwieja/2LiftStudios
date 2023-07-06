@@ -34,3 +34,5 @@
 # visualstudio, vscode
 .vs
 dist
+build
+dep

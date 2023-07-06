@@ -3,7 +3,7 @@
 RACK_DIR ?= ../../sdk-2.1.2
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -Isrc/common
+FLAGS += -Isrc -Isrc/common -Isrc/components
 CFLAGS += 
 CXXFLAGS += 
 
@@ -12,6 +12,7 @@ CXXFLAGS +=
 LDFLAGS +=
 
 # Add .cpp files to the build
+SOURCES += $(wildcard src/*.cpp)
 SOURCES += $(wildcard src/modules/*.cpp)
 SOURCES += $(wildcard src/common/*.cpp)
 

@@ -2,7 +2,7 @@
   "slug": "2LiftStudios",
   "name": "2LiftStudios",
   "version": "2.0.0",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "brand": "2LiftStudios",
   "author": "Stephan Zachwieja",
   "authorEmail": "twoliftstudios@outlook.com",
@@ -16,7 +16,7 @@
         {
             "slug": "Comps",
             "name": "Comps",
-            "description": "Compare input against multiple thresholds",
+            "description": "Compare input against multiple thresholds to generate gates",
             "tags": [
                 "Logic",
                 "Utility"

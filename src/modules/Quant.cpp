@@ -3,7 +3,7 @@
 
 #include "plugin.hpp"
 #include "Scale.hpp"
-#include "SnapTrimpot.hpp"
+#include "Knobs.hpp"
 
 struct Quant : Module
 {

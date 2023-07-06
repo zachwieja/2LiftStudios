@@ -3,9 +3,8 @@
 
 #include "plugin.hpp"
 
-#include "CheckmarkMenuItem.hpp"
 #include "Themes.hpp"
-#include "TinyGrayGreenRedButton.hpp"
+#include "Buttons.hpp"
 #include "Utilities.hpp"
 
 struct Merge : ThemeModule

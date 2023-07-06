@@ -4,7 +4,7 @@
 #include "plugin.hpp"
 
 #include "Themes.hpp"
-#include "TinyTrigger.hpp"
+#include "Buttons.hpp"
 
 struct ProbS : ThemeModule {
     public:
