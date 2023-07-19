@@ -3,14 +3,13 @@
 
 #pragma once
 
-class Utilities {
-    public:
-        enum SortOrder {
-            SORT_NONE = 0,
-            SORT_ASCENDING,
-            SORT_DESCENDING
-        };
+enum SortOrder {
+    SORT_NONE = 0,
+    SORT_ASCENDING,
+    SORT_DESCENDING
+};
 
+class Utilities {
     public:
         static void sort(float * values, int length, SortOrder sortOrder);
 };

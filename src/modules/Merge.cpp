@@ -4,7 +4,6 @@
 #include "plugin.hpp"
 
 #include "Themes.hpp"
-#include "Buttons.hpp"
 #include "Utilities.hpp"
 
 struct Merge : ThemeModule
@@ -13,7 +12,6 @@ struct Merge : ThemeModule
         static const int NUM_ROWS = 7;
 
         enum ParamId {
-            PARAM_SORT,
             PARAMS_LEN
         };
 
@@ -34,9 +32,12 @@ struct Merge : ThemeModule
         // these are special sentinel values for the  polyphony
         // value is changed with contextMenu and stored in json
 
-        static const int POLYPHONY_NUMBER_IN = -1;
-        static const int POLYPHONY_HIGHEST_IN = 0;
+        static const int POLYPHONY_NUMBER_UNIQUE = -2;
+        static const int POLYPHONY_NUMBER_IN     = -1;
+        static const int POLYPHONY_HIGHEST_IN    =  0;
+
         int polyphony = NUM_ROWS;
+        SortOrder sortOrder = SortOrder::SORT_NONE;
 
     public:
 
@@ -49,62 +50,77 @@ struct Merge : ThemeModule
             }
 
             configOutput(OUTPUT_POLY, "Polyphonic");
-            configSwitch(PARAM_SORT, 0.0f, 2.0f, 0.0f, "Sort", {"None", "Ascending", "Descending"});
         }
 
         void process(const ProcessArgs &args) override
         {
             int channels = 0;
-            float values[NUM_ROWS];
 
-            // use configured polyphony to determine  how  channels
-            // are assigned. fastest and easiest is separate  loops
-        
-            if (this->polyphony > 0) {
+            if (this->outputs[OUTPUT_POLY].isConnected()) {
 
-                // positive polyphony direct maps first N  channels.
-                // assumes disconnected inputs  return  zero  volts
+                float values[NUM_ROWS];
 
-                while (channels < this->polyphony) {
-                    values[channels] = this->inputs[channels].getVoltage();
-        //			outputs[OUTPUT_POLY].setVoltage(inputs[channels].getVoltage(), channels);
-                    channels++;
-                }
-            }
-
-            // using highest channel for polyphony,  count is equal
-            // to last connected channel (zero all other  channels)
+                // use configured polyphony to determine  how  channels
+                // are assigned. fastest and easiest is separate  loops
             
-            else if (this->polyphony == POLYPHONY_HIGHEST_IN) {
-                for (int c = 0; c < NUM_ROWS; c++) {
-                    if (! inputs[c].isConnected())
-                        values[c] = 0.0f;
-                    else {
-                        values[c] = inputs[c].getVoltage();
-                        channels = c + 1;
+                if (this->polyphony > 0) {
+
+                    // positive polyphony direct maps first N  channels.
+                    // assumes disconnected inputs  return  zero  volts
+
+                    while (channels < this->polyphony) {
+                        values[channels] = this->inputs[channels].getVoltage();
+                        channels++;
                     }
                 }
-            }
 
-            // compact channel count = number of connected channels
-
-            else if (this->polyphony == POLYPHONY_NUMBER_IN) {
-                for (int c = 0; c < NUM_ROWS; c++) {
-                    if (inputs[c].isConnected()) {
-                        values[channels++] = this->inputs[c].getVoltage();
+                // using highest channel for polyphony,  count is equal
+                // to last connected channel (zero all other  channels)
+                
+                else if (this->polyphony == POLYPHONY_HIGHEST_IN) {
+                    for (int c = 0; c < NUM_ROWS; c++) {
+                        if (! inputs[c].isConnected())
+                            values[c] = 0.0f;
+                        else {
+                            values[c] = inputs[c].getVoltage();
+                            channels = c + 1;
+                        }
                     }
                 }
-            }
 
-            // see if they have sorting turned on,  and do the sort
+                // if we get here,  then the polyphony is either unique
+                // # connected,  reduce channels as dictated by setting
 
-            Utilities::SortOrder sortOrder = (Utilities::SortOrder) this->params[PARAM_SORT].getValue();
-            if (sortOrder != Utilities::SortOrder::SORT_NONE) Utilities::sort(values, channels, sortOrder);
+                else {
+                    for (int c = 0; c < NUM_ROWS; c++) {
+                        if (inputs[c].isConnected()) {
+                            float value = this->inputs[c].getVoltage();
+                            bool unique = true;
 
-            // now, copy the voltages from the array to the outputs
+                            if (this->polyphony == POLYPHONY_NUMBER_UNIQUE) {
+                                for (int i = 0; i < channels; i++) {
+                                    unique &= abs(values[i] - value) > 0.001f;
+                                }
+                            }
 
-            for (int c = 0; c < channels; c++) {
-                this->outputs[OUTPUT_POLY].setVoltage(values[c], c);
+                            if (unique) {
+                                values[channels++] = value;
+                            }
+                        }
+                    }
+                }
+
+                // see if they have sorting turned on, then do the sort
+
+                if (this->sortOrder != SortOrder::SORT_NONE) {
+                    Utilities::sort(values, channels, sortOrder);
+                }
+
+                // now, copy the voltages from the array to the outputs
+
+                for (int c = 0; c < channels; c++) {
+                    this->outputs[OUTPUT_POLY].setVoltage(values[c], c);
+                }
             }
 
             // this is the direct writing of channels (allows zero).
@@ -147,7 +163,6 @@ struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
         }
 
         addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Merge::OUTPUT_POLY));
-        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(x + 4.0f, y + 6.25f)), module, Merge::PARAM_SORT));
     }
 
     void appendContextMenu(Menu * menu) override
@@ -155,10 +170,11 @@ struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
         Merge * module = dynamic_cast<Merge *>(this->module);
         menu->addChild(new MenuSeparator);
 
-        // this is mostly a hack, but ... dynamic and automatic
-        // are special cases of polyphony with values -1 and  0
+        // unique, connected and highest are all special cases
+        // with non-positive values -2, -1, and 0 respectively
 
         std::vector<std::string> labels;
+        labels.push_back("# Unique");
         labels.push_back("# Connected");
         labels.push_back("Highest #");
 
@@ -166,12 +182,24 @@ struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
             labels.push_back(string::f("%d", c));
         }
 
-        // the indexes are zero based. so adjust with the +/- 1.
+        // the indexes are zero based. so adjust with the +/- 2.
         // > 0 is exact polyphony,  <= 0 has a special  meaning
 
         menu->addChild(createIndexSubmenuItem("Polyphony", labels,
-            [=]() { return module->polyphony + 1;},
-            [=](int polyphony) { module->polyphony = polyphony - 1;}
+            [=]() { return module->polyphony + 2;},
+            [=](int polyphony) { module->polyphony = polyphony - 2;}
+        ));
+
+        // next menu item control sort order of output (if any)
+        
+        labels.clear();
+        labels.push_back("None");
+        labels.push_back("Ascending");
+        labels.push_back("Descending");
+
+        menu->addChild(createIndexSubmenuItem("Sort", labels,
+            [=]() { return module->sortOrder;},
+            [=](int sortOrder) { module->sortOrder = (SortOrder) sortOrder; }
         ));
 
         ThemeWidget::appendContextMenu(menu);

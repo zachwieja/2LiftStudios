@@ -3,16 +3,15 @@
 
 #include "plugin.hpp"
 #include "Themes.hpp"
-#include "Buttons.hpp"
 #include "Utilities.hpp"
 
 struct Split : ThemeModule
 {
     public:
         static const int NUM_ROWS = 7;
+        SortOrder sortOrder;
 
         enum ParamId {
-            PARAM_SORT,
             PARAMS_LEN
         };
 
@@ -36,9 +35,7 @@ struct Split : ThemeModule
         Split()
         {
             config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
-            
             configInput(POLY_INPUT, "Polyphonic");
-            configSwitch(PARAM_SORT, 0.0f, 2.0f, 0.0f, "Sort", { "None", "Ascending", "Descending" });
 
             // polyphonic can be up to 16,  but we only handle 8
 
@@ -63,8 +60,9 @@ struct Split : ThemeModule
                 values[c] = inputs[POLY_INPUT].getVoltage(c);
             }
 
-            Utilities::SortOrder sortOrder = (Utilities::SortOrder) this->params[PARAM_SORT].getValue();
-            if (sortOrder != Utilities::SortOrder::SORT_NONE) Utilities::sort(values, channels, sortOrder);
+            if (this->sortOrder != SortOrder::SORT_NONE) {
+                Utilities::sort(values, channels, sortOrder);
+            }
 
             // process all the incoming channels by turning on  the
             // light and passing the voltage through to the  output
@@ -104,13 +102,30 @@ struct SplitWidget : ThemeWidget<Split, ModuleWidget>
 
         float x = 7.622f, y = 11.5f, dy = (109.5 - 11.5) / module->NUM_ROWS;
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Split::POLY_INPUT));
-        addParam(createParamCentered<TinyGrayGreenRedButton>(mm2px(Vec(x + 4.0f, y + 6.25f)), module, Split::PARAM_SORT));
 
         for (int c = 0; c < Split::NUM_ROWS; c++) {
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, c));
             addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x + 4.25f, y + 4.0f)), module, c));
         }
     }
+
+    void appendContextMenu(Menu * menu) override
+    {
+        Split * module = dynamic_cast<Split *>(this->module);
+        menu->addChild(new MenuSeparator);
+
+        std::vector<std::string> labels;
+        labels.push_back("None");
+        labels.push_back("Ascending");
+        labels.push_back("Descending");
+
+        menu->addChild(createIndexSubmenuItem("Sort", labels,
+            [=]() { return module->sortOrder;},
+            [=](int sortOrder) { module->sortOrder = (SortOrder) sortOrder; }
+        ));
+
+        ThemeWidget::appendContextMenu(menu);
+    };
 };
 
 Model *modelSplit = createModel<Split, SplitWidget>("Split");

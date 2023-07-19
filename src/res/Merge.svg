@@ -47,7 +47,7 @@
        x="-0.0016378443"
        y="1.6577559e-08" />
     <rect
-       style="fill:#bbbbbb;fill-opacity:1;stroke-width:0;stroke:#bbbbbb;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#bbbbbb;fill-opacity:1;stroke:#bbbbbb;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect10313-6"
        width="12"
        height="13"
@@ -56,7 +56,7 @@
        rx="1.4999998"
        ry="1.5" />
     <rect
-       style="fill:#fafafa;fill-opacity:0.99;stroke-width:0.1;stroke:#fafafa;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#fafafa;fill-opacity:0.99;stroke:#fafafa;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect10313"
        width="12"
        height="98"
@@ -100,13 +100,13 @@
     <text
        xml:space="preserve"
        style="font-size:3.07508px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:Calibri;text-align:center;text-anchor:middle;fill:#030303;fill-opacity:1;stroke-width:0.264583"
-       x="6.2501411"
+       x="7.5162334"
        y="116.97147"
        id="text8544-7-1-9"><tspan
          sodipodi:role="line"
          id="tspan8542-4-1-8"
          style="font-size:3.07508px;text-align:center;text-anchor:middle;fill:#030303;fill-opacity:1;stroke-width:0.264583"
-         x="6.2501411"
-         y="116.97147">SORT</tspan></text>
+         x="7.5162334"
+         y="116.97147">POLY</tspan></text>
   </g>
 </svg>
