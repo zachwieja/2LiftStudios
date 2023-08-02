@@ -73,6 +73,16 @@
                 "Random",
                 "Utility"
             ]
+        },
+        {
+            "slug": "VCASR",
+            "name": "VCASR",
+            "description": "Combined VCA and ASR Envelope",
+            "tags": [
+                "Envelope generator",
+                "Polyphonic",
+                "Voltage-controlled amplifier"
+            ]
         }
     ]
 }

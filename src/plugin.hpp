@@ -18,4 +18,5 @@ extern Model * modelProbS;
 extern Model * modelSandH;
 extern Model * modelSplit;
 extern Model * modelSteps;
+extern Model * modelVCASR;
 
