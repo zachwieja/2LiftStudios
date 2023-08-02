@@ -18,6 +18,7 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 - [SandH](#sandh) - Sample and hold with tracking
 - [Split](#split) - polyphonic split with sort
 - [Steps](#steps) - step sequencer
+- [VCASR](#vcasr) - combined VCA and envelope generator
 
 ## Builds/Releases
 
@@ -85,7 +86,7 @@ _WEIGHT_ values are integers in the range [0, 100]. If a given _WEIGHT_ value is
 The _RESET_ input has no effect in _Stochastic_ mode. In _Frequency_ mode, it restores all the _WEIGHTS_ values to the currently set distribution (i.e. puts all the items "back in the basket").
 
 ### Interactions
-When in _Stochastic_ mode, changing the _WEIGHT_ of any _OFFSET_ has immediate affect.  It changes the probability on the next _CLOCK_. When in _Frequency_ mode, adding _WEIGHT_ is always added to the set of already generated values. Added _WEIGHT_ affects the probability once all the values have been _consumed_ - or on the next _RESET_. When subtracting weight in _Frequency_ mode, the module will first attempt to remove the weight from already generated values (so as not to affect the current cycle). If an insufficient number of values have been generated in the current cycle, then values are removed from the remaining ungenerated values.
+When in _Stochastic_ mode, changing the _WEIGHT_ of any _OFFSET_ has immediate affect - changes the probability on the next _CLOCK_. When in _Frequency_ mode, adding _WEIGHT_ is always added to the set of already generated values. Added _WEIGHT_ affects the probability once all the values have been generated - or on the next _RESET_. When subtracting weight in _Frequency_ mode, the module will first attempt to remove the weight from already generated values (so as not to affect the current cycle). If an insufficient number of values have been generated in the current cycle, then values are removed from the remaining ungenerated values.
 
 ## <a name="sandh"></a> SandH
 _SandH_ is comprised of two polyphonic sample and hold sub-modules. The sub-modules are completely independent and can each operate in one of four different modes.
@@ -175,6 +176,28 @@ If the root knob (and or combined root CV) is non-zero, and the scale is changed
 
 ### Maths
 All notes are quantized to the closest numerical/mathematical note in the scale. For instance, the C major scale is modeled as 7 notes over an evenly tempered 12 step scale with intervals of 2, 2, 1, 2, 2, 2 and 1 steps. The values for those 7 notes are equivalent to 0, 2/12, 4/12, 5/12, 7/12, 9/12 and 11/12 volts. The root and octave offsets are added to the input value and then the decimal portion of the voltage is snapped to one of those voltages. Any decimal portion in the range [-23/24V, 1/12V) snaps to 0V. Anything in the range [1/12V, 3/12V) snaps to 2/12V. Anything in the range [3/12V, 9/24V) snaps to 4/12V and so forth. Anything in the range [23/24V, 26/24V) snaps to 1V. Note the use of range notation. Open square brackets indicate inclusive values, and closing parenthesis indicate exclusive values.
+
+## <a name="vcasr"></a> VCASR
+The VCASR module is a combined polyphonic VCA and Attack, Sustain, Release envelope generator.   It takes a polyphonic _IN_ and varies the signal(s) sent to the _OUT_ based on the corresponding _GATE_ signal(s) and the currently defined envelope parameters.
+
+### Input
+The _IN_ input is polyphonic. The number of channels on the _IN_ will be copied to the _OUT_, _EOC_ and _ENV_ outputs.
+
+### Gate
+The _GATE_ input is polyphonic.  If the number of _GATE_ channels is less than the number of _IN_ channels, then the last gate is used for the higher _IN_ channels.  In _Gated_ mode, a new ASR cycle starts each time a _GATE_ goes high (leading edge). In _Triggered_ mode a new ASR cycle starts every other time the _GATE_ goes high.  The _MANUAL_ gate button affects all channels.
+
+### Attack, Sustain, Release
+The _ATTACK_, and _RELEASE_ parameters are expressed in seconds. The maximum is 60 seconds. The default is 10 seconds.  The _SUSTAIN_ parameter is expressed as a percentage of the input signal.  This module currently only supports a linear attack and release.
+
+### Output, EOC, Env
+THe _OUT_, _EOC_ (end-of-cycle), and _ENV_ outputs are all polyphonic based on _IN_ channels.  The _EOC_ emits a trigger at the end of the release cycle.  If a new attack cycle starts before the end of the release, then no _EOC_ trigger is generated for that cycle.
+
+### Mode
+There are two modes which can be set using the context menu.
+
+* _Gated_ - Each channel starts a new cycle on the leading edge of the _GATE_. It attacks for the configured number of seconds, and then sustains until the trailing edge of the corresponding _GATE_, and then releases for the configured number of seconds.
+
+* _Triggered_ - Each channel starts a new cycle on the leading edge of the _GATE_. It attacks for the configured number of seconds, and then sustains until the next leading edge of the corresponding _GATE_, and then releases for the configured number of seconds.
 
 # Themes
 All of the modules are themed. There are two official themes: _Light_ and _Dark. You can switch the theme of any module using the context menu for that module. You can also switch the default theme - which affects any newly instantiated modules.
