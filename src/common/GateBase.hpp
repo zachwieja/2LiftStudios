@@ -12,6 +12,7 @@ class GateBase {
         bool current = false;
 
     public:
+        virtual ~GateBase();
         virtual void process();
         virtual void reset();
 

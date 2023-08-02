@@ -3,6 +3,12 @@
 
 #include "GateBase.hpp"
 
+GateBase::~GateBase() {
+}
+
+void GateBase::process() {
+}
+
 void GateBase::reset() {
     this->previous = this->current = false;
 }
