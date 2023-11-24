@@ -14,6 +14,7 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 
 - [Comps](#comps) - comparative gate sequencer
 - [Merge](#merge) - polyphonic merge with  sort
+- [PolyQ](#polyq) - quantize to set of polyphonic v/oct values
 - [ProbS](#probs) - probabalistic sequencer
 - [SandH](#sandh) - Sample and hold with tracking
 - [Split](#split) - polyphonic split with sort
@@ -62,6 +63,15 @@ Takes up to 8 monophonic inputs and produces a single polyphonic output. A conte
 Sorting, if enabled, is done as a function of the polyphony. All included polyphonic channels, as described above, are sorted before sending them to the output. The default order is _None_ and no sorting occurs. The other two sort orders are _Ascending_ and _Descending_. Channels are sorted and assigned channels starting from zero. Pressing the sort button multiple times toggles the sort order.
 
 Sorting is useful for finding the highest or lowest V/OCT and as input to arpeggiators. Sorting polyphonic audio rate signals is possible - though perhaps less useful.
+
+## <a name="polyq"></a> PolyQ
+Is comprised of two polyphonic quantizers.  Each quantizer takes a polyphonic input _chord_, and a second polyphonic input representing values that are quantized to the values in the input _chord_.  The quantized values are emitted on the polyphonic output.
+
+### Mode
+The module supports four modes: _CLOSEST\_DOWN_, _DOWN_, _CLOSEST\_UP_, and _UP_.  The _CLOSEST_ modes quantizes to the closest pitch from the input _chord_.   In the case where the input value lands precisely between two values, then the its takes the lower or higher value depending on the mode, _CLOSEST\_DOWN_ or _CLOSEST\_UP_ respectively. For instance, if the input _chord_ contains the notes C4 and E4, and the input to be quantized is D4, then the _\_DOWN_ or _\_UP_ designation determines the result.  The _DOWN_ and _UP_ modes, quantize to the next lowest or next highest value respectively. For instance,  if the polyphonic _chord_ contains the values C4 and G4, and the mode is _DOWN_, then the values C4 through F#4 all quantize to C4,  and the values G#4 through B4 all quantize to G4.
+
+### Octave
+Each quantizer in the module has its own _OCTAVE_ parameter.  The value can be in the range -5 to +5, and is added to the quantized value.
 
 ## <a name="probs"></a> ProbS
 ProbS produces a random sequence of notes based on a weighted distribution. ProbS allows setting of up to six _WEIGHT_ values that define a probability distribution. For instance, setting four _WEIGHT_ values to 1, 2, 3, and 4 results in a total weight of 10 and a probability of 1/10th, 2/10ths, 3/10ths and 4/10ths respectively. At each _CLOCK_, a random number is generated, and a corresponding _OFFSET_ value is chosen based on the probabilty distribution. ProbS has two modes which can be set using the _MODE_ parameter.

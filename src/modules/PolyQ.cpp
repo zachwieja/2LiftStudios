@@ -52,8 +52,8 @@ struct PolyQ : ThemeModule {
         Mode saved = mode;
 
     private:
-        static constexpr float OCTAVE_MINIMUM = -4.0f;
-        static constexpr float OCTAVE_MAXIMUM =  4.0f;
+        static constexpr float OCTAVE_MINIMUM = -5.0f;
+        static constexpr float OCTAVE_MAXIMUM =  5.0f;
         static constexpr float OCTAVE_DEFAULT =  0.0f;
 
         static constexpr int   POLY_MAX = 16;
