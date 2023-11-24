@@ -33,6 +33,16 @@
             ]
         },
         {
+            "slug": "PolyQ",
+            "name": "PolyQ",
+            "description": "Quantize to input chordWeighted probabilistic sequencer",
+            "tags": [
+                "Poly",
+                "Polyphonic",
+                "Quantizer"
+            ]
+        },
+        {
             "slug": "ProbS",
             "name": "ProbS",
             "description": "Weighted probabilistic sequencer",

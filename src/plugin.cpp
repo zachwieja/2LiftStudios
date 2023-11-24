@@ -12,6 +12,7 @@ void init(Plugin* p) {
     // Add modules here
     p->addModel(modelComps);
     p->addModel(modelMerge);
+    p->addModel(modelPolyQ);
     p->addModel(modelProbS);
     p->addModel(modelSandH);
     p->addModel(modelSplit);

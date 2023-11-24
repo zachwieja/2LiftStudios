@@ -5,6 +5,7 @@
 
 #include "Themes.hpp"
 #include "Buttons.hpp"
+#include "Knobs.hpp"
 
 struct ProbS : ThemeModule {
     public:
@@ -59,7 +60,7 @@ struct ProbS : ThemeModule {
         int weights[NUM_ROWS];
         float offsets[NUM_ROWS];
 
-        // 800 bytes for the sample distribution
+        // 100 bytes for up to a weight of 100 per offset
         unsigned char samples[NUM_ROWS * WEIGHT_MAXIMUM];
         int total = 0, last = -1;
 
@@ -217,7 +218,7 @@ struct ProbSWidget : ThemeWidget<ProbS>
 
         for (int row = 0; row < ProbS::NUM_ROWS; row++) {
                 y += dy;
-                addParam(createParamCentered<Trimpot>(mm2px(Vec(x1, y)), module, ProbS::PARAM_WEIGHT + row));
+                addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x1, y)), module, ProbS::PARAM_WEIGHT + row));
                 addParam(createParamCentered<Trimpot>(mm2px(Vec(x2, y)), module, ProbS::PARAM_OFFSET + row));
                 addChild(createLightCentered<SmallLight<GreenLight>>(mm2px(Vec(x2 + 4.25f, y + 4.0f)), module, row));
         }
