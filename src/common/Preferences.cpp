@@ -2,13 +2,13 @@
 //  All rights reserved.
 
 #include "plugin.hpp"
-#include "Settings.hpp"
+#include "Preferences.hpp"
 
-namespace Settings 
+namespace Preferences 
 {
     std::string filename = rack::asset::user("2LiftStudios.json");
 
-    // instantiate settings here, and mark as extern in hpp
+    // instantiate perferences here, and mark as extern in hpp
     int themeDefault = 0;
 
     json_t * dataToJson()
@@ -29,18 +29,18 @@ namespace Settings
         json_t * root;
         json_error_t error;
 
-        if (! (root = json_load_file(Settings::filename.c_str(), 0, &error)))
-            Settings::save();
+        if (! (root = json_load_file(Preferences::filename.c_str(), 0, &error)))
+            Preferences::save();
         else {
-            Settings::dataFromJson(root);
+            Preferences::dataFromJson(root);
             json_decref(root);
         }
     }
 
     void save()
     {
-        json_t * root = Settings::dataToJson();
-        json_dump_file(root, Settings::filename.c_str(), JSON_INDENT(2));
+        json_t * root = Preferences::dataToJson();
+        json_dump_file(root, Preferences::filename.c_str(), JSON_INDENT(2));
         json_decref(root);
     }
 }

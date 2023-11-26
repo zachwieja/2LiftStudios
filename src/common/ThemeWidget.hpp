@@ -4,6 +4,7 @@
 #pragma once
 #include "plugin.hpp"
 #include "Themes.hpp"
+#include "Preferences.hpp"
 
 template <typename MODULE, typename BASE = ModuleWidget>
 struct ThemeWidget : BASE
@@ -72,10 +73,10 @@ struct ThemeWidget : BASE
 
             menu->addChild(createIndexSubmenuItem(
                 "Theme default", labels,
-                [=]() { return (int)Settings::themeDefault; },
+                [=]() { return (int)Preferences::themeDefault; },
                 [=](int theme) {
-                    Settings::themeDefault = theme;
-                    Settings::save();
+                    Preferences::themeDefault = theme;
+                    Preferences::save();
                 }
             ));
 

@@ -135,7 +135,7 @@ struct Quant : Module
             json_object_set_new(root, "scales", arr);
 
             // now write out the current knob values.  VCV writes these
-            // too,  but messing the knob ranges screws up the settings
+            // too,  but messing the knob ranges screws up the Preferences
 
             json_object_set_new(root, "scale", json_integer(this->params[PARAM_SCALE].getValue()));
             json_object_set_new(root, "root", json_integer(this->params[PARAM_ROOT].getValue()));
@@ -208,7 +208,7 @@ struct Quant : Module
 
             this->swapScales(scales, numScales);
 
-            // now set the knob values to saved settings.  vcv silently
+            // now set the knob values to saved Preferences.  vcv silently
             // catches errors. users edit the file,  give them feedback
 
             try {
@@ -216,7 +216,7 @@ struct Quant : Module
                 this->paramQuantities[PARAM_ROOT]->setDisplayValue(json_integer_value(json_object_get(root, "root")));
             }
             catch (const char * message) {
-                WARN("Error restoring knob settings, %s", message);
+                WARN("Error restoring knob Preferences, %s", message);
                 return;
             }
         }

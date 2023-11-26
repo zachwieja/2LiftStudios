@@ -4,6 +4,7 @@
 #pragma once
 #include "plugin.hpp"
 #include "Themes.hpp"
+#include "Preferences.hpp"
 
 struct ThemeModule : Module {
 
@@ -12,7 +13,7 @@ struct ThemeModule : Module {
         
     public:
         ThemeModule() {
-            this->theme = Settings::themeDefault;
+            this->theme = Preferences::themeDefault;
         }
 
         virtual json_t * dataToJson() override
@@ -25,7 +26,7 @@ struct ThemeModule : Module {
         virtual void dataFromJson(json_t * root) override
         {
             json_t * object = json_object_get(root, "theme");
-            this->theme = clamp(object ? json_integer_value(object) : Settings::themeDefault, 0, Themes::NUM_THEMES);
+            this->theme = clamp(object ? json_integer_value(object) : Preferences::themeDefault, 0, Themes::NUM_THEMES);
         }
 
         inline int getTheme() {

@@ -1,9 +1,9 @@
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
 
-RACK_DIR ?= ../../sdk-2.1.2
+RACK_DIR ?= ../..
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -Isrc -Isrc/common -Isrc/components
+FLAGS += -Isrc/common -Isrc/components -Isrc
 CFLAGS += 
 CXXFLAGS += 
 
@@ -12,9 +12,9 @@ CXXFLAGS +=
 LDFLAGS +=
 
 # Add .cpp files to the build
+SOURCES += $(wildcard src/common/*.cpp)
 SOURCES += $(wildcard src/*.cpp)
 SOURCES += $(wildcard src/modules/*.cpp)
-SOURCES += $(wildcard src/common/*.cpp)
 
 # Add files to the ZIP package when running `make dist`
 # The compiled plugin and "plugin.json" are automatically added.
