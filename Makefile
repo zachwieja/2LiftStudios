@@ -26,15 +26,18 @@ DISTRIBUTABLES += $(wildcard presets)
 # Include the VCV Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk
 
-# all exists in plugin.mk this just adds an extra target
-all: svg
-
 # inkscape is only necessary if SVG sources are changed
 INKSCAPE = '/c/program files/inkscape/bin/inkscape.exe'
 
+ifneq ($wildcard($INKSCAPE),)
+SVGTARGETS = common light dark
+endif
+
+# all exists in plugin.mk this just adds an extra target
+all: $(SVGTARGETS)
+
 # add additional themes here
 
-svg: common light dark # themename
 common: $(subst src/res/common,res/common,$(wildcard src/res/common/*.svg))
 light: $(subst src/res/,res/light/,$(wildcard src/res/*.svg))
 dark: $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
