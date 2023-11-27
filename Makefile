@@ -45,8 +45,7 @@ dark: $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
 
 build/res/%.svg: src/res/%.svg
 	mkdir -p $(dir $@)
-	cp $< $(dir $@)
-	$(INKSCAPE) -g --batch-process --actions='EditSelectAll;SelectionUnGroup;EditSelectAll;EditUnlinkClone;EditSelectAll;ObjectToPath;FileSave' $@
+	$(INKSCAPE) --actions='select-all;selection-ungroup;select-all;clone-unlink;select-all;object-to-path;export-filename:$@;export-do' $<
 
 # these rules take the flattened SVG files and replaces
 # the colors with each of  the  theme  specific  colors
