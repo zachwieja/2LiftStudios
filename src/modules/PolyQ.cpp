@@ -73,6 +73,9 @@ struct PolyQ : ThemeModule {
             configInput(INPUT_CHORD_2, "Chord 1");
             configInput(INPUT_POLY_2, "Poly 1");
             configOutput(OUTPUT_POLY_2, "Poly 1");
+
+            configBypass(INPUT_POLY_1, OUTPUT_POLY_1);
+            configBypass(INPUT_POLY_2, OUTPUT_POLY_2);
         }
 
         void process_section(Param &param, Input &chord, Input &input, Output &output)
@@ -88,8 +91,6 @@ struct PolyQ : ThemeModule {
                 float octave, pitch, value, values[POLY_MAX + 2];
                 int notes = chord.getChannels();
                 if (notes > POLY_MAX) notes = POLY_MAX;
-
-                if (this->mode != this->saved) DEBUG("MODE = %d", this->mode);
 
                 // zero channels means no chord connected.  we fake
                 // a chord containing a single note (quantize to C)
@@ -120,10 +121,6 @@ struct PolyQ : ThemeModule {
                 float offset = mode < 0 ? 1.0f : -1.0f;
                 values[0] = values[notes++] - offset;
                 values[notes++] = values[1] + offset;
-
-                if (this->saved != this->mode) {
-                    for (int i = 0; i < notes; i++) DEBUG("VALUES[%d] = %6.4f", i, values[i]);
-                }
 
                 // for each channel,  quantize the  incoming  value
                 // to closest pitch in the chord and copy to output
@@ -197,13 +194,17 @@ struct PolyQ : ThemeModule {
             int i = 0;
             float diff = abs(pitch - values[i]);
 
+            // find closest pitch from ordered list. be sure to
+            // account for floating point error within  EPSILON
+
             for (i = 1; i < length; i++) {
                 float temp = abs(pitch - values[i]);
-                if (abs(temp - diff) < 0.0001 && values[i] != values[i - 1]) break;
+                if (abs(temp - diff) < EPSILON && values[i] != values[i - 1]) break;
                 if (temp > diff) break;
 
                 diff = temp;
             }
+
             return i - 1;
         }
 };
