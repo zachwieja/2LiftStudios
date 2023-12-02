@@ -156,13 +156,14 @@ struct MergeWidget : ThemeWidget<Merge, ModuleWidget>
 
         // column centered at 7.622mm (half of 3HP)
 
-        float x = 7.622f, dy = (109.5f - 11.5f) / module->NUM_ROWS, y = 11.5f - dy;
+        float x = 7.622f, y = 11.5f, dy = (109.5f - y) / module->NUM_ROWS;
         
         for (int c = 0; c < module->NUM_ROWS; c++) {
-            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, c));
+            addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, c));
+            y += dy;
         }
 
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Merge::OUTPUT_POLY));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Merge::OUTPUT_POLY));
     }
 
     void appendContextMenu(Menu * menu) override

@@ -7,7 +7,7 @@
    viewBox="0 0 15.24 128.5"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   inkscape:version="1.3.1 (91b66b0783, 2023-11-16)"
    sodipodi:docname="Merge.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,13 +26,15 @@
      height="128.5mm"
      inkscape:zoom="3.8808248"
      inkscape:cx="-142.2378"
-     inkscape:cy="227.52895"
-     inkscape:window-width="3840"
-     inkscape:window-height="2054"
+     inkscape:cy="318.61784"
+     inkscape:window-width="2496"
+     inkscape:window-height="1558"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
   <defs
      id="defs2" />
   <g
@@ -107,6 +109,6 @@
          id="tspan8542-4-1-8"
          style="font-size:3.07508px;text-align:center;text-anchor:middle;fill:#030303;fill-opacity:1;stroke-width:0.264583"
          x="7.5162334"
-         y="116.97147">POLY</tspan></text>
+         y="116.97147">OUT</tspan></text>
   </g>
 </svg>

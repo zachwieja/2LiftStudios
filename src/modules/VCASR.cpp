@@ -79,9 +79,9 @@ struct VCASR : ThemeModule
             configParam(PARAM_SUSTAIN, 0.0f, 100.0f, 100.0f, "Sustain", "%");
             configParam(PARAM_RELEASE, 0.0f,  60.0f,  10.0f, "Release", "s");
 
-            configOutput(OUTPUT_OUTPUT, "Output");
-            configOutput(OUTPUT_ENV, "Envelope");
             configOutput(OUTPUT_END, "End of cycle");
+            configOutput(OUTPUT_ENV, "Envelope");
+            configOutput(OUTPUT_OUTPUT, "Output");
 
             configBypass(INPUT_INPUT, OUTPUT_OUTPUT);
 
@@ -193,8 +193,8 @@ struct VCASR : ThemeModule
                 // to check if there are any  connected  cables
 
                 this->outputs[OUTPUT_END].setVoltage(this->endTriggers[c].remaining > 0.0f ? 10.0f : 0.0f, c);
-                this->outputs[OUTPUT_OUTPUT].setVoltage(this->inputs[INPUT_INPUT].getVoltage(c) * envelope->value * sustain, c);
                 this->outputs[OUTPUT_ENV].setVoltage(envelope->value * 10.0f, c);
+                this->outputs[OUTPUT_OUTPUT].setVoltage(this->inputs[INPUT_INPUT].getVoltage(c) * envelope->value * sustain, c);
             }
 
             this->outputs[OUTPUT_OUTPUT].channels = numChannels;
@@ -238,9 +238,9 @@ struct VCASRWidget : ThemeWidget<VCASR>
             addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, VCASR::PARAM_SUSTAIN));
             addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y += dy)), module, VCASR::PARAM_RELEASE));
 
-            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_OUTPUT));
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_END));
             addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_ENV));
+            addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, VCASR::OUTPUT_OUTPUT));
         }
 
         void appendContextMenu(Menu *menu) override {
