@@ -53,6 +53,14 @@
             ]
         },
         {
+            "slug": "Quant",
+            "name": "Quant",
+            "description": "Quantizer with custom scales",
+            "tags": [
+                "Quantizer"
+            ]
+        },
+        {
             "slug": "SandH",
             "name": "SandH",
             "description": "Dual sample and hold w/ track high or low",

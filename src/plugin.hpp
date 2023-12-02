@@ -14,6 +14,7 @@ extern Plugin* pluginInstance;
 
 extern Model * modelComps;
 extern Model * modelMerge;
+extern Model * modelQuant;
 extern Model * modelPolyQ;
 extern Model * modelProbS;
 extern Model * modelSandH;

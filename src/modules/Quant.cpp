@@ -2,10 +2,11 @@
 //  All rights reserved.
 
 #include "plugin.hpp"
-#include "Scale.hpp"
 #include "Knobs.hpp"
+#include "Scale.hpp"
+#include "Themes.hpp"
 
-struct Quant : Module
+struct Quant : ThemeModule
 {
     public:
         enum ParamId {
@@ -49,7 +50,7 @@ struct Quant : Module
             // the memory and iterate to initialize each scale in place
 
             this->numDefaults = 10;
-            this->defaults = (Scale*)calloc(this->numDefaults, sizeof(Scale));
+            this->defaults = (Scale *) calloc(this->numDefaults, sizeof(Scale));
 
             if (this->defaults == NULL) {
                 throw "Error allocating memory for default scales";
@@ -135,7 +136,7 @@ struct Quant : Module
             json_object_set_new(root, "scales", arr);
 
             // now write out the current knob values.  VCV writes these
-            // too,  but messing the knob ranges screws up the Preferences
+            // too, but messing the knob ranges screws up the Preferences
 
             json_object_set_new(root, "scale", json_integer(this->params[PARAM_SCALE].getValue()));
             json_object_set_new(root, "root", json_integer(this->params[PARAM_ROOT].getValue()));
@@ -279,7 +280,7 @@ struct Quant : Module
             // then round to closest step by multiplying  and  dividing
 
             float range = (scale->steps - 1.0f) / scale->steps;
-            return clamp((int)(root * scale->steps) / scale->steps, -range, range);
+            return clamp((int) (root * scale->steps) / scale->steps, -range, range);
         }
 
         Scale * getScale()
@@ -388,31 +389,31 @@ struct Quant : Module
         }
 };
 
-struct QuantWidget : ModuleWidget
+struct QuantWidget : ThemeWidget<Quant>
 {
-    QuantWidget(Quant * module)
+    QuantWidget(Quant * module) : ThemeWidget<Quant>(module, "Quant")
     {
         setModule(module);
-        setPanel(createPanel(asset::plugin(pluginInstance, "res/Quant.svg")));
 
         // skinny module.  two screws leaves room for a label
         addChild(createWidget<ScrewSilver>(Vec(0, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
         // column centered at 7.622mm (half of 3HP)
-        float x = 7.622, y = 11.f, dy = (109.5f - y) / 7;
+        float x = 7.622, y = 11.5f, dy = (109.5f - y) / 7;
 
-        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y)), module, Quant::PARAM_SCALE));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y + dy)), module, Quant::INPUT_SCALE));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Quant::INPUT_PITCH));
 
-        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y + dy)), module, Quant::PARAM_ROOT));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y + dy)), module, Quant::INPUT_ROOT));
+        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y += dy)), module, Quant::PARAM_SCALE));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Quant::INPUT_SCALE));
 
-        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y + dy)), module, Quant::PARAM_OCTAVE));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y + dy)), module, Quant::INPUT_OCTAVE));
+        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y += dy)), module, Quant::PARAM_ROOT));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Quant::INPUT_ROOT));
 
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y + dy)), module, Quant::INPUT_PITCH));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y + dy)), module, Quant::OUTPUT_PITCH));
+        addParam(createParamCentered<SnapTrimpot>(mm2px(Vec(x, y += dy)), module, Quant::PARAM_OCTAVE));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Quant::INPUT_OCTAVE));
+
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Quant::OUTPUT_PITCH));
     }
 };
 
