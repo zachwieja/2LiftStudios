@@ -100,7 +100,7 @@ struct SplitWidget : ThemeWidget<Split, ModuleWidget>
 
         // column centered at 7.622mm (half of 3HP)
 
-        float x = 7.622f, y = 11.5f, dy = (109.5 - 11.5) / module->NUM_ROWS;
+        float x = 7.622f, y = 11.5f, dy = (109.5 - y) / module->NUM_ROWS;
         addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Split::POLY_INPUT));
 
         for (int c = 0; c < Split::NUM_ROWS; c++) {
