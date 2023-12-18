@@ -3,10 +3,14 @@
 
 #pragma once
 
-enum SortOrder {
+enum SortOrder
+{
     SORT_NONE = 0,
     SORT_ASCENDING,
-    SORT_DESCENDING
+    SORT_DESCENDING,
+    SORT_DEFAULT = SORT_NONE,
+    SORT_MINIMUM = SORT_NONE,
+    SORT_MAXIMUM = SORT_DESCENDING
 };
 
 class Utilities {

@@ -86,6 +86,18 @@ struct Split : ThemeModule
 
             this->channels = channels;
         }
+
+        json_t * dataToJson() override {
+            json_t * root = ThemeModule::dataToJson();
+            json_object_set_new(root, "sortOrder", json_integer(this->sortOrder));
+            return root;
+        }
+
+        void dataFromJson(json_t *root) override {
+            ThemeModule::dataFromJson(root);
+            json_t * object = json_object_get(root, "sortOrder");
+            this->sortOrder = static_cast<SortOrder>(clamp(object ? json_integer_value(object) : (int) SORT_DEFAULT, SORT_MINIMUM, SORT_MAXIMUM));
+        }
 };
 
 struct SplitWidget : ThemeWidget<Split, ModuleWidget>

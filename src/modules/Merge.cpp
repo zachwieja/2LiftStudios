@@ -133,6 +133,7 @@ struct Merge : ThemeModule
         {
             json_t * root = ThemeModule::dataToJson();
             json_object_set_new(root, "polyphony", json_integer(this->polyphony));
+            json_object_set_new(root, "sortOrder", json_integer(this->sortOrder));
             return root;
         }
 
@@ -141,6 +142,9 @@ struct Merge : ThemeModule
             ThemeModule::dataFromJson(root);
             json_t * object = json_object_get(root, "polyphony");
             this->polyphony = object ? json_integer_value(object) : NUM_ROWS;
+
+            object = json_object_get(root, "sortOrder");
+            this->sortOrder = static_cast<SortOrder>(clamp(object ? json_integer_value(object) : (int) SORT_DEFAULT, SORT_MINIMUM, SORT_MAXIMUM));
         }
 };
 
