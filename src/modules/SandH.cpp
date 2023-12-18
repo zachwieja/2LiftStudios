@@ -124,16 +124,16 @@ struct SandH : ThemeModule {
             return (this->noise == NOISE_RANDOM ? this->uniform(this->generator) : this->normal(this->generator)) * this->range;
         }
 
-        void processSection(Param &modeParam, Input &gateInput, Param &triggerParam, Input &inputInput, Output &outputOutput, int *gates, float *samples)
+        void processSection(Param &modeParam, Input &gateInput, Param &triggerParam, Input &input, Output &output, int *gates, float *samples)
         {
             Mode mode = this->getMode(modeParam);
-            bool output = outputOutput.isConnected();
+            bool connected = output.isConnected();
 
             int g;
             int numGates = gateInput.getChannels();
             if (numGates > MAX_CHANNELS) numGates = MAX_CHANNELS;
 
-            int numChannels = inputInput.getChannels();
+            int numChannels = input.getChannels();
             if (numChannels > MAX_CHANNELS) numChannels = MAX_CHANNELS;
             
             int highest = numGates > numChannels ? numGates : numChannels;
@@ -157,23 +157,23 @@ struct SandH : ThemeModule {
 
                 switch (mode) {
                     case MODE_SH:    sample = gate && ! gates[c]; break;
-                    case MODE_HIGH:  sample = gate && (output || ! gates[c]); break;
-                    case MODE_LOW:   sample = ! gate && (output || gates[c]); break;
-                    case MODE_TRACK: sample = output; break;
+                    case MODE_HIGH:  sample = gate && (connected || ! gates[c]); break;
+                    case MODE_LOW:   sample = ! gate && (connected || gates[c]); break;
+                    case MODE_TRACK: sample = connected; break;
                 }
 
                 // get sample if needed, and store in the samples array
                 // and then copy that voltage to output  (if connected)
 
-                if (sample) samples[c] = c < numChannels ? inputInput.getVoltage(c) : getNoise();
-                if (output) outputOutput.setVoltage(samples[c], c);
+                if (sample) samples[c] = c < numChannels ? input.getVoltage(c) : getNoise();
+                if (connected) output.setVoltage(samples[c], c);
 
                 // record state of gate associated with current channel
 
                 gates[c] = gate;
             }
 
-            outputOutput.channels = output ? highest : 0;
+            output.channels = connected ? highest : 0;
         }
 
         void process(const ProcessArgs &args) override {
