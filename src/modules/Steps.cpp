@@ -2,6 +2,7 @@
 //  All rights reserved.
 
 #include "plugin.hpp"
+#include "Buttons.hpp"
 #include "Knobs.hpp"
 #include "Themes.hpp"
 
@@ -9,6 +10,7 @@ struct Steps : ThemeModule
 {
     public:
         enum ParamId {
+            PARAM_CLOCK,
             PARAM_LENGTH,
             PARAM_MODE,
             PARAM_ROOT,
@@ -51,8 +53,8 @@ struct Steps : ThemeModule
         int range = 0;
         int direction = 1;
 
-        float clock   =   0.0f;
-        float reset   =   0.0f;
+        bool  clock   = 0;
+        float reset   = 0.0f;
         float low     = lows[range];
         float high    = highs[range];
 
@@ -62,9 +64,10 @@ struct Steps : ThemeModule
             config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 
             configInput(INPUT_CLOCK, "Clock");
+            configButton(PARAM_CLOCK, "Manual clock");
             configInput(INPUT_RESET, "Reset");
 
-            configSwitch(PARAM_MODE, Mode::MODE_FIRST, Mode::MODE_LAST + 1, Mode::MODE_RANDOM, "Mode", {"Random", "Increment", "Decrement", "Exclusive", "Inclusive", "Inclusive" });
+            configSwitch(PARAM_MODE, Mode::MODE_FIRST, Mode::MODE_LAST, Mode::MODE_RANDOM, "Mode", {"Random", "Increment", "Decrement", "Exclusive", "Inclusive" });
             configInput(INPUT_MODE, "Mode");
 
             configParam(PARAM_ROOT, -10.0f, 10.0f, 0.0f, "Root", "V");
@@ -76,7 +79,7 @@ struct Steps : ThemeModule
             configOutput(OUTPUT_OUTPUT, "Output");
         }
 
-        int getLength()
+        inline int getLength()
         {
             // the length switch returns integer values directly
             return this->params[PARAM_LENGTH].getValue();
@@ -114,15 +117,28 @@ struct Steps : ThemeModule
             return clamp(root, this->low, this->high);
         }
 
-        float getStep()
+        inline float getStep()
         {
             // step voltage can be anything in the configured range
             return clamp(this->params[PARAM_STEP].getValue(), this->low, this->high);
         }
 
+        inline bool isTriggered(int input, int param, bool * state)
+        {
+            bool temp = this->inputs[input].getVoltage() > 0.0f || this->params[param].getValue() == 1;
+
+            if (temp && ! *state)
+            {
+                *state = temp;
+                return true;
+            }
+
+            *state = temp;
+            return false;
+        }
+
         void process(const ProcessArgs &args) override
         {
-            float clock = this->inputs[INPUT_CLOCK].getVoltage();
             float reset = this->inputs[INPUT_RESET].getVoltage();
 
             Mode  mode   = this->getMode();
@@ -143,7 +159,7 @@ struct Steps : ThemeModule
 
             // if we detect a new clock,  then calculate next  step
 
-            else if ((this->clock <= 0.0f) && (clock > 0)) {
+            else if (isTriggered(INPUT_CLOCK, PARAM_CLOCK, &this->clock)) {
 
                 // need to be careful when length decreases and
                 // puts the current step outside of valid range
@@ -186,8 +202,6 @@ struct Steps : ThemeModule
 
             float voltage = this->getRoot() + this->step * this->getStep();
             this->outputs[OUTPUT_OUTPUT].setVoltage(clamp(voltage, this->low, this->high));
-
-            this->clock = clock;
             this->reset = reset;
         }
 
@@ -220,6 +234,7 @@ struct StepsWidget : ThemeWidget<Steps> {
             float x = 7.622f, y = 11.5f, dy = (109.5f - y) / 7;
 
             addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Steps::InputId::INPUT_CLOCK));
+            addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x + 4.4f, y + 6.25f)), module, Steps::PARAM_CLOCK));
             addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, Steps::InputId::INPUT_RESET));
 
             // the top and bottom ports / knobs are 14mm  apart.
