@@ -124,7 +124,7 @@ If there is no _IN_ or _GATE_ connected, then a single noise value is emitted. T
 
 The _MANUAL_ gate button affects all channels.
 
-### <a name="split"></a> Split
+## <a name="split"></a> Split
 Takes a single polyphonic input and spreads the first 8 channels across the first N outputs. Outputs with a signal have a small green light next to them. 
 
 ### Sort
