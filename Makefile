@@ -25,7 +25,6 @@ DISTRIBUTABLES += $(wildcard presets)
 
 # Include the VCV Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk
-PLUGINS_DIR := $(RACK_USER_DIR)/plugins
 
 # inkscape is only necessary if SVG sources are changed
 INKSCAPE ?= '/c/program files/inkscape/bin/inkscape.exe'
@@ -68,6 +67,3 @@ res/dark/%.svg: build/res/%.svg scripts/dark.sed
 #res/themename/%.svg: build/res/%.svg scripts/themename.sed
 #	mkdir -p $(dir $@)
 #	sed -f scripts/themename.sed $< > $@
-
-install:
-	cp -r dist/2LiftStudios $(PLUGINS_DIR)/
