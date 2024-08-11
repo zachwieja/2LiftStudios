@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "rack.hpp"
+#include "plugin.hpp"
 #include "GateBase.hpp"
 
 using namespace rack;

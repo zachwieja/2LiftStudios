@@ -2,11 +2,8 @@
 //  All rights reserved.
 
 #pragma once
-
-#include "rack.hpp"
+#include "plugin.hpp"
 #include "GateBase.hpp"
-
-using namespace rack;
 
 class Gate : public GateBase
 {

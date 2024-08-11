@@ -2,6 +2,7 @@
 //  All rights reserved.
 
 #pragma once
+#include "plugin.hpp"
 
 enum SortOrder
 {

@@ -2,7 +2,6 @@
 //  All rights reserved.
 
 #include "Utilities.hpp"
-#include "plugin.hpp"
 
 void Utilities::sort(float * values, int length, SortOrder sortOrder)
 {

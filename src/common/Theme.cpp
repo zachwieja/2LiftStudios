@@ -1,7 +1,6 @@
 //  Copyright (c) 2023, 2 Lift Studios
 //  All rights reserved.
 
-#include "plugin.hpp"
 #include "Theme.hpp"
 
 Theme::Theme(std::string name, std::string directory, bool hasScrews) {
