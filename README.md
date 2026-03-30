@@ -16,7 +16,8 @@ Modules for [VCV Rack](https://github.com/VCVRack/Rack), an open-source Eurorack
 - [Merge](#merge) - polyphonic merge with  sort
 - [PolyQ](#polyq) - quantize to set of polyphonic v/oct values
 - [ProbS](#probs) - probabalistic sequencer
-- [SandH](#sandh) - Sample and hold with tracking
+- [Sand2](#sand2) - Dual sample and hold with tracking
+- [Sand8](#sand8) - Eight sample and holds with tracking
 - [Split](#split) - polyphonic split with sort
 - [Steps](#steps) - step sequencer
 - [VCASR](#vcasr) - combined VCA and envelope generator
@@ -98,8 +99,9 @@ The _RESET_ input has no effect in _Stochastic_ mode. In _Frequency_ mode, it re
 ### Interactions
 When in _Stochastic_ mode, changing the _WEIGHT_ of any _OFFSET_ has immediate affect - changes the probability on the next _CLOCK_. When in _Frequency_ mode, adding _WEIGHT_ is always added to the set of already generated values. Added _WEIGHT_ affects the probability once all the values have been generated - or on the next _RESET_. When subtracting weight in _Frequency_ mode, the module will first attempt to remove the weight from already generated values (so as not to affect the current cycle). If an insufficient number of values have been generated in the current cycle, then values are removed from the remaining ungenerated values.
 
-## <a name="sandh"></a> SandH
-_SandH_ is comprised of two polyphonic sample and hold sub-modules. The sub-modules are completely independent and can each operate in one of four different modes.
+## <a name="sand2"></a> Sand2
+## <a name="sand8"></a> Sand8
+_SandH_ is comprised of multiple polyphonic sample and hold sub-modules. The sub-modules are completely independent and can each operate in one of four different modes.
 
 * _Track_ - in this mode, the _GATE_ is ignored, and _SandH_ is simply a pass through. Channel values on the _IN_ are continuously copied to the corresponding _OUT_ channels. If no _IN_ is connected, then a noise value is generated for each _GATE_ channel.
 
