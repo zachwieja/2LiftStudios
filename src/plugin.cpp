@@ -15,7 +15,8 @@ void init(Plugin* p) {
     p->addModel(modelQuant);
     p->addModel(modelPolyQ);
     p->addModel(modelProbS);
-    p->addModel(modelSandH);
+    p->addModel(modelSand2);
+    p->addModel(modelSand8);
     p->addModel(modelSplit);
     p->addModel(modelSteps);
     p->addModel(modelVCASR);

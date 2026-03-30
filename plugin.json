@@ -61,9 +61,21 @@
             ]
         },
         {
-            "slug": "SandH",
-            "name": "SandH",
-            "description": "Dual sample and hold w/ track high or low",
+            "slug": "Sand2",
+            "name": "Sand2",
+            "description": "Dual polyphonic sample and hold w/ track high or low",
+            "tags": [
+                "Dual",
+                "Noise",
+                "Poly",
+                "Polyphonic",
+                "Sample and hold"
+            ]
+        },
+        {
+            "slug": "Sand8",
+            "name": "Sand8",
+            "description": "Eight polyphonic sample and holds w/ track high or low",
             "tags": [
                 "Dual",
                 "Noise",

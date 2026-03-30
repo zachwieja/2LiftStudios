@@ -1,3 +1,5 @@
+.SECONDEXPANSION:
+
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
 
 RACK_DIR ?= ../..
@@ -42,28 +44,26 @@ dark: $(subst src/res/,res/dark/,$(wildcard src/res/*.svg))
 # this copies SVG files to  ./build/res  directory  and
 # then flattens everything (especially text) into paths
 
-build/res/%.svg: src/res/%.svg
-	mkdir -p $(dir $@)
+%/:
+	mkdir -p $@
+
+build/res/%.svg: src/res/%.svg | $$(dir $$@)
 	$(INKSCAPE) --actions='select-all;selection-ungroup;select-all;clone-unlink;select-all;object-to-path;export-filename:$@;export-do' $<
 
 # these rules take the flattened SVG files and replaces
 # the colors with each of  the  theme  specific  colors
 
-res/common/%.svg: src/res/common/%.svg
-	mkdir -p $(dir $@)
+res/common/%.svg: src/res/common/%.svg | $$(dir $$@)
 	cp $< $(dir $@)
 
-res/light/%.svg: build/res/%.svg scripts/light.sed
-	mkdir -p $(dir $@)
+res/light/%.svg: build/res/%.svg scripts/light.sed | $$(dir $$@)
 	sed -f scripts/light.sed $< > $@
 
-res/dark/%.svg: build/res/%.svg scripts/dark.sed
-	mkdir -p $(dir $@)
+res/dark/%.svg: build/res/%.svg scripts/dark.sed | res/dark/
 	sed -f scripts/dark.sed $< > $@
 
 # duplicate these lines above for each additional theme
 # by substituting the theme name in the three locaitons
 
-#res/themename/%.svg: build/res/%.svg scripts/themename.sed
-#	mkdir -p $(dir $@)
+#res/themename/%.svg: build/res/%.svg scripts/themename.sed | $$(dir $$@)
 #	sed -f scripts/themename.sed $< > $@

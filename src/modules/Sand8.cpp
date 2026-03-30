@@ -7,29 +7,28 @@
 #include "Themes.hpp"
 #include "Buttons.hpp"
 
-struct SandH : ThemeModule {
+struct Sand8 : ThemeModule {
 
     public:
+
+        const static int MAX_SANDH = 8;
+        const static int MAX_CHANNELS = 16;
+
         enum ParamId {
-            PARAM_MODE1,
-            PARAM_MODE2,
-            PARAM_GATE1,
-            PARAM_GATE2,
-            PARAMS_LEN
+            PARAM_MODE = 0,
+            PARAM_GATE = PARAM_MODE + MAX_SANDH,
+            PARAMS_LEN = PARAM_GATE + MAX_SANDH
         };
 
         enum InputId {
-            INPUT_POLY1,
-            INPUT_POLY2,
-            INPUT_GATE1,
-            INPUT_GATE2,
-            INPUTS_LEN
+            INPUT_POLY = 0,
+            INPUT_GATE = INPUT_POLY + MAX_SANDH,
+            INPUTS_LEN = INPUT_GATE + MAX_SANDH
         };
 
         enum OutputId {
-            OUTPUT_POLY1,
-            OUTPUT_POLY2,
-            OUTPUTS_LEN
+            OUTPUT_POLY = 0,
+            OUTPUTS_LEN = OUTPUT_POLY + MAX_SANDH
         };
 
         enum LightId {
@@ -41,9 +40,9 @@ struct SandH : ThemeModule {
             MODE_TRACK = MODE_FIRST, // pass through
             MODE_LOW = 0,            // track low
             MODE_HIGH = 1,           // track high
-            MODE_SH = 2,             // sample and hold
-            MODE_LAST = MODE_SH,
-            MODE_DEFAULT = MODE_SH
+            MODE_SANDH = 2,          // sample and hold
+            MODE_LAST = MODE_SANDH,
+            MODE_DEFAULT = MODE_SANDH
         };
 
         enum Noise {
@@ -55,7 +54,6 @@ struct SandH : ThemeModule {
         };
 
         const float RANGE_DEFAULT = 3.0f;
-        const static int MAX_CHANNELS = 16;
 
         std::normal_distribution<float> normal;
         std::uniform_real_distribution<float> uniform;
@@ -63,30 +61,26 @@ struct SandH : ThemeModule {
 
         Noise noise = NOISE_DEFAULT;
         float range = RANGE_DEFAULT;
-        int gates[2 * MAX_CHANNELS];
-        float samples[2 * MAX_CHANNELS];
+        int gates[MAX_SANDH * MAX_CHANNELS];
+        float samples[MAX_SANDH * MAX_CHANNELS];
 
     public:
-        SandH() : uniform(-1.0, 1.0)
+        Sand8() : uniform(-1.0, 1.0)
         {
             config(ParamId::PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 
-            for (int c = 0; c < 2 * MAX_CHANNELS; c++) {
+            for (int c = 0; c < MAX_SANDH * MAX_CHANNELS; c++) {
                 gates[c] = false;
                 samples[c] = 0.0f;
             }
 
-            configSwitch(PARAM_MODE1, Mode::MODE_FIRST, Mode::MODE_LAST + 1, Mode::MODE_DEFAULT, "Mode", {"Track", "Track Low", "Track High", "Sample & Hold", "Sample & Hold"});
-            configInput(INPUT_GATE1, "Gate");
-            configButton(PARAM_GATE1, "Manual");
-            configInput(INPUT_POLY1, "Polyphonic");
-            configOutput(OUTPUT_POLY1, "Polyphonic");
-
-            configSwitch(PARAM_MODE2, Mode::MODE_FIRST, Mode::MODE_LAST + 1, Mode::MODE_DEFAULT, "Mode", {"Track", "Track Low", "Track High", "Sample & Hold", "Sample & Hold"});
-            configInput(INPUT_GATE2, "Gate");
-            configButton(PARAM_GATE2, "Manual");
-            configInput(INPUT_POLY2, "Polyphonic");
-            configOutput(OUTPUT_POLY2, "Polyphonic");
+            for (int i = 0; i < MAX_SANDH; i++) {
+                configInput(INPUT_POLY   + i, "In");
+                configInput(INPUT_GATE   + i, "Gate");
+                configButton(PARAM_GATE  + i, "Manual");
+                configSwitch(PARAM_MODE + i, Mode::MODE_FIRST, Mode::MODE_LAST, Mode::MODE_DEFAULT, "Mode", {"Track", "Track Low", "Track High", "Sample & Hold" });
+                configOutput(OUTPUT_POLY + i, "Out");
+            }
         }
 
         json_t * dataToJson() override
@@ -116,7 +110,7 @@ struct SandH : ThemeModule {
 
         inline Mode getMode(Param &param) {
             int mode = param.getValue() + 1.0f;
-            if (--mode > Mode::MODE_SH) mode = Mode::MODE_SH;
+            if (--mode > Mode::MODE_SANDH) mode = Mode::MODE_SANDH;
             return static_cast<Mode>(mode);
         }
 
@@ -124,7 +118,7 @@ struct SandH : ThemeModule {
             return (this->noise == NOISE_RANDOM ? this->uniform(this->generator) : this->normal(this->generator)) * this->range;
         }
 
-        void processSection(Param &modeParam, Input &gateInput, Param &triggerParam, Input &input, Output &output, int *gates, float *samples)
+        void processSandH(Param &modeParam, Input &gateInput, Param &triggerParam, Input &input, Output &output, int *gates, float *samples)
         {
             Mode mode = this->getMode(modeParam);
             bool connected = output.isConnected();
@@ -156,7 +150,7 @@ struct SandH : ThemeModule {
                 bool sample = false;
 
                 switch (mode) {
-                    case MODE_SH:    sample = gate && ! gates[c]; break;
+                    case MODE_SANDH: sample = gate && ! gates[c]; break;
                     case MODE_HIGH:  sample = gate && (connected || ! gates[c]); break;
                     case MODE_LOW:   sample = ! gate && (connected || gates[c]); break;
                     case MODE_TRACK: sample = connected; break;
@@ -177,36 +171,38 @@ struct SandH : ThemeModule {
         }
 
         void process(const ProcessArgs &args) override {
-            this->processSection(params[PARAM_MODE1], inputs[INPUT_GATE1], params[PARAM_GATE1], inputs[INPUT_POLY1], outputs[OUTPUT_POLY1], gates, samples);
-            this->processSection(params[PARAM_MODE2], inputs[INPUT_GATE2], params[PARAM_GATE2], inputs[INPUT_POLY2], outputs[OUTPUT_POLY2], &gates[MAX_CHANNELS], &samples[MAX_CHANNELS]);
+            for (int i = 0; i < MAX_SANDH; i++) {
+                this->processSandH(
+                    params[PARAM_MODE + i], inputs[INPUT_GATE + i], params[PARAM_GATE + i], inputs[INPUT_POLY + i], outputs[OUTPUT_POLY + i], 
+                    &gates[MAX_CHANNELS * i], &samples[MAX_CHANNELS * i]
+                );
+            }                
         }
 };
 
-struct SandHWidget : ThemeWidget<SandH>
+struct Sand8Widget : ThemeWidget<Sand8>
 {
-    SandHWidget(SandH * module) : ThemeWidget<SandH>(module, "SandH")
+    Sand8Widget(Sand8 * module) : ThemeWidget<Sand8>(module, "Sand8")
     {
         setModule(module);
 
         // skinny module.  two screws leaves room for a label
-        addChild(createWidget<ScrewSilver>(Vec(0, 0)));
-        addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        this->addChild(createWidget<ScrewSilver>(Vec(0, 0)));
+        this->addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
+        this->addChild(createWidget<ScrewSilver>(Vec(box.size.x - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-        // it is just two sections. easiest to hard code values
+        double y = 10.75f, dy = 99.05f / (module->MAX_SANDH - 1); 
+       
+        for (int i = 0; i < Sand8::MAX_SANDH; i++, y += dy) {
 
-        float x = 7.622, y = 11.50, dy = 13.5;
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y)), module, SandH::PARAM_MODE1));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_GATE1));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x + 4.0f, y + 6.25)), module, SandH::PARAM_GATE1));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_POLY1));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y + dy + 0.5)), module, SandH::OUTPUT_POLY1));
+            double x = 8.5, dx = 15.0;
 
-        y = 68.5;
-        addParam(createParamCentered<Trimpot>(mm2px(Vec(x, y)), module, SandH::PARAM_MODE2));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_GATE2));
-        addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x + 4.0f, y + 6.25)), module, SandH::PARAM_GATE2));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y += dy)), module, SandH::INPUT_POLY2));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x, y + dy + 0.5)), module, SandH::OUTPUT_POLY2));
+            this->addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x, y)), module, Sand8::INPUT_POLY + i));
+            this->addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x += dx, y)), module, Sand8::INPUT_GATE + i));
+            this->addParam(createParamCentered<TinyTrigger>(mm2px(Vec(x + 5.0f, y + 4.5f)), module, Sand8::PARAM_GATE + i));
+            this->addParam(createParamCentered<Trimpot>(mm2px(Vec(x += dx, y)), module, Sand8::PARAM_MODE + i));
+            this->addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x += dx, y)), module, Sand8::OUTPUT_POLY + i));
+        }
     }
 
     inline float toRange(int index) {
@@ -227,7 +223,7 @@ struct SandHWidget : ThemeWidget<SandH>
 
     void appendContextMenu(Menu *menu) override
     {
-        SandH * module = dynamic_cast<SandH *>(this->module);
+        Sand8 * module = dynamic_cast<Sand8 *>(this->module);
         menu->addChild(new MenuSeparator);
 
         std::vector<std::string> labels;
@@ -239,7 +235,7 @@ struct SandHWidget : ThemeWidget<SandH>
         menu->addChild(createIndexSubmenuItem(
             "Noise", labels,
             [=]() { return (int) module->noise; },
-            [=](int noise) { module->noise = (SandH::Noise) noise; }
+            [=](int noise) { module->noise = (Sand8::Noise) noise; }
         ));
 
         labels.clear();
@@ -260,4 +256,4 @@ struct SandHWidget : ThemeWidget<SandH>
     };
 };
 
-Model * modelSandH = createModel<SandH, SandHWidget>("SandH");
+Model * modelSand8 = createModel<Sand8, Sand8Widget>("Sand8");
